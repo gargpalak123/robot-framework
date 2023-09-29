@@ -1,6 +1,6 @@
 *** Variables ***
-${DoctorUsername}    doctor_username
-${DoctorPassword}    doctor_password
+${DoctorUsername}    palak105@gmail.com
+${DoctorPassword}    1234567
 ${AdminUsername}     admin_username
 ${AdminPassword}     admin_password
 ${ReceptionUsername}  reception_username
