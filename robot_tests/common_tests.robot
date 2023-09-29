@@ -103,6 +103,12 @@ Test Add Patient with Valid Data
     Common Verify Confirmation Pop-up
     Common Click OK on Confirmation Pop-up
     Common Verify Redirect to Appointment Page
+    Navigate To Today Summary Page
+    Search For Added Patient
+    Go To Patient All Information Page
+    Update Personal Information
+    Verify Upload Button Is Visible
+
 
 # Scenario 12: Add patient with full data
 Test Add Patient with Full Data
