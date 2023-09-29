@@ -1,6 +1,8 @@
 *** Settings ***
-Library  SeleniumLibrary
-Resource  ../resources/common_keywords.robot
+Library         SeleniumLibrary
+Resource        ../resources/common_keywords.robot
+Suite Setup     Open Browser    ${BaseURL}    ${BROWSER}
+Suite Teardown  Close All Browsers
 
 *** Variables ***
 ${BROWSER}    Chrome
@@ -72,12 +74,12 @@ Test Login with Both Username and Password Empty
     Common Check Required Field Toggle    ${UsernameField}
     Common Check Required Field Toggle    ${PasswordField}
 
+# Scenario 9: Remember Me Doctor
 Test Remember Me Doctor
     [Tags]     Doctor
     Common Remember Me Login    Doctor    ${DoctorUsername}    ${DoctorPassword}
     Common Logout
     Common Check Remember Me Functionality    ${DoctorUsername}    ${DoctorPassword}
-
 
 # Scenario 10: Remember Me admin
 Test Remember Me Admin
