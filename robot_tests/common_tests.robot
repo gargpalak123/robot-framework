@@ -7,7 +7,7 @@ ${BROWSER}    Chrome
 ${SELSPEED}   0.0s
 ${BaseURL}    https://procliniq.in
 
-*** Test Cases ***git
+*** Test Cases ***
 # Scenario 1: Login as Doctor
 Test Valid Login as Doctor
     [Tags]   common  doctor  login
