@@ -15,10 +15,13 @@ Test Valid Login as Doctor
     ${doctor_username}    ${doctor_password}=    Set Credentials    Doctor
     Log    Username: ${doctor_username}
     Log    Password: ${doctor_password}
+    ${expected_dashboard_url}=    Set Variable    https://procliniq.in/Dashboard  # Define the expected dashboard URL
+    Common Login    ${doctor_username}    ${doctor_password}  # Pass username and password
     Common Check Doctor Dashboard    ${expected_dashboard_url}
     Verify Doctor Dashboard
     Common Check Doctor Dashboard Counts
     Common Logout
+
 
 
 # Scenario 2: Login as Admin
