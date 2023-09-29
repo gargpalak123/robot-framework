@@ -1,0 +1,674 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.1.1 (Python 3.11.4 on win32)" generated="20230920 23:24:24.160" rpa="false" schemaversion="4">
+<suite id="s1" name="Common Tests" source="C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot">
+<test id="s1-t1" name="Test Valid Login as Doctor" line="15">
+<kw name="Set Credentials" library="common_keywords">
+<arg>Doctor</arg>
+<kw name="Evaluate" library="BuiltIn">
+<var>${credentials}</var>
+<arg>${{'Doctor': {'username': 'doctor_username', 'password': 'doctor_password'},</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20230920 23:24:24.779" level="FAIL">Variable '${{'Doctor': {'username': 'doctor_username', 'password': 'doctor_password'},' was not closed properly.</msg>
+<status status="FAIL" starttime="20230920 23:24:24.779" endtime="20230920 23:24:24.779"/>
+</kw>
+<kw name="'Admin': {'username': 'admin_username', 'password': 'admin_password'},">
+<status status="NOT RUN" starttime="20230920 23:24:24.783" endtime="20230920 23:24:24.783"/>
+</kw>
+<kw name="'Reception': {'username': 'reception_username', 'password': 'reception_password'}}}[${role}]">
+<status status="NOT RUN" starttime="20230920 23:24:24.786" endtime="20230920 23:24:24.786"/>
+</kw>
+<status status="FAIL" starttime="20230920 23:24:24.778" endtime="20230920 23:24:24.786"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Username: ${Doctor['username']}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:24.786" endtime="20230920 23:24:24.786"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Password: ${Doctor['password']}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:24.786" endtime="20230920 23:24:24.786"/>
+</kw>
+<kw name="Verify Doctor Dashboard" library="common_keywords">
+<doc>Common visibility tests for the doctor's dashboard.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:24.787" endtime="20230920 23:24:24.787"/>
+</kw>
+<kw name="verify Doctor Counts">
+<status status="NOT RUN" starttime="20230920 23:24:24.791" endtime="20230920 23:24:24.791"/>
+</kw>
+<kw name="Common Logout" library="common_keywords">
+<doc>Tests the logout functionality.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:24.791" endtime="20230920 23:24:24.791"/>
+</kw>
+<tag>common</tag>
+<tag>doctor</tag>
+<tag>login</tag>
+<status status="FAIL" starttime="20230920 23:24:24.777" endtime="20230920 23:24:24.791">Variable '${{'Doctor': {'username': 'doctor_username', 'password': 'doctor_password'},' was not closed properly.</status>
+</test>
+<test id="s1-t2" name="Test Invalid Password" line="41">
+<kw name="Common Login" library="common_keywords">
+<arg>valid_username</arg>
+<arg>invalid_password</arg>
+<msg timestamp="20230920 23:24:24.793" level="FAIL">Keyword 'common_keywords.Common Login' expected 1 argument, got 2.</msg>
+<status status="FAIL" starttime="20230920 23:24:24.792" endtime="20230920 23:24:24.793"/>
+</kw>
+<kw name="Common Check Error Message" library="common_keywords">
+<arg>email or password invalid.</arg>
+<doc>Verifies that an error message is displayed.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:24.793" endtime="20230920 23:24:24.793"/>
+</kw>
+<tag>common</tag>
+<tag>negative</tag>
+<status status="FAIL" starttime="20230920 23:24:24.792" endtime="20230920 23:24:24.793">Keyword 'common_keywords.Common Login' expected 1 argument, got 2.</status>
+</test>
+<test id="s1-t3" name="Test Invalid Username" line="46">
+<kw name="Common Login" library="common_keywords">
+<arg>invalid_username</arg>
+<arg>valid_password</arg>
+<msg timestamp="20230920 23:24:24.794" level="FAIL">Keyword 'common_keywords.Common Login' expected 1 argument, got 2.</msg>
+<status status="FAIL" starttime="20230920 23:24:24.794" endtime="20230920 23:24:24.794"/>
+</kw>
+<kw name="Common Check Error Message" library="common_keywords">
+<arg>email or password invalid.</arg>
+<doc>Verifies that an error message is displayed.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:24.794" endtime="20230920 23:24:24.795"/>
+</kw>
+<tag>common</tag>
+<tag>negative</tag>
+<status status="FAIL" starttime="20230920 23:24:24.794" endtime="20230920 23:24:24.795">Keyword 'common_keywords.Common Login' expected 1 argument, got 2.</status>
+</test>
+<test id="s1-t4" name="Test Empty Login" line="51">
+<kw name="Common Login" library="common_keywords">
+<arg>${EMPTY}</arg>
+<arg>${EMPTY}</arg>
+<msg timestamp="20230920 23:24:24.797" level="FAIL">Keyword 'common_keywords.Common Login' expected 1 argument, got 2.</msg>
+<status status="FAIL" starttime="20230920 23:24:24.796" endtime="20230920 23:24:24.797"/>
+</kw>
+<kw name="Common Handle Empty Login" library="common_keywords">
+<doc>Handles an empty login and checks for the error message.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:24.797" endtime="20230920 23:24:24.797"/>
+</kw>
+<tag>common</tag>
+<tag>negative</tag>
+<status status="FAIL" starttime="20230920 23:24:24.795" endtime="20230920 23:24:24.798">Keyword 'common_keywords.Common Login' expected 1 argument, got 2.</status>
+</test>
+<test id="s1-t5" name="Test Add Patient with Valid Data" line="74">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230920 23:24:24.799" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230920 23:24:24.798" endtime="20230920 23:24:24.799"/>
+</kw>
+<kw name="Common Add Patient" library="common_keywords">
+<arg>${patient_data}</arg>
+<msg timestamp="20230920 23:24:24.799" level="FAIL">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</msg>
+<status status="FAIL" starttime="20230920 23:24:24.799" endtime="20230920 23:24:24.800"/>
+</kw>
+<kw name="Common Verify Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.806" endtime="20230920 23:24:24.806"/>
+</kw>
+<kw name="Common Click OK on Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.813" endtime="20230920 23:24:24.813"/>
+</kw>
+<kw name="Common Verify Redirect to Appointment Page" library="common_keywords">
+<doc>Verifies that the system redirects to the Appointment Booking page.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:24.813" endtime="20230920 23:24:24.813"/>
+</kw>
+<tag>common</tag>
+<tag>patient</tag>
+<tag>positive</tag>
+<status status="FAIL" starttime="20230920 23:24:24.798" endtime="20230920 23:24:24.813">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</status>
+</test>
+<test id="s1-t6" name="Test Add Patient with No Data" line="82">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230920 23:24:24.815" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230920 23:24:24.815" endtime="20230920 23:24:24.815"/>
+</kw>
+<kw name="Common Add Patient" library="common_keywords">
+<arg>${patient_data}</arg>
+<msg timestamp="20230920 23:24:24.816" level="FAIL">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</msg>
+<status status="FAIL" starttime="20230920 23:24:24.816" endtime="20230920 23:24:24.816"/>
+</kw>
+<kw name="Common Verify Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.821" endtime="20230920 23:24:24.821"/>
+</kw>
+<kw name="Common Click OK on Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.825" endtime="20230920 23:24:24.825"/>
+</kw>
+<kw name="Common Verify Redirect to Appointment Page" library="common_keywords">
+<doc>Verifies that the system redirects to the Appointment Booking page.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:24.825" endtime="20230920 23:24:24.825"/>
+</kw>
+<tag>common</tag>
+<tag>patient</tag>
+<tag>positive</tag>
+<status status="FAIL" starttime="20230920 23:24:24.814" endtime="20230920 23:24:24.825">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</status>
+</test>
+<test id="s1-t7" name="Test Add Patient with Full Data" line="90">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230920 23:24:24.826" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230920 23:24:24.826" endtime="20230920 23:24:24.826"/>
+</kw>
+<kw name="Common Add Patient" library="common_keywords">
+<arg>${patient_data}</arg>
+<msg timestamp="20230920 23:24:24.827" level="FAIL">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</msg>
+<status status="FAIL" starttime="20230920 23:24:24.826" endtime="20230920 23:24:24.827"/>
+</kw>
+<kw name="Check Submit Button UI State">
+<arg>id:submit_button</arg>
+<status status="NOT RUN" starttime="20230920 23:24:24.831" endtime="20230920 23:24:24.831"/>
+</kw>
+<kw name="Common Verify Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.834" endtime="20230920 23:24:24.834"/>
+</kw>
+<kw name="Common Click OK on Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.837" endtime="20230920 23:24:24.837"/>
+</kw>
+<kw name="Common Verify Redirect to Appointment Page" library="common_keywords">
+<doc>Verifies that the system redirects to the Appointment Booking page.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:24.838" endtime="20230920 23:24:24.838"/>
+</kw>
+<tag>common</tag>
+<tag>patient</tag>
+<tag>positive</tag>
+<status status="FAIL" starttime="20230920 23:24:24.826" endtime="20230920 23:24:24.838">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</status>
+</test>
+<test id="s1-t8" name="Test Add Patient with Special Characters" line="100">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230920 23:24:24.839" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230920 23:24:24.839" endtime="20230920 23:24:24.839"/>
+</kw>
+<kw name="Common Add Patient" library="common_keywords">
+<arg>${patient_data}</arg>
+<msg timestamp="20230920 23:24:24.839" level="FAIL">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</msg>
+<status status="FAIL" starttime="20230920 23:24:24.839" endtime="20230920 23:24:24.839"/>
+</kw>
+<kw name="Check Submit Button UI State">
+<arg>id:submit_button</arg>
+<status status="NOT RUN" starttime="20230920 23:24:24.843" endtime="20230920 23:24:24.843"/>
+</kw>
+<kw name="Common Verify Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.847" endtime="20230920 23:24:24.847"/>
+</kw>
+<kw name="Common Click OK on Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.850" endtime="20230920 23:24:24.850"/>
+</kw>
+<kw name="Common Verify Redirect to Appointment Page" library="common_keywords">
+<doc>Verifies that the system redirects to the Appointment Booking page.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:24.850" endtime="20230920 23:24:24.851"/>
+</kw>
+<tag>common</tag>
+<tag>patient</tag>
+<tag>positive</tag>
+<status status="FAIL" starttime="20230920 23:24:24.838" endtime="20230920 23:24:24.851">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</status>
+</test>
+<test id="s1-t9" name="Test Add Patient with Different Gender" line="110">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230920 23:24:24.852" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230920 23:24:24.852" endtime="20230920 23:24:24.852"/>
+</kw>
+<kw name="Common Add Patient" library="common_keywords">
+<arg>${patient_data}</arg>
+<msg timestamp="20230920 23:24:24.852" level="FAIL">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</msg>
+<status status="FAIL" starttime="20230920 23:24:24.852" endtime="20230920 23:24:24.852"/>
+</kw>
+<kw name="Check Submit Button UI State">
+<arg>id:submit_button</arg>
+<status status="NOT RUN" starttime="20230920 23:24:24.856" endtime="20230920 23:24:24.856"/>
+</kw>
+<kw name="Common Verify Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.859" endtime="20230920 23:24:24.859"/>
+</kw>
+<kw name="Common Click OK on Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.863" endtime="20230920 23:24:24.863"/>
+</kw>
+<kw name="Common Verify Redirect to Appointment Page" library="common_keywords">
+<doc>Verifies that the system redirects to the Appointment Booking page.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:24.864" endtime="20230920 23:24:24.864"/>
+</kw>
+<tag>common</tag>
+<tag>patient</tag>
+<tag>positive</tag>
+<status status="FAIL" starttime="20230920 23:24:24.851" endtime="20230920 23:24:24.864">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</status>
+</test>
+<test id="s1-t10" name="Test Add Patient with Long Address" line="120">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230920 23:24:24.865" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230920 23:24:24.865" endtime="20230920 23:24:24.865"/>
+</kw>
+<kw name="Common Add Patient" library="common_keywords">
+<arg>${patient_data}</arg>
+<msg timestamp="20230920 23:24:24.865" level="FAIL">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</msg>
+<status status="FAIL" starttime="20230920 23:24:24.865" endtime="20230920 23:24:24.865"/>
+</kw>
+<kw name="Check Submit Button UI State">
+<arg>id:submit_button</arg>
+<status status="NOT RUN" starttime="20230920 23:24:24.870" endtime="20230920 23:24:24.870"/>
+</kw>
+<kw name="Common Verify Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.874" endtime="20230920 23:24:24.874"/>
+</kw>
+<kw name="Common Click OK on Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.877" endtime="20230920 23:24:24.877"/>
+</kw>
+<kw name="Common Verify Redirect to Appointment Page" library="common_keywords">
+<doc>Verifies that the system redirects to the Appointment Booking page.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:24.877" endtime="20230920 23:24:24.877"/>
+</kw>
+<tag>common</tag>
+<tag>patient</tag>
+<tag>positive</tag>
+<status status="FAIL" starttime="20230920 23:24:24.864" endtime="20230920 23:24:24.878">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</status>
+</test>
+<test id="s1-t11" name="Test Add Patient with No Data" line="130">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230920 23:24:24.879" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230920 23:24:24.878" endtime="20230920 23:24:24.879"/>
+</kw>
+<kw name="Common Add Patient" library="common_keywords">
+<arg>${patient_data}</arg>
+<msg timestamp="20230920 23:24:24.879" level="FAIL">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</msg>
+<status status="FAIL" starttime="20230920 23:24:24.879" endtime="20230920 23:24:24.879"/>
+</kw>
+<kw name="Check Submit Button UI State">
+<arg>id:submit_button</arg>
+<status status="NOT RUN" starttime="20230920 23:24:24.886" endtime="20230920 23:24:24.886"/>
+</kw>
+<kw name="Common Verify Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.889" endtime="20230920 23:24:24.889"/>
+</kw>
+<kw name="Common Click OK on Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.894" endtime="20230920 23:24:24.894"/>
+</kw>
+<kw name="Common Verify Redirect to Appointment Page" library="common_keywords">
+<doc>Verifies that the system redirects to the Appointment Booking page.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:24.894" endtime="20230920 23:24:24.894"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230920 23:24:24.878" endtime="20230920 23:24:24.894">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</status>
+</test>
+<test id="s1-t12" name="Test Add Patient with Invalid Data" line="140">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230920 23:24:24.896" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230920 23:24:24.895" endtime="20230920 23:24:24.896"/>
+</kw>
+<kw name="Common Add Patient" library="common_keywords">
+<arg>${patient_data}</arg>
+<msg timestamp="20230920 23:24:24.896" level="FAIL">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</msg>
+<status status="FAIL" starttime="20230920 23:24:24.896" endtime="20230920 23:24:24.896"/>
+</kw>
+<kw name="Check Submit Button UI State">
+<arg>id:submit_button</arg>
+<status status="NOT RUN" starttime="20230920 23:24:24.900" endtime="20230920 23:24:24.900"/>
+</kw>
+<kw name="Common Verify Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.903" endtime="20230920 23:24:24.903"/>
+</kw>
+<kw name="Common Click OK on Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.906" endtime="20230920 23:24:24.906"/>
+</kw>
+<kw name="Common Verify Redirect to Appointment Page" library="common_keywords">
+<doc>Verifies that the system redirects to the Appointment Booking page.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:24.907" endtime="20230920 23:24:24.907"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230920 23:24:24.895" endtime="20230920 23:24:24.907">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</status>
+</test>
+<test id="s1-t13" name="Test Add Patient with Verify Field Validation" line="150">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230920 23:24:24.908" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230920 23:24:24.908" endtime="20230920 23:24:24.908"/>
+</kw>
+<kw name="Common Add Patient" library="common_keywords">
+<arg>${patient_data}</arg>
+<msg timestamp="20230920 23:24:24.908" level="FAIL">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</msg>
+<status status="FAIL" starttime="20230920 23:24:24.908" endtime="20230920 23:24:24.908"/>
+</kw>
+<kw name="Check Submit Button UI State">
+<arg>id:submit_button</arg>
+<status status="NOT RUN" starttime="20230920 23:24:24.912" endtime="20230920 23:24:24.912"/>
+</kw>
+<kw name="Common Verify Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.916" endtime="20230920 23:24:24.916"/>
+</kw>
+<kw name="Common Click OK on Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.919" endtime="20230920 23:24:24.919"/>
+</kw>
+<kw name="Common Verify Redirect to Appointment Page" library="common_keywords">
+<doc>Verifies that the system redirects to the Appointment Booking page.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:24.919" endtime="20230920 23:24:24.919"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230920 23:24:24.907" endtime="20230920 23:24:24.919">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</status>
+</test>
+<test id="s1-t14" name="Test Add Patient with Missing Fields" line="160">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230920 23:24:24.920" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230920 23:24:24.920" endtime="20230920 23:24:24.920"/>
+</kw>
+<kw name="Common Add Patient" library="common_keywords">
+<arg>${patient_data}</arg>
+<msg timestamp="20230920 23:24:24.921" level="FAIL">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</msg>
+<status status="FAIL" starttime="20230920 23:24:24.920" endtime="20230920 23:24:24.921"/>
+</kw>
+<kw name="Check Submit Button UI State">
+<arg>id:submit_button</arg>
+<status status="NOT RUN" starttime="20230920 23:24:24.925" endtime="20230920 23:24:24.925"/>
+</kw>
+<kw name="Common Verify Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.928" endtime="20230920 23:24:24.928"/>
+</kw>
+<kw name="Common Click OK on Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.931" endtime="20230920 23:24:24.931"/>
+</kw>
+<kw name="Common Verify Redirect to Appointment Page" library="common_keywords">
+<doc>Verifies that the system redirects to the Appointment Booking page.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:24.931" endtime="20230920 23:24:24.931"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230920 23:24:24.920" endtime="20230920 23:24:24.932">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</status>
+</test>
+<test id="s1-t15" name="Test Add Patient with Mandatory Field Only" line="170">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230920 23:24:24.933" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230920 23:24:24.932" endtime="20230920 23:24:24.933"/>
+</kw>
+<kw name="Common Add Patient" library="common_keywords">
+<arg>${patient_data}</arg>
+<msg timestamp="20230920 23:24:24.933" level="FAIL">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</msg>
+<status status="FAIL" starttime="20230920 23:24:24.933" endtime="20230920 23:24:24.933"/>
+</kw>
+<kw name="Check Submit Button UI State">
+<arg>id:submit_button</arg>
+<status status="NOT RUN" starttime="20230920 23:24:24.937" endtime="20230920 23:24:24.937"/>
+</kw>
+<kw name="Common Verify Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.940" endtime="20230920 23:24:24.941"/>
+</kw>
+<kw name="Common Click OK on Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.944" endtime="20230920 23:24:24.944"/>
+</kw>
+<kw name="Common Verify Redirect to Appointment Page" library="common_keywords">
+<doc>Verifies that the system redirects to the Appointment Booking page.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:24.944" endtime="20230920 23:24:24.944"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230920 23:24:24.932" endtime="20230920 23:24:24.945">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</status>
+</test>
+<test id="s1-t16" name="Test Add Patient with Verify Mandatory Field Validation" line="180">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230920 23:24:24.946" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230920 23:24:24.945" endtime="20230920 23:24:24.946"/>
+</kw>
+<kw name="Common Add Patient" library="common_keywords">
+<arg>${patient_data}</arg>
+<msg timestamp="20230920 23:24:24.946" level="FAIL">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</msg>
+<status status="FAIL" starttime="20230920 23:24:24.946" endtime="20230920 23:24:24.946"/>
+</kw>
+<kw name="Check Submit Button UI State">
+<arg>id:submit_button</arg>
+<status status="NOT RUN" starttime="20230920 23:24:24.950" endtime="20230920 23:24:24.950"/>
+</kw>
+<kw name="Common Verify Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.954" endtime="20230920 23:24:24.954"/>
+</kw>
+<kw name="Common Click OK on Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.957" endtime="20230920 23:24:24.957"/>
+</kw>
+<kw name="Common Verify Redirect to Appointment Page" library="common_keywords">
+<doc>Verifies that the system redirects to the Appointment Booking page.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:24.957" endtime="20230920 23:24:24.957"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230920 23:24:24.945" endtime="20230920 23:24:24.958">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</status>
+</test>
+<test id="s1-t17" name="Test Appointment Booking with Valid Data" line="190">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230920 23:24:24.959" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230920 23:24:24.958" endtime="20230920 23:24:24.959"/>
+</kw>
+<kw name="Common Appointment_Booking">
+<arg>${appointment_details}</arg>
+<msg timestamp="20230920 23:24:24.963" level="FAIL">No keyword with name 'Common Appointment_Booking' found.</msg>
+<status status="FAIL" starttime="20230920 23:24:24.963" endtime="20230920 23:24:24.964"/>
+</kw>
+<kw name="Common Verify Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.969" endtime="20230920 23:24:24.969"/>
+</kw>
+<kw name="Common Click OK on Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.974" endtime="20230920 23:24:24.974"/>
+</kw>
+<kw name="Common Verify Redirect to Appointment Page" library="common_keywords">
+<doc>Verifies that the system redirects to the Appointment Booking page.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:24.975" endtime="20230920 23:24:24.975"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230920 23:24:24.958" endtime="20230920 23:24:24.975">No keyword with name 'Common Appointment_Booking' found.</status>
+</test>
+<test id="s1-t18" name="Test Appoinment Booking with No Data" line="198">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230920 23:24:24.977" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230920 23:24:24.976" endtime="20230920 23:24:24.977"/>
+</kw>
+<kw name="Common Appointment_Booking">
+<arg>${appointment_details}</arg>
+<msg timestamp="20230920 23:24:24.981" level="FAIL">No keyword with name 'Common Appointment_Booking' found.</msg>
+<status status="FAIL" starttime="20230920 23:24:24.981" endtime="20230920 23:24:24.981"/>
+</kw>
+<kw name="Common Verify Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.986" endtime="20230920 23:24:24.986"/>
+</kw>
+<kw name="Common Click OK on Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:24.993" endtime="20230920 23:24:24.994"/>
+</kw>
+<kw name="Common Verify Redirect to Appointment Page" library="common_keywords">
+<doc>Verifies that the system redirects to the Appointment Booking page.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:24.994" endtime="20230920 23:24:24.994"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230920 23:24:24.975" endtime="20230920 23:24:24.994">No keyword with name 'Common Appointment_Booking' found.</status>
+</test>
+<test id="s1-t19" name="Test Appointment Booking with Invalid Data" line="206">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230920 23:24:24.998" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230920 23:24:24.997" endtime="20230920 23:24:24.998"/>
+</kw>
+<kw name="Common Appointment_Booking">
+<arg>${appointment_details}</arg>
+<msg timestamp="20230920 23:24:25.011" level="FAIL">No keyword with name 'Common Appointment_Booking' found.</msg>
+<status status="FAIL" starttime="20230920 23:24:25.011" endtime="20230920 23:24:25.012"/>
+</kw>
+<kw name="Common Verify Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:25.019" endtime="20230920 23:24:25.019"/>
+</kw>
+<kw name="Common Click OK on Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:25.029" endtime="20230920 23:24:25.029"/>
+</kw>
+<kw name="Common Verify Redirect to Appointment Page" library="common_keywords">
+<doc>Verifies that the system redirects to the Appointment Booking page.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:25.029" endtime="20230920 23:24:25.029"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230920 23:24:24.995" endtime="20230920 23:24:25.030">No keyword with name 'Common Appointment_Booking' found.</status>
+</test>
+<test id="s1-t20" name="Test Appointment Booking with Verify Field Validation" line="214">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230920 23:24:25.033" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230920 23:24:25.032" endtime="20230920 23:24:25.033"/>
+</kw>
+<kw name="Common Appointment_Booking">
+<arg>${appointment_details}</arg>
+<msg timestamp="20230920 23:24:25.047" level="FAIL">No keyword with name 'Common Appointment_Booking' found.</msg>
+<status status="FAIL" starttime="20230920 23:24:25.046" endtime="20230920 23:24:25.047"/>
+</kw>
+<kw name="Common Verify Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:25.056" endtime="20230920 23:24:25.056"/>
+</kw>
+<kw name="Common Click OK on Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:25.067" endtime="20230920 23:24:25.067"/>
+</kw>
+<kw name="Common Verify Redirect to Appointment Page" library="common_keywords">
+<doc>Verifies that the system redirects to the Appointment Booking page.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:25.068" endtime="20230920 23:24:25.068"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230920 23:24:25.030" endtime="20230920 23:24:25.068">No keyword with name 'Common Appointment_Booking' found.</status>
+</test>
+<test id="s1-t21" name="Test Appointment Booking with Missing Fields" line="222">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230920 23:24:25.070" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230920 23:24:25.069" endtime="20230920 23:24:25.070"/>
+</kw>
+<kw name="Common Appointment_Booking">
+<arg>${appointment_details}</arg>
+<msg timestamp="20230920 23:24:25.084" level="FAIL">No keyword with name 'Common Appointment_Booking' found.</msg>
+<status status="FAIL" starttime="20230920 23:24:25.083" endtime="20230920 23:24:25.084"/>
+</kw>
+<kw name="Common Verify Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:25.096" endtime="20230920 23:24:25.096"/>
+</kw>
+<kw name="Common Click OK on Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:25.106" endtime="20230920 23:24:25.106"/>
+</kw>
+<kw name="Common Verify Redirect to Appointment Page" library="common_keywords">
+<doc>Verifies that the system redirects to the Appointment Booking page.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:25.106" endtime="20230920 23:24:25.106"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230920 23:24:25.069" endtime="20230920 23:24:25.107">No keyword with name 'Common Appointment_Booking' found.</status>
+</test>
+<test id="s1-t22" name="Test Appointment Booking with Mandatory Field Only" line="230">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230920 23:24:25.110" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230920 23:24:25.108" endtime="20230920 23:24:25.110"/>
+</kw>
+<kw name="Common Appointment_Booking">
+<arg>${appointment_details}</arg>
+<msg timestamp="20230920 23:24:25.119" level="FAIL">No keyword with name 'Common Appointment_Booking' found.</msg>
+<status status="FAIL" starttime="20230920 23:24:25.119" endtime="20230920 23:24:25.119"/>
+</kw>
+<kw name="Common Verify Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:25.127" endtime="20230920 23:24:25.127"/>
+</kw>
+<kw name="Common Click OK on Confirmation Pop-up">
+<status status="NOT RUN" starttime="20230920 23:24:25.134" endtime="20230920 23:24:25.134"/>
+</kw>
+<kw name="Common Verify Redirect to Appointment Page" library="common_keywords">
+<doc>Verifies that the system redirects to the Appointment Booking page.</doc>
+<status status="NOT RUN" starttime="20230920 23:24:25.135" endtime="20230920 23:24:25.135"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230920 23:24:25.107" endtime="20230920 23:24:25.135">No keyword with name 'Common Appointment_Booking' found.</status>
+</test>
+<status status="FAIL" starttime="20230920 23:24:24.165" endtime="20230920 23:24:25.136"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="22" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="0" fail="22" skip="0">common</stat>
+<stat pass="0" fail="1" skip="0">doctor</stat>
+<stat pass="0" fail="1" skip="0">login</stat>
+<stat pass="0" fail="3" skip="0">negative</stat>
+<stat pass="0" fail="6" skip="0">patient</stat>
+<stat pass="0" fail="6" skip="0">positive</stat>
+</tag>
+<suite>
+<stat pass="0" fail="22" skip="0" id="s1" name="Common Tests">Common Tests</stat>
+</suite>
+</statistics>
+<errors>
+<msg timestamp="20230920 23:24:24.137" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 331: Non-existing setting 'Adding a Patient and Redirecting to Appointment Booking Page'.</msg>
+<msg timestamp="20230920 23:24:24.137" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 332: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.137" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 333: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.137" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 334: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.137" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 336: Non-existing setting 'Test Add Patient with Valid Data'.</msg>
+<msg timestamp="20230920 23:24:24.137" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 337: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.137" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 338: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.137" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 339: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.137" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 341: Non-existing setting 'Test Add Patient with No Data'.</msg>
+<msg timestamp="20230920 23:24:24.137" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 342: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.137" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 343: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.137" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 344: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.138" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 346: Non-existing setting 'Test Add Patient with Invalid Data'.</msg>
+<msg timestamp="20230920 23:24:24.138" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 347: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.138" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 348: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.138" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 349: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.138" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 351: Non-existing setting 'Test Add Patient with Verify Field Validation'.</msg>
+<msg timestamp="20230920 23:24:24.138" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 352: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.138" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 353: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.138" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 354: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.138" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 356: Non-existing setting 'Test Add Patient with Missing Fields'.</msg>
+<msg timestamp="20230920 23:24:24.138" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 357: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.138" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 358: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.138" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 359: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.138" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 361: Non-existing setting 'Test Add Patient with Mandatory Field Only'.</msg>
+<msg timestamp="20230920 23:24:24.138" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 362: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.138" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 363: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.139" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 364: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.139" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 366: Non-existing setting 'Test Add Patient with Verify Mandatory Field Validation'.</msg>
+<msg timestamp="20230920 23:24:24.139" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 367: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.139" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 368: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.139" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 369: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.139" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 371: Non-existing setting 'Test Appointment Booking with Valid Data'.</msg>
+<msg timestamp="20230920 23:24:24.139" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 372: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.139" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 373: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.139" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 374: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.139" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 376: Non-existing setting 'Test Appoinment Booking with No Data'.</msg>
+<msg timestamp="20230920 23:24:24.139" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 377: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.139" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 378: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.139" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 379: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.139" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 381: Non-existing setting 'Test Appointment Booking with Invalid Data'.</msg>
+<msg timestamp="20230920 23:24:24.139" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 382: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.140" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 383: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.140" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 384: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.140" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 386: Non-existing setting 'Test Appointment Booking with Verify Field Validation'.</msg>
+<msg timestamp="20230920 23:24:24.140" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 387: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.140" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 388: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.140" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 389: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.140" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 391: Non-existing setting 'Test Appointment Booking with Missing Fields'.</msg>
+<msg timestamp="20230920 23:24:24.140" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 392: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.140" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 393: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.140" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 394: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.140" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 396: Non-existing setting 'Test Appointment Booking with Mandatory Field Only'.</msg>
+<msg timestamp="20230920 23:24:24.141" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 397: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.141" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 398: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.141" level="ERROR">Error in file 'C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot' on line 399: Non-existing setting ''.</msg>
+<msg timestamp="20230920 23:24:24.878" level="WARN">Multiple tests with name 'Test Add Patient with No Data' executed in suite 'Common Tests'.</msg>
+</errors>
+</robot>

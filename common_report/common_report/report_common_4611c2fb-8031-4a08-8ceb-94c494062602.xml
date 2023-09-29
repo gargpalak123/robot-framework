@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.1.1 (Python 3.11.4 on win32)" generated="20230915 18:35:03.124" rpa="false" schemaversion="4">
+<suite id="s1" name="Common Tests" source="C:\Users\saksh\robot\pythonProject\RobotFramework\robot_tests\common_tests.robot">
+<test id="s1-t1" name="Test Valid Login as Doctor" line="15">
+<kw name="Set Credentials" library="common_keywords">
+<arg>Doctor</arg>
+<kw name="Evaluate" library="BuiltIn">
+<var>${credentials}</var>
+<arg>${{'Doctor': {'username': 'doctor_username', 'password': 'doctor_password'},</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20230915 18:35:03.503" level="FAIL">Variable '${{'Doctor': {'username': 'doctor_username', 'password': 'doctor_password'},' was not closed properly.</msg>
+<status status="FAIL" starttime="20230915 18:35:03.503" endtime="20230915 18:35:03.503"/>
+</kw>
+<kw name="'Admin': {'username': 'admin_username', 'password': 'admin_password'},">
+<status status="NOT RUN" starttime="20230915 18:35:03.507" endtime="20230915 18:35:03.507"/>
+</kw>
+<kw name="'Reception': {'username': 'reception_username', 'password': 'reception_password'}}[${role}]">
+<status status="NOT RUN" starttime="20230915 18:35:03.512" endtime="20230915 18:35:03.512"/>
+</kw>
+<status status="FAIL" starttime="20230915 18:35:03.503" endtime="20230915 18:35:03.512"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Username: ${Doctor['username']}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" starttime="20230915 18:35:03.512" endtime="20230915 18:35:03.513"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Password: ${Doctor['password']}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" starttime="20230915 18:35:03.513" endtime="20230915 18:35:03.513"/>
+</kw>
+<kw name="Common Check Doctor Dashboard" library="common_keywords">
+<doc>Common verification for the doctor's dashboard.</doc>
+<status status="NOT RUN" starttime="20230915 18:35:03.513" endtime="20230915 18:35:03.513"/>
+</kw>
+<kw name="Common Logout" library="common_keywords">
+<doc>Tests the logout functionality.</doc>
+<status status="NOT RUN" starttime="20230915 18:35:03.513" endtime="20230915 18:35:03.513"/>
+</kw>
+<tag>common</tag>
+<tag>doctor</tag>
+<tag>login</tag>
+<status status="FAIL" starttime="20230915 18:35:03.502" endtime="20230915 18:35:03.513">Variable '${{'Doctor': {'username': 'doctor_username', 'password': 'doctor_password'},' was not closed properly.</status>
+</test>
+<test id="s1-t2" name="Test Invalid Password" line="39">
+<kw name="Common Login" library="common_keywords">
+<arg>valid_username</arg>
+<arg>invalid_password</arg>
+<msg timestamp="20230915 18:35:03.514" level="FAIL">Keyword 'common_keywords.Common Login' expected 1 argument, got 2.</msg>
+<status status="FAIL" starttime="20230915 18:35:03.514" endtime="20230915 18:35:03.514"/>
+</kw>
+<kw name="Common Check Error Message" library="common_keywords">
+<arg>email or password invalid.</arg>
+<doc>Verifies that an error message is displayed.</doc>
+<status status="NOT RUN" starttime="20230915 18:35:03.514" endtime="20230915 18:35:03.514"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230915 18:35:03.514" endtime="20230915 18:35:03.515">Keyword 'common_keywords.Common Login' expected 1 argument, got 2.</status>
+</test>
+<test id="s1-t3" name="Test Invalid Username" line="44">
+<kw name="Common Login" library="common_keywords">
+<arg>invalid_username</arg>
+<arg>valid_password</arg>
+<msg timestamp="20230915 18:35:03.516" level="FAIL">Keyword 'common_keywords.Common Login' expected 1 argument, got 2.</msg>
+<status status="FAIL" starttime="20230915 18:35:03.515" endtime="20230915 18:35:03.516"/>
+</kw>
+<kw name="Common Check Error Message" library="common_keywords">
+<arg>email or password invalid.</arg>
+<doc>Verifies that an error message is displayed.</doc>
+<status status="NOT RUN" starttime="20230915 18:35:03.516" endtime="20230915 18:35:03.516"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230915 18:35:03.515" endtime="20230915 18:35:03.516">Keyword 'common_keywords.Common Login' expected 1 argument, got 2.</status>
+</test>
+<test id="s1-t4" name="Test Invalid Credentials" line="49">
+<kw name="Common Login" library="common_keywords">
+<arg>invalid_username</arg>
+<arg>valid_password</arg>
+<msg timestamp="20230915 18:35:03.517" level="FAIL">Keyword 'common_keywords.Common Login' expected 1 argument, got 2.</msg>
+<status status="FAIL" starttime="20230915 18:35:03.517" endtime="20230915 18:35:03.517"/>
+</kw>
+<kw name="Common Check Error Message" library="common_keywords">
+<arg>email and password invalid.</arg>
+<doc>Verifies that an error message is displayed.</doc>
+<status status="NOT RUN" starttime="20230915 18:35:03.517" endtime="20230915 18:35:03.517"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230915 18:35:03.516" endtime="20230915 18:35:03.517">Keyword 'common_keywords.Common Login' expected 1 argument, got 2.</status>
+</test>
+<test id="s1-t5" name="Test Empty Login" line="55">
+<kw name="Common Login" library="common_keywords">
+<arg>${EMPTY}</arg>
+<arg>${EMPTY}</arg>
+<msg timestamp="20230915 18:35:03.519" level="FAIL">Keyword 'common_keywords.Common Login' expected 1 argument, got 2.</msg>
+<status status="FAIL" starttime="20230915 18:35:03.518" endtime="20230915 18:35:03.519"/>
+</kw>
+<kw name="Common Handle Empty Login" library="common_keywords">
+<doc>Handles an empty login and checks for the error message.</doc>
+<status status="NOT RUN" starttime="20230915 18:35:03.519" endtime="20230915 18:35:03.519"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230915 18:35:03.518" endtime="20230915 18:35:03.519">Keyword 'common_keywords.Common Login' expected 1 argument, got 2.</status>
+</test>
+<test id="s1-t6" name="Adding a Patient and Redirecting to Appointment Booking Page" line="78">
+<kw name="Add Patient with Valid Data">
+<msg timestamp="20230915 18:35:03.526" level="FAIL">No keyword with name 'Add Patient with Valid Data' found.</msg>
+<status status="FAIL" starttime="20230915 18:35:03.526" endtime="20230915 18:35:03.526"/>
+</kw>
+<kw name="Verify Redirect to Appointment Page">
+<status status="NOT RUN" starttime="20230915 18:35:03.531" endtime="20230915 18:35:03.531"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230915 18:35:03.520" endtime="20230915 18:35:03.531">No keyword with name 'Add Patient with Valid Data' found.</status>
+</test>
+<test id="s1-t7" name="Test Add Patient with Valid Data" line="83">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230915 18:35:03.532" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230915 18:35:03.532" endtime="20230915 18:35:03.532"/>
+</kw>
+<kw name="Common Add Patient" library="common_keywords">
+<arg>${patient_data}</arg>
+<msg timestamp="20230915 18:35:03.533" level="FAIL">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</msg>
+<status status="FAIL" starttime="20230915 18:35:03.533" endtime="20230915 18:35:03.533"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230915 18:35:03.532" endtime="20230915 18:35:03.533">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</status>
+</test>
+<test id="s1-t8" name="Test Add Patient with No Data" line="88">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230915 18:35:03.534" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230915 18:35:03.534" endtime="20230915 18:35:03.534"/>
+</kw>
+<kw name="Common Add Patient" library="common_keywords">
+<arg>${patient_data}</arg>
+<msg timestamp="20230915 18:35:03.534" level="FAIL">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</msg>
+<status status="FAIL" starttime="20230915 18:35:03.534" endtime="20230915 18:35:03.534"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230915 18:35:03.533" endtime="20230915 18:35:03.534">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</status>
+</test>
+<test id="s1-t9" name="Test Add Patient with Invalid Data" line="93">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230915 18:35:03.536" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230915 18:35:03.535" endtime="20230915 18:35:03.536"/>
+</kw>
+<kw name="Common Add Patient" library="common_keywords">
+<arg>${patient_data}</arg>
+<msg timestamp="20230915 18:35:03.536" level="FAIL">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</msg>
+<status status="FAIL" starttime="20230915 18:35:03.536" endtime="20230915 18:35:03.536"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230915 18:35:03.535" endtime="20230915 18:35:03.536">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</status>
+</test>
+<test id="s1-t10" name="Test Add Patient with Verify Field Validation" line="98">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230915 18:35:03.538" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230915 18:35:03.537" endtime="20230915 18:35:03.538"/>
+</kw>
+<kw name="Common Add Patient" library="common_keywords">
+<arg>${patient_data}</arg>
+<msg timestamp="20230915 18:35:03.538" level="FAIL">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</msg>
+<status status="FAIL" starttime="20230915 18:35:03.538" endtime="20230915 18:35:03.538"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230915 18:35:03.537" endtime="20230915 18:35:03.538">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</status>
+</test>
+<test id="s1-t11" name="Test Add Patient with Missing Fields" line="103">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230915 18:35:03.539" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230915 18:35:03.539" endtime="20230915 18:35:03.539"/>
+</kw>
+<kw name="Common Add Patient" library="common_keywords">
+<arg>${patient_data}</arg>
+<msg timestamp="20230915 18:35:03.540" level="FAIL">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</msg>
+<status status="FAIL" starttime="20230915 18:35:03.539" endtime="20230915 18:35:03.540"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230915 18:35:03.539" endtime="20230915 18:35:03.540">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</status>
+</test>
+<test id="s1-t12" name="Test Add Patient with Mandatory Field Only" line="108">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230915 18:35:03.541" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230915 18:35:03.541" endtime="20230915 18:35:03.541"/>
+</kw>
+<kw name="Common Add Patient" library="common_keywords">
+<arg>${patient_data}</arg>
+<msg timestamp="20230915 18:35:03.541" level="FAIL">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</msg>
+<status status="FAIL" starttime="20230915 18:35:03.541" endtime="20230915 18:35:03.541"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230915 18:35:03.540" endtime="20230915 18:35:03.541">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</status>
+</test>
+<test id="s1-t13" name="Test Add Patient with Verify Mandatory Field Validation" line="113">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230915 18:35:03.542" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230915 18:35:03.542" endtime="20230915 18:35:03.542"/>
+</kw>
+<kw name="Common Add Patient" library="common_keywords">
+<arg>${patient_data}</arg>
+<msg timestamp="20230915 18:35:03.543" level="FAIL">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</msg>
+<status status="FAIL" starttime="20230915 18:35:03.542" endtime="20230915 18:35:03.543"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230915 18:35:03.542" endtime="20230915 18:35:03.543">Keyword 'common_keywords.Common Add Patient' expected 2 arguments, got 1.</status>
+</test>
+<test id="s1-t14" name="Test Appointment Booking with Valid Data" line="118">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230915 18:35:03.544" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230915 18:35:03.543" endtime="20230915 18:35:03.544"/>
+</kw>
+<kw name="Common Appointment_Booking">
+<arg>${appointment_details}</arg>
+<msg timestamp="20230915 18:35:03.549" level="FAIL">No keyword with name 'Common Appointment_Booking' found.</msg>
+<status status="FAIL" starttime="20230915 18:35:03.549" endtime="20230915 18:35:03.549"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230915 18:35:03.543" endtime="20230915 18:35:03.550">No keyword with name 'Common Appointment_Booking' found.</status>
+</test>
+<test id="s1-t15" name="Test Appoinment Booking with No Data" line="123">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230915 18:35:03.551" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230915 18:35:03.550" endtime="20230915 18:35:03.551"/>
+</kw>
+<kw name="Common Appointment_Booking">
+<arg>${appointment_details}</arg>
+<msg timestamp="20230915 18:35:03.556" level="FAIL">No keyword with name 'Common Appointment_Booking' found.</msg>
+<status status="FAIL" starttime="20230915 18:35:03.556" endtime="20230915 18:35:03.556"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230915 18:35:03.550" endtime="20230915 18:35:03.556">No keyword with name 'Common Appointment_Booking' found.</status>
+</test>
+<test id="s1-t16" name="Test Appointment Booking with Invalid Data" line="128">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230915 18:35:03.557" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230915 18:35:03.557" endtime="20230915 18:35:03.557"/>
+</kw>
+<kw name="Common Appointment_Booking">
+<arg>${appointment_details}</arg>
+<msg timestamp="20230915 18:35:03.562" level="FAIL">No keyword with name 'Common Appointment_Booking' found.</msg>
+<status status="FAIL" starttime="20230915 18:35:03.562" endtime="20230915 18:35:03.562"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230915 18:35:03.556" endtime="20230915 18:35:03.563">No keyword with name 'Common Appointment_Booking' found.</status>
+</test>
+<test id="s1-t17" name="Test Appointment Booking with Verify Field Validation" line="133">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230915 18:35:03.564" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230915 18:35:03.563" endtime="20230915 18:35:03.564"/>
+</kw>
+<kw name="Common Appointment_Booking">
+<arg>${appointment_details}</arg>
+<msg timestamp="20230915 18:35:03.570" level="FAIL">No keyword with name 'Common Appointment_Booking' found.</msg>
+<status status="FAIL" starttime="20230915 18:35:03.569" endtime="20230915 18:35:03.570"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230915 18:35:03.563" endtime="20230915 18:35:03.570">No keyword with name 'Common Appointment_Booking' found.</status>
+</test>
+<test id="s1-t18" name="Test Appointment Booking with Missing Fields" line="138">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230915 18:35:03.571" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230915 18:35:03.571" endtime="20230915 18:35:03.571"/>
+</kw>
+<kw name="Common Appointment_Booking">
+<arg>${appointment_details}</arg>
+<msg timestamp="20230915 18:35:03.577" level="FAIL">No keyword with name 'Common Appointment_Booking' found.</msg>
+<status status="FAIL" starttime="20230915 18:35:03.577" endtime="20230915 18:35:03.577"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230915 18:35:03.570" endtime="20230915 18:35:03.577">No keyword with name 'Common Appointment_Booking' found.</status>
+</test>
+<test id="s1-t19" name="Test Appointment Booking with Mandatory Field Only" line="143">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${patient_data}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230915 18:35:03.578" level="INFO">${patient_data} = {}</msg>
+<status status="PASS" starttime="20230915 18:35:03.578" endtime="20230915 18:35:03.578"/>
+</kw>
+<kw name="Common Appointment_Booking">
+<arg>${appointment_details}</arg>
+<msg timestamp="20230915 18:35:03.585" level="FAIL">No keyword with name 'Common Appointment_Booking' found.</msg>
+<status status="FAIL" starttime="20230915 18:35:03.585" endtime="20230915 18:35:03.585"/>
+</kw>
+<tag>common</tag>
+<status status="FAIL" starttime="20230915 18:35:03.578" endtime="20230915 18:35:03.585">No keyword with name 'Common Appointment_Booking' found.</status>
+</test>
+<status status="FAIL" starttime="20230915 18:35:03.127" endtime="20230915 18:35:03.586"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="19" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="0" fail="19" skip="0">common</stat>
+<stat pass="0" fail="1" skip="0">doctor</stat>
+<stat pass="0" fail="1" skip="0">login</stat>
+</tag>
+<suite>
+<stat pass="0" fail="19" skip="0" id="s1" name="Common Tests">Common Tests</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
