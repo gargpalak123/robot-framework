@@ -3,7 +3,6 @@ import subprocess
 import uuid
 import shutil
 
-
 def run_tests():
     # Set the destination directory for final reports
     destination_directory = 'C:\\Automation result'
@@ -18,14 +17,18 @@ def run_tests():
         doctor_output_file = os.path.join('doctor_report', f'report_doctor_{str(uuid.uuid4())}.xml')
 
         # Run common tests with specific tags and exclude reception and admin keywords
-        subprocess.run([
+        common_process = subprocess.Popen([
             'robot',
             '--outputdir', 'common_report',
             '--output', common_output_file,
             '--include', 'common',
+            '--exitonfailure',
             '--exclude', 'reception', '--exclude', 'admin',
             'robot_tests/common_tests.robot'
         ])
+
+        # Wait for the common test suite to complete but do not halt script execution
+        common_process.wait()
 
         # Run doctor-specific tests and generate an XML report
         subprocess.run([
@@ -33,6 +36,7 @@ def run_tests():
             '--outputdir', 'doctor_report',
             '--output', doctor_output_file,
             '--include', 'doctor',
+            '--exitonfailure',
             'robot_tests/doctor_tests.robot'
         ])
 
@@ -59,7 +63,6 @@ def run_tests():
     except Exception as e:
         print("Error:", str(e))
         # You can log the error or perform additional error-handling actions here
-
 
 if __name__ == "__main__":
     run_tests()
