@@ -1,3 +1,2 @@
-selenium==4.11.2
-robotframework==6.1.1
-robotframework-seleniumlibrary
+robotframework~=6.1.1
+uuid~=1.30
