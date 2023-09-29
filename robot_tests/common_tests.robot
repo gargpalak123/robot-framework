@@ -22,15 +22,15 @@ Test Valid Login as Doctor
     Common Check Doctor Dashboard Counts
     Common Logout
 
-
-
 # Scenario 2: Login as Admin
 Test Valid Login as Admin
     [Tags]     common  admin  login
     ${admin_username}    ${admin_password}=    Set Credentials    Admin
     Log    Username: ${admin_username}
     Log    Password: ${admin_password}
-    Common Check Doctor Dashboard
+    ${expected_dashboard_url}=    Set Variable    https://procliniq.in/Dashboard
+     Common Login    ${admin_username}    ${admin_password}  # Pass username and password
+    Common Check Doctor Dashboard   ${expected_dashboard_url}
     Verify Doctor Dashboard
     Common Check Doctor Dashboard Counts
     Common Logout
@@ -41,7 +41,9 @@ Test Valid Login as Reception
     ${reception_username}    ${reception_password}=    Set Credentials    Reception
     Log    Username: ${reception_username}
     Log    Password: ${reception_password}
-    Common Check Doctor Dashboard
+    ${expected_dashboard_url}=    Set Variable    https://procliniq.in/Dashboard
+    Common Login    ${reception_username_username}    ${reception_password}  # Pass username and password
+    Common Check Doctor Dashboard   ${expected_dashboard_url}
     Verify Doctor Dashboard
     Common Check Doctor Dashboard Counts
     Common Logout
