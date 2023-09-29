@@ -10,16 +10,16 @@ ${SELSPEED}   0.0s
 ${BaseURL}    https://procliniq.in
 
 *** Test Cases ***
-# Scenario 1: Login as Doctor
 Test Valid Login as Doctor
     [Tags]   common  doctor  login
     ${doctor_username}    ${doctor_password}=    Set Credentials    Doctor
     Log    Username: ${doctor_username}
     Log    Password: ${doctor_password}
-    Common Check Doctor Dashboard
+    Common Check Doctor Dashboard    ${expected_dashboard_url}
     Verify Doctor Dashboard
     Common Check Doctor Dashboard Counts
     Common Logout
+
 
 # Scenario 2: Login as Admin
 Test Valid Login as Admin
