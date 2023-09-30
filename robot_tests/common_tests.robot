@@ -1,6 +1,8 @@
 *** Settings ***
+Documentation     Testing Proclniq test suites
 Library         SeleniumLibrary
 Resource        ../resources/common_keywords.robot
+
 Suite Setup     Open Browser    ${BaseURL}    ${BROWSER}
 Suite Teardown  Close All Browsers
 
@@ -8,6 +10,9 @@ Suite Teardown  Close All Browsers
 ${BROWSER}    Chrome
 ${SELSPEED}   0.0s
 ${BaseURL}    https://procliniq.in
+${Tittle}
+${Timeout}    3s
+
 
 *** Test Cases ***
 Test Valid Login as Doctor
