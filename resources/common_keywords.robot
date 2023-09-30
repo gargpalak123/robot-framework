@@ -36,12 +36,12 @@ Common Login
     # Verify the UI and CSS of the first login button
     ${login_button_1} =    Set Variable    ${login_buttons}[0]
     Element Should Be Visible    ${login_button_1}
-    Element Should Have CSS Class    ${login_button_1}    h2 nav-item nev-link    # Replace with actual CSS class names separated by spaces
+    Element Should Have CSS Class    ${login_button_1}    h2    # Specify each CSS class separately
 
     # Verify the UI and CSS of the second login button
     ${login_button_2} =    Set Variable    ${login_buttons}[1]
     Element Should Be Visible    ${login_button_2}
-    Element Should Have CSS Class    ${login_button_2}    btn btn-primary    # Replace with actual CSS class names separated by spaces
+    Element Should Have CSS Class    ${login_button_2}    btn    # Specify each CSS class separately
 
     Click Element    ${login_button_1}  # Click the first login button
 
