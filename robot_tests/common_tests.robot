@@ -13,10 +13,11 @@ ${BaseURL}    https://procliniq.in
 Test Valid Login as Doctor
     [Tags]   common  doctor  login
     ${doctor_username}    ${doctor_password}=    Set Credentials    Doctor
+    ${role}=    Set Variable    Doctor  # Set the role to Doctor
     Log    Username: ${doctor_username}
     Log    Password: ${doctor_password}
     ${expected_dashboard_url}=    Set Variable    https://procliniq.in/Dashboard  # Define the expected dashboard URL
-    Common Login    ${doctor_username}    ${doctor_password}  # Pass username and password
+    Common Login    ${doctor_username}    ${doctor_password}    ${role}  # Pass username, password, and role
     Common Check Doctor Dashboard    ${expected_dashboard_url}
     Verify Doctor Dashboard
     Common Check Doctor Dashboard Counts
