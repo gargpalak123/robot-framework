@@ -24,7 +24,13 @@ Common Login
     [Arguments]    ${username}    ${password}    ${role}
     Go To    ${BaseURL}/login
     Wait Until Page Contains Element    //b[normalize-space()='Login']
-    Click Element    //b[normalize-space()='Login']
+    ${login_button} =    Get Element    //b[normalize-space()='Login']
+
+    # Verify the UI and CSS of the login button
+    Element Should Be Visible    ${login_button}
+    Element Should Have CSS Class    ${login_button}    your-css-class-name  # Replace with actual CSS class
+
+    Click Element    ${login_button}
     Wait Until Page Contains Element    id:email
     Input Text    id:email    ${username}
     Wait Until Page Contains Element    id:password
@@ -41,7 +47,11 @@ Common Login
     Run Keyword If    '${actual_role}' == '${role}'    Log    Test Passed - Redirected to ${role} dashboard
     ...    ELSE    Fail    Expected role: ${role}, Actual role: ${actual_role}
     Capture Page Screenshot
-    [Return]    ${actual_role}
+
+    # Verify the home page title
+    ${title}=    Get Title
+    Title Should Be    Your Expected Title  # Replace with your expected title
+    Log    Home Page Title Verified: ${title}
 
 Common Check Doctor Dashboard
     [Arguments]    ${expected_dashboard_url}
