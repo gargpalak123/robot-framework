@@ -24,13 +24,22 @@ Common Login
     [Arguments]    ${username}    ${password}    ${role}
     Go To    ${BaseURL}/login
     Wait Until Page Contains Element    //b[normalize-space()='Login']
-    ${login_button} =    Get Element    //b[normalize-space()='Login']
+    ${login_buttons} =    Get WebElements    //b[normalize-space()='Login']
 
-    # Verify the UI and CSS of the login button
-    Element Should Be Visible    ${login_button}
-    Element Should Have CSS Class    ${login_button}    your-css-class-name  # Replace with actual CSS class
+    # Verify the UI and CSS of the first login button
+    ${login_button_1} =    Set Variable    ${login_buttons}[0]
+    Element Should Be Visible    ${login_button_1}
+    Element Should Have CSS Class    ${login_button_1}    h2 nav-item nev-link  # Replace with actual CSS class
 
-    Click Element    ${login_button}
+    # Verify the UI and CSS of the second login button
+    ${login_button_2} =    Set Variable    ${login_buttons}[1]
+    Element Should Be Visible    ${login_button_2}
+    Element Should Have CSS Class    ${login_button_2}    btn btn-primary    # Replace with actual CSS class
+
+    Click Element    ${login_button_1}  # Click the first login button
+
+    # Rest of your login steps remain the same
+
     Wait Until Page Contains Element    id:email
     Input Text    id:email    ${username}
     Wait Until Page Contains Element    id:password
