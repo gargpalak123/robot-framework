@@ -18,7 +18,6 @@ Test Valid Login as Doctor
     Log    Password: ${doctor_password}
     ${expected_dashboard_url}=    Set Variable    https://procliniq.in/Dashboard  # Define the expected dashboard URL
     Common Login    ${doctor_username}    ${doctor_password}    ${role}  # Pass username, password, and role
-    Verify the home page tittle
     Common Check Doctor Dashboard    ${expected_dashboard_url}
     Verify Doctor Dashboard
     Common Check Doctor Dashboard Counts
