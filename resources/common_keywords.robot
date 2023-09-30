@@ -1,3 +1,14 @@
+*** Settings ***
+Library         SeleniumLibrary
+Library         OperatingSystem   # Import the OperatingSystem library if needed
+Library         String           # Import the String library if needed
+Library         MyCustomLibrary   # Import your custom library if you have one
+
+# Rest of your settings...
+
+
+
+
 *** Variables ***
 ${DoctorUsername}    palak105@gmail.com
 ${DoctorPassword}    1234567
