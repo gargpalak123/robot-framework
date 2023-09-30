@@ -21,7 +21,7 @@ Get Credentials
     [Return]    ${username}    ${password}
 
 Common Login
-    [Arguments]    ${username}    ${password}
+    [Arguments]    ${username}    ${password}    ${role}
     Go To    ${BaseURL}/login
     Wait Until Page Contains Element    //b[normalize-space()='Login']
     Click Element    //b[normalize-space()='Login']
@@ -34,7 +34,7 @@ Common Login
     Capture Page Screenshot
     Execute JavaScript    window.scrollTo(0, document.querySelector("button[type='submit']").getBoundingClientRect().top)
     ${current_url}=    Get Location
-    ${actual_role}=    Run Keyword If    '${current_url}' == 'https://procliniq.in/doctor-dashboard'    Set Variable    Doctor
+    ${actual_role}=    Run Keyword If    '${current_url}' == ${expected_dashboard_url}    Set Variable    Doctor
     ...    ELSE IF    '${current_url}' == 'https://procliniq.in/Today-Summary'    Set Variable    Admin
     ...    ELSE IF    '${current_url}' == 'https://procliniq.in/reception-dashboard'    Set Variable    Reception
     ...    ELSE    Set Variable    Unknown
