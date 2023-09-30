@@ -48,3 +48,5 @@ class CustomKeywords(SeleniumLibrary):
             self.fail(f"Doctor's dashboard URL is incorrect. Expected: {expected_dashboard_url}, Actual: {current_url}")
 
     # Implement other keywords as needed
+    def log(self, param):
+        pass
