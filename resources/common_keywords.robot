@@ -1,20 +1,17 @@
 *** Settings ***
+Documentation    Testing Proclniq Web Application
 Library         SeleniumLibrary
-Library         OperatingSystem   # Import the OperatingSystem library if needed
-Library         String           # Import the String library if needed
-
-
-# Rest of your settings...
-
 
 *** Variables ***
+${BROWSER}       Chrome
+${SELSPEED}      0.0s
+${BaseURL}       https://procliniq.in
 ${DoctorUsername}    palak105@gmail.com
 ${DoctorPassword}    1234567
-${AdminUsername}     admin_username
-${AdminPassword}     admin_password
-${ReceptionUsername}  reception_username
-${ReceptionPassword}  reception_password
-
+${AdminUsername}     poojasuper@gmail.com
+${AdminPassword}     1234567890
+${ReceptionUsername}  palakreception@gmail.com
+${ReceptionPassword}  1234567890
 
 *** Keywords ***
 Set Credentials
