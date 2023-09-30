@@ -49,7 +49,7 @@ Test Valid Login as Reception
     Log    Password: ${reception_password}
     ${expected_dashboard_url}=    Set Variable    https://procliniq.in/Dashboard
     Common Login    ${reception_username_username}    ${reception_password}  # Pass username and password
-    Common Check Doctor Dashboard   ${expected_dashboard_url}
+    Common Check Reception  Dashboard   ${expected_dashboard_url}
     Verify Doctor Dashboard
     Common Check Doctor Dashboard Counts
     Common Logout
