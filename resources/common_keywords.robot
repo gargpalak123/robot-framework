@@ -1,21 +1,19 @@
-*** Settings ***
-Documentation    Testing Proclniq Web Application
-Library         SeleniumLibrary
-
-
-
 *** Keywords ***
 Set Credentials
     [Arguments]    ${role}
-    ${username}    ${password}=    Get Credentials    ${role}
-    [Return]    ${username}    ${password}
+    ${credentials}=    Run Keyword If    '${role}' == 'Doctor'    Set Doctor Credentials
+    ...    ELSE IF    '${role}' == 'Admin'    Set Admin Credentials
+    ...    ELSE IF    '${role}' == 'Reception'    Set Reception Credentials
+    [Return]    ${credentials}
 
-Get Credentials
-    [Arguments]    ${role}
-    ${username}    ${password}=    Run Keyword If    '${role}' == 'Doctor'    Set Variable    ${DoctorUsername}    ${DoctorPassword}
-    ...    ELSE IF    '${role}' == 'Admin'    Set Variable    ${AdminUsername}    ${AdminPassword}
-    ...    ELSE IF    '${role}' == 'Reception'    Set Variable    ${ReceptionUsername}    ${ReceptionPassword}
-    [Return]    ${username}    ${password}
+Set Doctor Credentials
+    [Return]    ${doctor_username}    ${doctor_password}
+
+Set Admin Credentials
+    [Return]    ${admin_username}    ${admin_password}
+
+Set Reception Credentials
+    [Return]    ${reception_username}    ${reception_password}
 
 Common Login
     [Arguments]    ${username}    ${password}    ${role}
@@ -71,11 +69,11 @@ Common Check Doctor Dashboard
     ...    ELSE    Fail    Expected URL: ${expected_dashboard_url}, Actual URL: ${current_url}
     Capture Page Screenshot
 
+
 Verify Doctor Dashboard
     [Documentation]    Common visibility tests for the doctor's dashboard.
-    Verify Doctor Dashboard
-    # Visibility Tests
     ${today_appointment_visible} =    Run Keyword And Return Status    Element Should Be Visible    id:TodayAppointment
+    # Rest of your visibility tests
     Capture Page Screenshot
     ${total_appointment_visible} =    Run Keyword And Return Status    Element Should Be Visible    id:TotalAppointment
     Capture Page Screenshot
@@ -103,8 +101,7 @@ Verify Doctor Dashboard
 
 Common Check Doctor Dashboard Counts
     [Documentation]    Common count tests for the doctor's dashboard.
-    # Open the dashboard page
-    Open Browser    https://procliniq.in/Dashboard    Chrome
+    Open Browser    ${expected_dashboard_url}    Chrome
     Capture Page Screenshot
     # Locate the card elements using appropriate locators
     ${today_appointments_card}=    Get Element    id=TodayAppointment
@@ -143,13 +140,9 @@ Common Logout
     [Documentation]    Tests the logout functionality.
     Wait Until Element Is Visible    xpath://span[@class='d-sm-inline d-none']
     Click Element    xpath://span[@class='d-sm-inline d-none']
-    Capture Page Screenshot
     Wait Until Page Contains    https://procliniq.in/login
     ${current_url}=    Get Location
-    Run Keyword If    '${current_url}' == 'https://procliniq.in/login'
-    ...    Log    Logout Test Passed
-    ...    ELSE    Log    Logout Test Failed
-    Capture Page Screenshot
+    Should Be Equal    ${current_url}    https://procliniq.in/login
 
 Common Check Error Message
     [Arguments]    ${expected_message}    ${message_type}
