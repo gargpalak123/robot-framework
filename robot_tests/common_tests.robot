@@ -10,18 +10,22 @@ Suite Teardown  Close All Browsers
 ${BROWSER}    Chrome
 ${SELSPEED}   0.0s
 ${BaseURL}    https://procliniq.in
-${Tittle}
-${Timeout}    3s
-
+${doctor_username}    palakdoctor@gmail.com
+${doctor_password}    1234567890
+${admin_username}     poojasuper@gmail.com
+${admin_password}     1234567890
+${reception_username}  palakreception@gmail.com
+${reception_password}   1234567890
+${role}
+${expected_dashboard_url}   https://procliniq.in/Dashboard
 
 *** Test Cases ***
-Test Valid Login as Doctor
+Scenario 1: Valid Login as Doctor
     [Tags]   common  doctor  login
-    ${doctor_username}    ${doctor_password}=    Set Credentials    Doctor
     ${role}=    Set Variable    Doctor  # Set the role to Doctor
     Log    Username: ${doctor_username}
     Log    Password: ${doctor_password}
-    ${expected_dashboard_url}=    Set Variable    https://procliniq.in/Dashboard  # Define the expected dashboard URL
+    ${expected_dashboard_url}=    Set Variable    ${BaseURL}/Dashboard  # Define the expected dashboard URL
     Common Login    ${doctor_username}    ${doctor_password}    ${role}  # Pass username, password, and role
     Common Check Doctor Dashboard    ${expected_dashboard_url}
     Verify Doctor Dashboard
@@ -31,11 +35,10 @@ Test Valid Login as Doctor
 # Scenario 2: Login as Admin
 Test Valid Login as Admin
     [Tags]     common  admin  login
-    ${admin_username}    ${admin_password}=    Set Credentials    Admin
     Log    Username: ${admin_username}
     Log    Password: ${admin_password}
-    ${expected_dashboard_url}=    Set Variable    https://procliniq.in/Dashboard
-     Common Login    ${admin_username}    ${admin_password}  # Pass username and password
+    ${expected_dashboard_url}=    Set Variable    ${BaseURL}/Dashboard
+    Common Login    ${admin_username}    ${admin_password}    Admin  # Pass username and role
     Common Check Doctor Dashboard   ${expected_dashboard_url}
     Verify Doctor Dashboard
     Common Check Doctor Dashboard Counts
@@ -44,15 +47,15 @@ Test Valid Login as Admin
 # Scenario 3: Login as Reception
 Test Valid Login as Reception
     [Tags]      common  reception  login
-    ${reception_username}    ${reception_password}=    Set Credentials    Reception
     Log    Username: ${reception_username}
     Log    Password: ${reception_password}
-    ${expected_dashboard_url}=    Set Variable    https://procliniq.in/Dashboard
-    Common Login    ${reception_username_username}    ${reception_password}  # Pass username and password
-    Common Check Reception  Dashboard   ${expected_dashboard_url}
+    ${expected_dashboard_url}=    Set Variable    ${BaseURL}/Dashboard
+    Common Login    ${reception_username}    ${reception_password}    Reception  # Pass username and role
+    Common Check Doctor Dashboard   ${expected_dashboard_url}
     Verify Doctor Dashboard
     Common Check Doctor Dashboard Counts
     Common Logout
+
 
 # Scenario 4: Invalid Password
 Test Invalid Password
