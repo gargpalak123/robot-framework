@@ -2,13 +2,11 @@
 Documentation     Testing Proclniq test suites
 Library         SeleniumLibrary
 Resource        ../resources/common_keywords.robot
-
 Suite Setup     Open Browser    ${BaseURL}    ${BROWSER}
-Suite Teardown  Close All Browsers
+Suite Teardown  Close Browser
 
 *** Variables ***
 ${BROWSER}    Chrome
-${SELSPEED}   0.0s
 ${BaseURL}    https://procliniq.in
 ${doctor_username}    palakdoctor@gmail.com
 ${doctor_password}    1234567890
@@ -16,8 +14,7 @@ ${admin_username}     poojasuper@gmail.com
 ${admin_password}     1234567890
 ${reception_username}  palakreception@gmail.com
 ${reception_password}   1234567890
-${role}
-${expected_dashboard_url}   https://procliniq.in/Dashboard
+${expected_dashboard_url}   ${BaseURL}/Dashboard
 
 *** Test Cases ***
 Scenario 1: Valid Login as Doctor
@@ -25,12 +22,35 @@ Scenario 1: Valid Login as Doctor
     ${role}=    Set Variable    Doctor  # Set the role to Doctor
     Log    Username: ${doctor_username}
     Log    Password: ${doctor_password}
-    ${expected_dashboard_url}=    Set Variable    ${BaseURL}/Dashboard  # Define the expected dashboard URL
-    Common Login    ${doctor_username}    ${doctor_password}    ${role}  # Pass username, password, and role
-    Common Check Doctor Dashboard    ${expected_dashboard_url}
-    Verify Doctor Dashboard
-    Common Check Doctor Dashboard Counts
+    Maximize Browser Window
+    Login Page UI Validation
+    Common Login Process    ${doctor_username}    ${doctor_password}
+    Dashboard Redirection    ${expected_dashboard_url}
+    Verify Home Page Title
     Common Logout
+
+Verify Doctor Dashboard
+    [Tags]   common
+    [Documentation]    Verify the visibility of elements on the doctor's dashboard.
+    Open Browser    ${expected_dashboard_url}    ${BROWSER}
+    Maximize Browser Window
+    Verify Element Visibility    TodayAppointment
+    Verify Element Visibility    TotalAppointment
+    Verify Element Visibility    TodayDoctorLeave
+    Verify Element Visibility     CancelledAppointment
+
+Common Check Doctor Dashboard Counts
+    [Tags]   common
+    [Documentation]    Common count tests for the doctor's dashboard.
+    Open Browser    ${expected_dashboard_url}    ${BROWSER}
+    Maximize Browser Window
+    Common Check Today Appointments
+    Common Check Total Appointments
+    Common Check Today Doctor Leave
+    Common Check Cancelled Appointments
+
+
+
 
 # Scenario 2: Login as Admin
 Test Valid Login as Admin
@@ -60,7 +80,7 @@ Test Valid Login as Reception
 # Scenario 4: Invalid Password
 Test Invalid Password
     [Tags]    common  negative
-    Common Login    ${ValidUsername}    ${InvalidPassword}
+    Common Login Process    ${ValidUsername}    ${InvalidPassword}
     Common Check Error Message    email or password invalid.    invalid
 
 # Scenario 5: Invalid Username
