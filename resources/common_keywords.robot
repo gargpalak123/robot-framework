@@ -15,89 +15,61 @@ Set Admin Credentials
 Set Reception Credentials
     [Return]    ${reception_username}    ${reception_password}
 
-Common Login
-    [Arguments]    ${username}    ${password}    ${role}
-    Go To    ${BaseURL}/login
-    Maximize Browser Window
+Login Page UI Validation
     Wait Until Page Contains Element    //b[normalize-space()='Login']
-    ${login_buttons} =    Get WebElements    //b[normalize-space()='Login']
+    # Use explicit waits to ensure the element is fully loaded
+    Wait Until Element Is Visible    //b[normalize-space()='Login']    timeout=10s  # Adjust the timeout as needed
+    # Get the WebElement representing the login button
+    ${login_button} =    Get WebElement    //b[normalize-space()='Login']
+    # Check if the login button is enabled
+    Wait Until Element Is Enabled    ${login_button}    timeout=10s
+    Click Element    ${login_button}
 
-    # Verify the UI and CSS of the first login button
-    ${login_button_1} =    Set Variable    ${login_buttons}[0]
-    Element Should Be Visible    ${login_button_1}
-    Element Should Have CSS Class    ${login_button_1}    h2    # Specify each CSS class separately
-
-    # Verify the UI and CSS of the second login button
-    ${login_button_2} =    Set Variable    ${login_buttons}[1]
-    Element Should Be Visible    ${login_button_2}
-    Element Should Have CSS Class    ${login_button_2}    btn    # Specify each CSS class separately
-
-    Click Element    ${login_button_1}  # Click the first login button
-
-    # Rest of your login steps remain the same
-
-    Wait Until Page Contains Element    id:email
+Common Login Process
+    [Arguments]    ${username}    ${password}
     Input Text    id:email    ${username}
-    Wait Until Page Contains Element    id:password
     Input Text    id:password    ${password}
     Click Element    css=.h2 > b
-    Wait Until Element Is Enabled    css=button[type='submit']
-    Capture Page Screenshot
-    Execute JavaScript    window.scrollTo(0, document.querySelector("button[type='submit']").getBoundingClientRect().top)
-    ${current_url}=    Get Location
-    ${actual_role}=    Run Keyword If    '${current_url}' == ${expected_dashboard_url}    Set Variable    Doctor
-    ...    ELSE IF    '${current_url}' == 'https://procliniq.in/Today-Summary'    Set Variable    Admin
-    ...    ELSE IF    '${current_url}' == 'https://procliniq.in/reception-dashboard'    Set Variable    Reception
-    ...    ELSE    Set Variable    Unknown
-    Run Keyword If    '${actual_role}' == '${role}'    Log    Test Passed - Redirected to ${role} dashboard
-    ...    ELSE    Fail    Expected role: ${role}, Actual role: ${actual_role}
+    Wait Until Element Is Enabled    css=button[type='submit']    timeout=10s
     Capture Page Screenshot
 
-    # Verify the home page title
+Dashboard Redirection
+    [Arguments]    ${expected_dashboard_url}
+    Click Element    css=button[type='submit']
+    # Wait for the expected URL to appear on the page
+    ${current_url}=    Get Location
+    Log   ${current_url}
+
+    # Check if the current URL matches the expected URL
+    Run Keyword If    '${current_url}' == '${expected_dashboard_url}'
+    ...    Log    Test Passed - Redirected to ${expected_dashboard_url}
+    ...    ELSE
+    ...    Log    Test Failed - Current URL: ${current_url}
+    ...    Capture Page Screenshot
+
+Verify Home Page Title
+    [Documentation]    Verifies the title of the home page.
     ${title}=    Get Title
-    Title Should Be    Your Expected Title  # Replace with your expected title
+    Should Be Equal As Strings    ${title}    ProCliniq
     Log    Home Page Title Verified: ${title}
     Capture Page Screenshot
 
-Common Check Doctor Dashboard
-    [Arguments]    ${expected_dashboard_url}
-    Wait Until Page Contains    ${expected_dashboard_url}
-    Capture Page Screenshot
-    ${current_url}=    Get Location
-    Run Keyword If    '${current_url}' == ${expected_dashboard_url}
-    ...    Log    Test Passed - Redirected to ${expected_dashboard_url}
-    ...    ELSE    Fail    Expected URL: ${expected_dashboard_url}, Actual URL: ${current_url}
-    Capture Page Screenshot
-
-
 Verify Doctor Dashboard
     [Documentation]    Common visibility tests for the doctor's dashboard.
-    ${today_appointment_visible} =    Run Keyword And Return Status    Element Should Be Visible    id:TodayAppointment
-    # Rest of your visibility tests
-    Capture Page Screenshot
-    ${total_appointment_visible} =    Run Keyword And Return Status    Element Should Be Visible    id:TotalAppointment
-    Capture Page Screenshot
-    ${today_doctor_leave_visible} =    Run Keyword And Return Status    Element Should Be Visible    id:NewPatients
-    Capture Page Screenshot
-    ${cancelled_appt_today_visible} =    Run Keyword And Return Status    Element Should Be Visible    id:Allpatients
-    Capture Page Screenshot
+    ${today_appointment_visible}=    Run Keyword And Return Status    Element Should Be Visible    id:TodayAppointment
+    ${total_appointment_visible}=    Run Keyword And Return Status    Element Should Be Visible    id:TotalAppointment
+    ${today_doctor_leave_visible}=    Run Keyword And Return Status    Element Should Be Visible    id:NewPatients
+    ${cancelled_appt_today_visible}=    Run Keyword And Return Status    Element Should Be Visible    id:Allpatients
 
     # Log visibility status
-    Run Keyword If    ${today_appointment_visible}    Log    Element TodayAppointment is visible
-    Run Keyword If Not    ${today_appointment_visible}    Log    Element TodayAppointment is NOT visible
-    Capture Page Screenshot
-
-    Run Keyword If    ${total_appointment_visible}    Log    Element TotalAppointment is visible
-    Run Keyword If Not    ${total_appointment_visible}    Log    Element TotalAppointment is NOT visible
-    Capture Page Screenshot
-
-    Run Keyword If    ${today_doctor_leave_visible}    Log       Doctor Leave Element with id 'NewPatients'  is visible
-    Run Keyword If Not    ${today_doctor_leave_visible}    Log    Doctor Leave Element with id 'NewPatients' is NOT visible
-    Capture Page Screenshot
-
-    Run Keyword If    ${cancelled_appt_today_visible}    Log    Another Element with class 'Allpatients' is visible
-    Run Keyword If Not    ${cancelled_appt_today_visible}    Log    Another Element with class 'Allpatients' is NOT visible
-    Capture Page Screenshot
+    Run Keyword If    '${today_appointment_visible}'    Log    Element TodayAppointment is visible
+    Run Keyword If Not    '${today_appointment_visible}'    Log    Element TodayAppointment is NOT visible
+    Run Keyword If    '${total_appointment_visible}'    Log    Element TotalAppointment is visible
+    Run Keyword If Not    '${total_appointment_visible}'    Log    Element TotalAppointment is NOT visible
+    Run Keyword If    '${today_doctor_leave_visible}'    Log    Doctor Leave Element with id 'NewPatients' is visible
+    Run Keyword If Not    '${today_doctor_leave_visible}'    Log    Doctor Leave Element with id 'NewPatients' is NOT visible
+    Run Keyword If    '${cancelled_appt_today_visible}'    Log    Another Element with id 'Allpatients' is visible
+    Run Keyword If Not    '${cancelled_appt_today_visible}'    Log    Another Element with id 'Allpatients' is NOT visible
 
 Common Check Doctor Dashboard Counts
     [Documentation]    Common count tests for the doctor's dashboard.
@@ -107,7 +79,7 @@ Common Check Doctor Dashboard Counts
     ${today_appointments_card}=    Get Element    id=TodayAppointment
     ${total_appointments_card}=    Get Element    id=TotalAppointment
     ${today_doctorleave_card}=    Get Element     id=NewPatients
-    ${cancelled_appointment_card}=    Get Element  id= Allpatients
+    ${cancelled_appointment_card}=    Get Element  id=Allpatients
 
     # Click on each card and verify counts
     ${today_appointments}=    Click Cards and Verify Data    ${today_appointments_card}    ${actual_data_locator_for_today_appointments}    0
@@ -117,24 +89,87 @@ Common Check Doctor Dashboard Counts
 
     # Verify the counts and log the results
     ${today_appointments_status}=    Run Keyword And Return Status    Should Be Equal As Integers    ${today_appointments}    0
-    Run Keyword If    ${today_appointments_status}    Log    Today Appointments Test Passed
-    ...    Else    Log    Today Appointments Test Failed
+    Run Keyword If    '${today_appointments_status}'    Log    Today Appointments Test Passed
+    ...    ELSE    Log    Today Appointments Test Failed
     Capture Page Screenshot
 
     ${total_appointments_status}=    Run Keyword And Return Status    Should Be Equal As Integers    ${total_appointments}    0
-    Run Keyword If    ${total_appointments_status}    Log    Total Appointments Test Passed
-    ...    Else    Log    Total Appointments Test Failed
+    Run Keyword If    '${total_appointments_status}'    Log    Total Appointments Test Passed
+    ...    ELSE    Log    Total Appointments Test Failed
     Capture Page Screenshot
 
     ${today_doctor_leave_status}=    Run Keyword And Return Status    Should Be Equal As Integers    ${today_doctor_leave}    2
-    Run Keyword If    ${today_doctor_leave_status}    Log    Today Doctor Leave Test Passed
-    ...    Else    Log    Today Doctor Leave Test Failed
+    Run Keyword If    '${today_doctor_leave_status}'    Log    Today Doctor Leave Test Passed
+    ...    ELSE    Log    Today Doctor Leave Test Failed
     Capture Page Screenshot
 
     ${cancelled_appointment_status}=    Run Keyword And Return Status    Should Be Equal As Integers    ${cancelled_appointment}    0
-    Run Keyword If    ${cancelled_appointment_status}    Log    Cancelled Appointment Test Passed
-    ...    Else    Log    Cancelled Appointment Test Failed
+    Run Keyword If    '${cancelled_appointment_status}'    Log    Cancelled Appointment Test Passed
+    ...    ELSE    Log    Cancelled Appointment Test Failed
     Capture Page Screenshot
+
+
+
+
+
+#Common Login
+#    [Arguments]    ${username}    ${password}    ${role}
+#    Go To    ${BaseURL}/login
+#    Maximize Browser Window
+#    Wait Until Page Contains Element    //b[normalize-space()='Login']
+#    ${login_buttons} =    Get WebElements    //b[normalize-space()='Login']
+#    # Verify the UI and CSS of the first login button
+#    ${login_button_1} =    Set Variable    ${login_buttons}[0]
+#    Element Should Be Visible
+#
+#Verify Class Attribute
+#    ${class_attribute} =    Set Variable    h2 nav-item nav-link
+#    ${contains_nav_link} =    Should Contain Substring    ${class_attribute}    nav-item nav-link
+#    ${contains_h2} =    Should Contain Substring    ${class_attribute}    h2
+#    Run Keyword If    ${contains_nav_link} and ${contains_h2}
+#    ...    Log    Element has the expected class attributes 'nav-item nav-link' and 'h2'
+#    ...    ELSE
+#    ...    Log    Element does not have the expected class attributes
+#
+#
+#    Click Element    ${login_button_1}  # Click the first login button
+#
+#    # Rest of your login steps remain the same
+#
+#    Wait Until Page Contains Element    id:email
+#    Input Text    id:email    ${username}
+#    Wait Until Page Contains Element    id:password
+#    Input Text    id:password    ${password}
+#    Click Element    css=.h2 > b
+#    Wait Until Element Is Enabled    css=button[type='submit']
+#    Capture Page Screenshot
+#    Execute JavaScript    window.scrollTo(0, document.querySelector("button[type='submit']").getBoundingClientRect().top)
+#    ${current_url}=    Get Location
+#    ${actual_role}=    Run Keyword If    '${current_url}' == ${expected_dashboard_url}    Set Variable    Doctor
+#    ...    ELSE IF    '${current_url}' == 'https://procliniq.in/Today-Summary'    Set Variable    Admin
+#    ...    ELSE IF    '${current_url}' == 'https://procliniq.in/reception-dashboard'    Set Variable    Reception
+#    ...    ELSE    Set Variable    Unknown
+#    Run Keyword If    '${actual_role}' == '${role}'    Log    Test Passed - Redirected to ${role} dashboard
+#    ...    ELSE    Fail    Expected role: ${role}, Actual role: ${actual_role}
+#    Capture Page Screenshot
+#
+#    # Verify the home page title
+#    ${title}=    Get Title
+#    Title Should Be    Your Expected Title  # Replace with your expected title
+#    Log    Home Page Title Verified: ${title}
+#    Capture Page Screenshot
+#
+#Common Check Doctor Dashboard
+#    [Arguments]    ${expected_dashboard_url}
+#    Wait Until Page Contains    ${expected_dashboard_url}
+#    Capture Page Screenshot
+#    ${current_url}=    Get Location
+#    Run Keyword If    '${current_url}' == ${expected_dashboard_url}
+#    ...    Log    Test Passed - Redirected to ${expected_dashboard_url}
+#    ...    ELSE    Fail    Expected URL: ${expected_dashboard_url}, Actual URL: ${current_url}
+#    Capture Page Screenshot
+#
+
 
 Common Logout
     [Documentation]    Tests the logout functionality.
