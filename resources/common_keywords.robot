@@ -54,24 +54,26 @@ Verify Home Page Title
     Log    Home Page Title Verified: ${title}
     Capture Page Screenshot
 
-Verify Doctor Dashboard
-    [Documentation]    Common visibility tests for the doctor's dashboard.
-    ${today_appointment_visible}=    Run Keyword And Return Status    Element Should Be Visible    id:TodayAppointment
-    ${total_appointment_visible}=    Run Keyword And Return Status    Element Should Be Visible    id:TotalAppointment
-    ${today_doctor_leave_visible}=    Run Keyword And Return Status    Element Should Be Visible    id:NewPatients
-    ${cancelled_appt_today_visible}=    Run Keyword And Return Status    Element Should Be Visible    id:Allpatients
 
-    # Log visibility status
-    Run Keyword If    '${today_appointment_visible}'    Log    Element TodayAppointment is visible
-    Run Keyword If Not    '${today_appointment_visible}'    Log    Element TodayAppointment is NOT visible
-    Run Keyword If    '${total_appointment_visible}'    Log    Element TotalAppointment is visible
-    Run Keyword If Not    '${total_appointment_visible}'    Log    Element TotalAppointment is NOT visible
-    Run Keyword If    '${today_doctor_leave_visible}'    Log    Doctor Leave Element with id 'NewPatients' is visible
-    Run Keyword If Not    '${today_doctor_leave_visible}'    Log    Doctor Leave Element with id 'NewPatients' is NOT visible
-    Run Keyword If    '${cancelled_appt_today_visible}'    Log    Another Element with id 'Allpatients' is visible
-    Run Keyword If Not    '${cancelled_appt_today_visible}'    Log    Another Element with id 'Allpatients' is NOT visible
+Check Doctor Dashboard UI
+    [Documentation]    Verify the visibility of elements on the doctor's dashboard
+    # Define element locators in a list
+    @{element_locators} =    Create List
+    ...
+    ...  /html/body/main/div[2]/div[2]/div[1]/div[2]/a/div/div/div/div[1]/div/p
+    ...    /html/body/main/div[2]/div[2]/div[1]/div[3]/a/div/div/div/div[1]/div/p
+    ...    /html/body/main/div[2]/div[2]/div[1]/div[4]/a/div/div/div/div[1]/div/p
+FOR    ${locator}    IN    @{element_locators}
+    Wait Until Element Is Visible    ${locator}    timeout=60s  # Wait for the element to become visible within 60 seconds
+    ${element_name} =    Get Element Attribute    ${locator}    name    # Get the element's name (optional)
+    ${element_visible} =    Run Keyword And Return Status    Element Should Be Visible    ${locator}
+    Run Keyword If    ${element_visible}
+        Log    ${element_name} is visible and verification is successful
+    ...    ELSE
+        Log    ${element_name} is NOT visible; verification failed
+END
 
-Common Check Doctor Dashboard Counts
+Verify Doctor Dashboard Counts
     [Documentation]    Common count tests for the doctor's dashboard.
     Open Browser    ${expected_dashboard_url}    Chrome
     Capture Page Screenshot
@@ -107,6 +109,40 @@ Common Check Doctor Dashboard Counts
     Run Keyword If    '${cancelled_appointment_status}'    Log    Cancelled Appointment Test Passed
     ...    ELSE    Log    Cancelled Appointment Test Failed
     Capture Page Screenshot
+
+Common Logout
+    [Documentation]    Tests the logout functionality.
+    Wait Until Element Is Visible    xpath://span[@class='d-sm-inline d-none']
+    Click Element    xpath://span[@class='d-sm-inline d-none']
+    Wait Until Page Contains    https://procliniq.in/login
+    ${current_url}=    Get Location
+    Should Be Equal    ${current_url}    https://procliniq.in/login
+
+Common Login Process With Invalid Password
+    [Arguments]    ${user_role}
+    ${invalid_password} =    Set Variable If    '${user_role}' == 'Doctor'    ${doctor_invalid_password}
+    ...    ELSE IF    '${user_role}' == 'Reception'    ${reception_invalid_password}
+    ...    ELSE IF    '${user_role}' == 'Admin'    ${admin_invalid_password}
+
+    Common Login Process    ${ValidUsername}    ${invalid_password}
+    Common Check Error Message    email or password invalid.
+
+
+get_valid_username
+    [Arguments]    ${role}
+    Run Keyword If    '${role}' == 'Doctor'    Return    ${doctor_valid_username}
+    Run Keyword If    '${role}' == 'Reception'    Return    ${reception_valid_username}
+    Run Keyword If    '${role}' == 'Admin'    Return    ${admin_valid_username}
+
+Common Check Error Message
+    [Arguments]    ${expected_message}    ${message_type}
+    [Documentation]    Verifies that the expected error message is displayed.
+    Wait Until Page Contains Element    ${ErrorMessage}
+    ${actual_message} =    Get Text    ${ErrorMessage}
+    Should Be Equal As Strings    ${actual_message}    ${expected_message}
+
+
+
 
 
 
@@ -171,20 +207,6 @@ Common Check Doctor Dashboard Counts
 #
 
 
-Common Logout
-    [Documentation]    Tests the logout functionality.
-    Wait Until Element Is Visible    xpath://span[@class='d-sm-inline d-none']
-    Click Element    xpath://span[@class='d-sm-inline d-none']
-    Wait Until Page Contains    https://procliniq.in/login
-    ${current_url}=    Get Location
-    Should Be Equal    ${current_url}    https://procliniq.in/login
-
-Common Check Error Message
-    [Arguments]    ${expected_message}    ${message_type}
-    [Documentation]    Verifies that the expected error message is displayed.
-    Wait Until Page Contains Element    ${ErrorMessage}
-    ${actual_message} =    Get Text    ${ErrorMessage}
-    Should Be Equal As Strings    ${actual_message}    ${expected_message}
 
 
 Common Handle Empty Login
