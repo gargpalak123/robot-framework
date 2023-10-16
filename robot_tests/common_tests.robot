@@ -138,7 +138,7 @@ Test Add Patient with Valid Data
     Common Add Patient    ${patient_data}
     Common Verify Confirmation Pop-up
     Common Click OK on Confirmation Pop-up
-    Common Verify Redirect to Appointment Page
+    Common Verify Redirection to Appointment Page
     Navigate To Today Summary Page
     Search For Added Patient
     Go To Patient All Information Page
@@ -155,7 +155,7 @@ Test Add Patient with Full Data
     Check Submit Button UI State    id:submit_button    # Replace 'id:submit_button' with the actual identifier
     Common Verify Confirmation Pop-up
     Common Click OK on Confirmation Pop-up
-    Common Verify Redirect to Appointment Page
+    Common Verify Redirection to Appointment Page
 
 # Scenario 13: Add patient with full data
 Test Add Patient with Special Characters
