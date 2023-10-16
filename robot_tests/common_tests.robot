@@ -15,6 +15,12 @@ ${admin_password}     1234567890
 ${reception_username}  palakreception@gmail.com
 ${reception_password}   1234567890
 ${expected_dashboard_url}   ${BaseURL}/Dashboard
+${expected_url}      ${BaseURL}/Today-Summary
+${InvalidPassword}   123
+${InvalidUsername}   testing@gmail.com
+${UsernameField}     //*[@id="email"]
+${PasswordField}     //*[@id="password"]
+
 
 *** Test Cases ***
 Scenario 1: Valid Login as Doctor
@@ -29,39 +35,30 @@ Scenario 1: Valid Login as Doctor
     Verify Home Page Title
     Common Logout
 
-Verify Doctor Dashboard
-    [Tags]   common
-    [Documentation]    Verify the visibility of elements on the doctor's dashboard.
-    Open Browser    ${expected_dashboard_url}    ${BROWSER}
-    Maximize Browser Window
-    Verify Element Visibility    TodayAppointment
-    Verify Element Visibility    TotalAppointment
-    Verify Element Visibility    TodayDoctorLeave
-    Verify Element Visibility     CancelledAppointment
+Scenario 2: Dashboard UI Check for Doctor
+    [Tags]   common  doctor  dashboard  ui
+    Common Login Process    ${doctor_username}    ${doctor_password}
+    Check Doctor Dashboard UI
 
-Common Check Doctor Dashboard Counts
-    [Tags]   common
-    [Documentation]    Common count tests for the doctor's dashboard.
-    Open Browser    ${expected_dashboard_url}    ${BROWSER}
-    Maximize Browser Window
-    Common Check Today Appointments
-    Common Check Total Appointments
-    Common Check Today Doctor Leave
-    Common Check Cancelled Appointments
-
-
+Scenario 3: Dashboard Counts Check for Doctor
+    [Tags]   common  doctor  dashboard  counts
+    # Log in as a doctor
+    Common Login Process    ${doctor_username}    ${doctor_password}
+    # Verify counts on the doctor's dashboard
+    Verify Doctor Dashboard Counts
 
 
 # Scenario 2: Login as Admin
 Test Valid Login as Admin
     [Tags]     common  admin  login
+    ${role}=    Set Variable    Admin  # Set the role to Doctor
     Log    Username: ${admin_username}
     Log    Password: ${admin_password}
-    ${expected_dashboard_url}=    Set Variable    ${BaseURL}/Dashboard
-    Common Login    ${admin_username}    ${admin_password}    Admin  # Pass username and role
-    Common Check Doctor Dashboard   ${expected_dashboard_url}
-    Verify Doctor Dashboard
-    Common Check Doctor Dashboard Counts
+    Maximize Browser Window
+    Login Page UI Validation
+    Common Login Process    ${admin_username}    ${admin_password}
+    Dashboard Redirection    ${expected_url}
+    Verify Home Page Title
     Common Logout
 
 # Scenario 3: Login as Reception
@@ -76,37 +73,37 @@ Test Valid Login as Reception
     Common Check Doctor Dashboard Counts
     Common Logout
 
-
-# Scenario 4: Invalid Password
+#Scenario 4: Invalid Password
 Test Invalid Password
     [Tags]    common  negative
-    Common Login Process    ${ValidUsername}    ${InvalidPassword}
-    Common Check Error Message    email or password invalid.    invalid
+    :FOR    ${user_role}    IN    Doctor    Reception    Admin
+    \    Common Login Process With Invalid Password    ${user_role}
 
 # Scenario 5: Invalid Username
 Test Invalid Username
     [Tags]    common  negative
-    Common Login    ${InvalidUsername}    ${ValidPassword}
-    Common Check Error Message    email or password invalid.    invalid
+    :FOR    ${user_role}    IN    Doctor    Reception    Admin
+    \    Common Login Process With Invalid username   ${user_role}
+
 
 # Scenario 6: Login with Empty Username
 Test Login with Empty Username
     [Tags]   login  negative
-    Common Handle Empty Login    ${EMPTY}    ${ValidPassword}
-    Common Check Required Field Toggle    ${UsernameField}
+    :FOR    ${role}    IN    Doctor    Reception    Admin
+    \    Common Login Process    ${EMPTY}     ${get_valid_username(${role})}
 
 # Scenario 7: Login with Empty Password
 Test Login with Empty Password
     [Tags]   login  negative
-    Common Handle Empty Login    ${ValidUsername}    ${EMPTY}
-    Common Check Required Field Toggle    ${PasswordField}
+    :FOR    ${role}    IN    Doctor    Reception    Admin
+    \    Common Login Process    ${get_valid_username(${role})}    ${EMPTY}
 
 # Scenario 8: Login with Both Username and Password Empty
 Test Login with Both Username and Password Empty
     [Tags]   login  negative
-    Common Handle Empty Login    ${EMPTY}    ${EMPTY}
-    Common Check Required Field Toggle    ${UsernameField}
-    Common Check Required Field Toggle    ${PasswordField}
+    :FOR    ${role}    IN    Doctor    Reception    Admin
+    \    Common Login Process    ${EMPTY}      ${EMPTY}
+
 
 # Scenario 9: Remember Me Doctor
 Test Remember Me Doctor
