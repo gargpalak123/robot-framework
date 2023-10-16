@@ -101,6 +101,8 @@ Test Login with Empty Password
     \    Common Login Process    ${username}    ${EMPTY}
 
 
+
+
 # Scenario 8: Login with Both Username and Password Empty
 Test Login with Both Username and Password Empty
     [Tags]   login  negative
