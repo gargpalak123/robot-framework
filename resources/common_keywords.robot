@@ -134,6 +134,8 @@ get_valid_username
     Run Keyword If    '${role}' == 'Reception'    Return    ${reception_valid_username}
     Run Keyword If    '${role}' == 'Admin'    Return    ${admin_valid_username}
 
+
+
 Common Check Error Message
     [Arguments]    ${expected_message}    ${message_type}
     [Documentation]    Verifies that the expected error message is displayed.
