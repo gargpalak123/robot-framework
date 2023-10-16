@@ -279,7 +279,6 @@ Test Appointment Booking - Different Patient, Same Doctor, Same Time
     Common Click OK on Confirmation Pop-up
     Common Verify Redirect to Appointment Page
 
-
 #Scenario 24: Test Book Appointment and Verify Redirection
 Test Book Appointment and Verify Redirection
     [Tags]          appointment
