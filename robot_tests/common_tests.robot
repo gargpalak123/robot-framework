@@ -90,13 +90,16 @@ Test Invalid Username
 Test Login with Empty Username
     [Tags]   login  negative
     :FOR    ${role}    IN    Doctor    Reception    Admin
-    \    Common Login Process    ${EMPTY}     ${get_valid_username(${role})}
+    \    ${username}    Set Variable    ${get_valid_username(${role})}
+    \    Common Login Process    ${EMPTY}    ${username}
 
 # Scenario 7: Login with Empty Password
 Test Login with Empty Password
     [Tags]   login  negative
     :FOR    ${role}    IN    Doctor    Reception    Admin
-    \    Common Login Process    ${get_valid_username(${role})}    ${EMPTY}
+    \    ${username}    Set Variable    ${get_valid_username(${role})}
+    \    Common Login Process    ${username}    ${EMPTY}
+
 
 # Scenario 8: Login with Both Username and Password Empty
 Test Login with Both Username and Password Empty
