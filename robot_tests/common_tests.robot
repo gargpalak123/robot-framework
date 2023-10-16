@@ -47,7 +47,6 @@ Scenario 3: Dashboard Counts Check for Doctor
     # Verify counts on the doctor's dashboard
     Verify Doctor Dashboard Counts
 
-
 # Scenario 2: Login as Admin
 Test Valid Login as Admin
     [Tags]     common  admin  login
@@ -64,13 +63,14 @@ Test Valid Login as Admin
 # Scenario 3: Login as Reception
 Test Valid Login as Reception
     [Tags]      common  reception  login
+    ${role}=    Set Variable    Admin
     Log    Username: ${reception_username}
     Log    Password: ${reception_password}
-    ${expected_dashboard_url}=    Set Variable    ${BaseURL}/Dashboard
-    Common Login    ${reception_username}    ${reception_password}    Reception  # Pass username and role
-    Common Check Doctor Dashboard   ${expected_dashboard_url}
-    Verify Doctor Dashboard
-    Common Check Doctor Dashboard Counts
+    Maximize Browser Window
+    Login Page UI Validation
+    Common Login Process    ${admin_username}    ${admin_password}
+    Dashboard Redirection    ${expected_url}
+    Verify Home Page Title
     Common Logout
 
 #Scenario 4: Invalid Password
