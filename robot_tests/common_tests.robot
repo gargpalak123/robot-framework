@@ -21,6 +21,9 @@ ${PasswordField}     //*[@id="password"]
 ${doctor_invalid_password}    123
 ${reception_invalid_password}  124
 ${admin_invalid_password}    126
+${doctor_invalid_username}  testing@gmail.com
+${reception_invalid_username}  test@gmail.com
+${admin_invalid_username}    testpalak@gmail.com
 
 
 *** Test Cases ***
