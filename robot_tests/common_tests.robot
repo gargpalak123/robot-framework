@@ -35,20 +35,62 @@ Scenario 1: Valid Login as Doctor
     Verify Home Page Title
     Common Logout
 
-Scenario 2: Dashboard UI Check for Doctor
+
+Scenario 2:Invalid Password Test
+    [Tags]    common  negative
+    :FOR    ${user_role}    IN    Doctor    Reception    Admin
+    \    Common Login Process With Invalid Password    ${user_role}
+
+
+Scenario 3:Test Invalid Username
+    [Tags]    common  negative
+    :FOR    ${user_role}    IN    Doctor    Reception    Admin
+    \    Common Login Process With Invalid username   ${user_role}
+
+
+Scenario 4:Test Login with Empty Username
+    [Tags]   login  negative
+    :FOR    ${role}    IN    Doctor    Reception    Admin
+    \    ${username}    Set Variable    ${get_valid_username(${role})}
+    \    Common Login Process    ${EMPTY}    ${username}
+
+
+Scenario 5:Test Login with Empty Password
+    [Tags]   login  negative
+    :FOR    ${role}    IN    Doctor    Reception    Admin
+    \    ${username}    Set Variable    ${get_valid_username(${role})}
+    \    Common Login Process    ${username}    ${EMPTY}
+
+
+
+Scenario 6:Test Login with Both Username and Password Empty
+    [Tags]   login  negative
+    :FOR    ${role}    IN    Doctor    Reception    Admin
+    \    Common Login Process    ${EMPTY}      ${EMPTY}
+
+
+Scenario 7:Test Remember Me Doctor
+    [Tags]     Doctor
+    Common Remember Me Login    Doctor    ${DoctorUsername}    ${DoctorPassword}
+    Common Logout
+    Common Check Remember Me Functionality    ${DoctorUsername}    ${DoctorPassword}
+
+
+Scenario 8: Dashboard UI Check for Doctor
     [Tags]   common  doctor  dashboard  ui
+    Login Page UI Validation
     Common Login Process    ${doctor_username}    ${doctor_password}
     Check Doctor Dashboard UI
 
-Scenario 3: Dashboard Counts Check for Doctor
+Scenario 9: Dashboard Counts Check for Doctor
     [Tags]   common  doctor  dashboard  counts
-    # Log in as a doctor
+    Login Page UI Validation
     Common Login Process    ${doctor_username}    ${doctor_password}
     # Verify counts on the doctor's dashboard
     Verify Doctor Dashboard Counts
 
-# Scenario 2: Login as Admin
-Test Valid Login as Admin
+
+Scenario 10: Test Valid Login as Admin
     [Tags]     common  admin  login
     ${role}=    Set Variable    Admin  # Set the role to Doctor
     Log    Username: ${admin_username}
@@ -60,8 +102,8 @@ Test Valid Login as Admin
     Verify Home Page Title
     Common Logout
 
-# Scenario 3: Login as Reception
-Test Valid Login as Reception
+
+Scenario 11: Test Valid Login as Reception
     [Tags]      common  reception  login
     ${role}=    Set Variable    Admin
     Log    Username: ${reception_username}
@@ -72,50 +114,6 @@ Test Valid Login as Reception
     Dashboard Redirection    ${expected_url}
     Verify Home Page Title
     Common Logout
-
-#Scenario 4: Invalid Password
-Test Invalid Password
-    [Tags]    common  negative
-    :FOR    ${user_role}    IN    Doctor    Reception    Admin
-    \    Common Login Process With Invalid Password    ${user_role}
-
-# Scenario 5: Invalid Username
-Test Invalid Username
-    [Tags]    common  negative
-    :FOR    ${user_role}    IN    Doctor    Reception    Admin
-    \    Common Login Process With Invalid username   ${user_role}
-
-
-# Scenario 6: Login with Empty Username
-Test Login with Empty Username
-    [Tags]   login  negative
-    :FOR    ${role}    IN    Doctor    Reception    Admin
-    \    ${username}    Set Variable    ${get_valid_username(${role})}
-    \    Common Login Process    ${EMPTY}    ${username}
-
-# Scenario 7: Login with Empty Password
-Test Login with Empty Password
-    [Tags]   login  negative
-    :FOR    ${role}    IN    Doctor    Reception    Admin
-    \    ${username}    Set Variable    ${get_valid_username(${role})}
-    \    Common Login Process    ${username}    ${EMPTY}
-
-
-
-
-# Scenario 8: Login with Both Username and Password Empty
-Test Login with Both Username and Password Empty
-    [Tags]   login  negative
-    :FOR    ${role}    IN    Doctor    Reception    Admin
-    \    Common Login Process    ${EMPTY}      ${EMPTY}
-
-
-# Scenario 9: Remember Me Doctor
-Test Remember Me Doctor
-    [Tags]     Doctor
-    Common Remember Me Login    Doctor    ${DoctorUsername}    ${DoctorPassword}
-    Common Logout
-    Common Check Remember Me Functionality    ${DoctorUsername}    ${DoctorPassword}
 
 # Scenario 10: Remember Me admin
 Test Remember Me Admin
