@@ -23,7 +23,7 @@ Login Page UI Validation
     ${login_button} =    Get WebElement    //b[normalize-space()='Login']
     # Check if the login button is enabled
     Wait Until Element Is Enabled    ${login_button}    timeout=10s
-    Click Element    ${login_button}
+     Click Element    ${login_button}
 
 Common Login Process
     [Arguments]    ${username}    ${password}
@@ -54,24 +54,65 @@ Verify Home Page Title
     Log    Home Page Title Verified: ${title}
     Capture Page Screenshot
 
+Common Logout
+    [Documentation]    Tests the logout functionality.
+    Wait Until Element Is Visible    xpath://span[@class='d-sm-inline d-none']
+    Click Element    xpath://span[@class='d-sm-inline d-none']
+    ${current_url}=    Get Location
+    Log   ${current_url}
+    Should Be Equal    ${current_url}    https://procliniq.in/login
 
-Check Doctor Dashboard UI
-    [Documentation]    Verify the visibility of elements on the doctor's dashboard
+Common Login Process With Invalid Password
+    [Arguments]    ${user_role}
+    ${invalid_password} =    Set Variable If    '${user_role}' == 'Doctor'    ${doctor_invalid_password}
+    ...    ELSE IF    '${user_role}' == 'Reception'    ${reception_invalid_password}
+    ...    ELSE IF    '${user_role}' == 'Admin'    ${admin_invalid_password}
+    Login Page UI Validation
+    Common Login Process    ${ValidUsername}    ${invalid_password}
+    ${message} =    Get Text    # Assuming this gets the error message on the page
+    # Check if the error message matches the expected error message
+    Should Be Equal    ${message}    email or password invalid    # Change this to what you see on the page
+    # Log a success message when the expected error message is displayed
+    Log    test passed:expected error message displayed
+
+
+Common Login Process With Invalid Username
+    [Arguments]    ${user_role}
+    ${invalid_password} =    Set Variable If    '${user_role}' == 'Doctor'    ${doctor_invalid_username}
+    ...    ELSE IF    '${user_role}' == 'Reception'    ${reception_invalid_username}
+    ...    ELSE IF    '${user_role}' == 'Admin'    ${admin_invalid_username}
+    Login Page UI Validation
+    Common Login Process    ${Valid_password}    ${invalid_username}
+    Common Check Error Message    email or password invalid.
+
+Dashboard UI Check for Doctor
     # Define element locators in a list
-    @{element_locators} =    Create List
-    ...
-    ...  /html/body/main/div[2]/div[2]/div[1]/div[2]/a/div/div/div/div[1]/div/p
-    ...    /html/body/main/div[2]/div[2]/div[1]/div[3]/a/div/div/div/div[1]/div/p
-    ...    /html/body/main/div[2]/div[2]/div[1]/div[4]/a/div/div/div/div[1]/div/p
-FOR    ${locator}    IN    @{element_locators}
-    Wait Until Element Is Visible    ${locator}    timeout=60s  # Wait for the element to become visible within 60 seconds
-    ${element_name} =    Get Element Attribute    ${locator}    name    # Get the element's name (optional)
-    ${element_visible} =    Run Keyword And Return Status    Element Should Be Visible    ${locator}
-    Run Keyword If    ${element_visible}
-        Log    ${element_name} is visible and verification is successful
-    ...    ELSE
-        Log    ${element_name} is NOT visible; verification failed
-END
+    @{element_locators} = Create List
+    ... (.//*[normalize-space(text()) and normalize-space(.)='Dashboard'])[1]/following::p[1]
+    ... (.//*[normalize-space(text()) and normalize-space(.)='Dashboard'])[1]/following::p[2]
+    ... (.//*[normalize-space(text()) and normalize-space(.)='Dashboard'])[1]/following::p[3]
+    ... (.//*[normalize-space(text()) and normalize-space(.)='Dashboard'])[1]/following::p[4]
+    FOR ${locator} IN @{element_locators}
+        Wait Until Element Is Visible ${locator} timeout=60s
+        ${element_name} = Get Element Attribute ${locator} name
+
+        # Check if the element is visible
+        ${element_visible} = Run Keyword And Return Status Element Should Be Visible ${locator}
+
+        # Check if the element is enabled
+        ${element_enabled} = Run Keyword And Return Status Element Should Be Enabled ${locator}
+
+        # Check if the element is clickable
+        ${element_clickable} = Run Keyword And Return Status Element Should Be Clickable ${locator}
+
+        Run Keyword If ${element_visible} and ${element_enabled} and ${element_clickable}
+            Log ${element_name} is visible, enabled, and clickable; verification is successful
+        ... ELSE
+            Log ${element_name} is NOT visible, enabled, or clickable; verification failed
+        END
+
+    END
+
 
 Verify Doctor Dashboard Counts
     [Documentation]    Common count tests for the doctor's dashboard.
@@ -110,31 +151,11 @@ Verify Doctor Dashboard Counts
     ...    ELSE    Log    Cancelled Appointment Test Failed
     Capture Page Screenshot
 
-Common Logout
-    [Documentation]    Tests the logout functionality.
-    Wait Until Element Is Visible    xpath://span[@class='d-sm-inline d-none']
-    Click Element    xpath://span[@class='d-sm-inline d-none']
-    Wait Until Page Contains    https://procliniq.in/login
-    ${current_url}=    Get Location
-    Should Be Equal    ${current_url}    https://procliniq.in/login
-
-Common Login Process With Invalid Password
-    [Arguments]    ${user_role}
-    ${invalid_password} =    Set Variable If    '${user_role}' == 'Doctor'    ${doctor_invalid_password}
-    ...    ELSE IF    '${user_role}' == 'Reception'    ${reception_invalid_password}
-    ...    ELSE IF    '${user_role}' == 'Admin'    ${admin_invalid_password}
-
-    Common Login Process    ${ValidUsername}    ${invalid_password}
-    Common Check Error Message    email or password invalid.
-
-
 get_valid_username
     [Arguments]    ${role}
     Run Keyword If    '${role}' == 'Doctor'    Return    ${doctor_valid_username}
     Run Keyword If    '${role}' == 'Reception'    Return    ${reception_valid_username}
     Run Keyword If    '${role}' == 'Admin'    Return    ${admin_valid_username}
-
-
 
 Common Check Error Message
     [Arguments]    ${expected_message}    ${message_type}
