@@ -62,28 +62,45 @@ Common Logout
     Log   ${current_url}
     Should Be Equal    ${current_url}    https://procliniq.in/login
 
+
 Common Login Process With Invalid Password
     [Arguments]    ${user_role}
+    ${valid_username} =    Set Variable If    '${user_role}' == 'Doctor'    ${doctor_username}
+    ...    ELSE IF    '${user_role}' == 'Reception'    ${reception_username}
+    ...    ELSE IF    '${user_role}' == 'Admin'    ${admin_username}
+
     ${invalid_password} =    Set Variable If    '${user_role}' == 'Doctor'    ${doctor_invalid_password}
     ...    ELSE IF    '${user_role}' == 'Reception'    ${reception_invalid_password}
     ...    ELSE IF    '${user_role}' == 'Admin'    ${admin_invalid_password}
-    Login Page UI Validation
-    Common Login Process    ${ValidUsername}    ${invalid_password}
+
+    Common Login Process    ${valid_username}    ${invalid_password}
+
     ${message} =    Get Text    # Assuming this gets the error message on the page
-    # Check if the error message matches the expected error message
-    Should Be Equal    ${message}    email or password invalid    # Change this to what you see on the page
+
+    Expected Error Message    ${message}
+
     # Log a success message when the expected error message is displayed
-    Log    test passed:expected error message displayed
+    Log    Test passed: Expected error message displayed for user role '${user_role}'
 
 
 Common Login Process With Invalid Username
     [Arguments]    ${user_role}
-    ${invalid_password} =    Set Variable If    '${user_role}' == 'Doctor'    ${doctor_invalid_username}
+    ${valid_password} =    Set Variable If    '${user_role}' == 'Doctor'    ${doctor_password}
+    ...    ELSE IF    '${user_role}' == 'Reception'    ${reception_password}
+    ...    ELSE IF    '${user_role}' == 'Admin'    ${admin_password}
+
+    ${invalid_username} =    Set Variable If    '${user_role}' == 'Doctor'    ${doctor_invalid_username}
     ...    ELSE IF    '${user_role}' == 'Reception'    ${reception_invalid_username}
     ...    ELSE IF    '${user_role}' == 'Admin'    ${admin_invalid_username}
-    Login Page UI Validation
-    Common Login Process    ${Valid_password}    ${invalid_username}
-    Common Check Error Message    email or password invalid.
+
+    Common Login Process    ${invalid_username}    ${valid_password}
+
+    ${message} =    Get Text    # Assuming this gets the error message on the page
+
+    Expected Error Message    ${message}
+
+    # Log a success message when the expected error message is displayed
+    Log    Test passed: Expected error message displayed for user role '${user_role}' with valid username '${invalid_username}'
 
 Dashboard UI Check for Doctor
     # Define element locators in a list
