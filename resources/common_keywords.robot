@@ -26,12 +26,13 @@ Login Page UI Validation
      Click Element    ${login_button}
 
 Common Login Process
-    [Arguments]    ${username}    ${password}
+    [Arguments]    ${username}    ${password}    ${user_role}
     Input Text    id:email    ${username}
     Input Text    id:password    ${password}
     Click Element    css=.h2 > b
     Wait Until Element Is Enabled    css=button[type='submit']    timeout=10s
     Capture Page Screenshot
+
 
 Dashboard Redirection
     [Arguments]    ${expected_dashboard_url}
