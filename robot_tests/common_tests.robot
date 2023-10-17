@@ -16,10 +16,11 @@ ${reception_username}  palakreception@gmail.com
 ${reception_password}   1234567890
 ${expected_dashboard_url}   ${BaseURL}/Dashboard
 ${expected_url}      ${BaseURL}/Today-Summary
-${InvalidPassword}   123
-${InvalidUsername}   testing@gmail.com
 ${UsernameField}     //*[@id="email"]
 ${PasswordField}     //*[@id="password"]
+${doctor_invalid_password}    123
+${reception_invalid_password}  124
+${admin_invalid_password}    126
 
 
 *** Test Cases ***
