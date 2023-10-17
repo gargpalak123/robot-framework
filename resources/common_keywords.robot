@@ -1,4 +1,6 @@
 *** Keywords ***
+# Define your keywords here
+
 Set Credentials
     [Arguments]    ${role}
     ${credentials}=    Run Keyword If    '${role}' == 'Doctor'    Set Doctor Credentials
@@ -23,16 +25,15 @@ Login Page UI Validation
     ${login_button} =    Get WebElement    //b[normalize-space()='Login']
     # Check if the login button is enabled
     Wait Until Element Is Enabled    ${login_button}    timeout=10s
-     Click Element    ${login_button}
+    Click Element    ${login_button}
 
 Common Login Process
-    [Arguments]    ${username}    ${password}    ${user_role}
+    [Arguments]    ${username}    ${password}
     Input Text    id:email    ${username}
     Input Text    id:password    ${password}
     Click Element    css=.h2 > b
     Wait Until Element Is Enabled    css=button[type='submit']    timeout=10s
     Capture Page Screenshot
-
 
 Dashboard Redirection
     [Arguments]    ${expected_dashboard_url}
@@ -62,11 +63,12 @@ Common Logout
     ${current_url}=    Get Location
     Log   ${current_url}
     Should Be Equal    ${current_url}    https://procliniq.in/login
-    sleep  5s
+    Sleep    5s
 
 Check Error Message
     [Arguments]    ${expected_error_message}
-    ${message} =    Get Text    # Assuming this gets the error message on the page
+    Wait Until Page Contains Element    //div[@class='notification is-danger']
+    ${message} =    Get Text    //div[@class='notification is-danger']
     Log     ${message}
     Should Be Equal As Strings    ${message}    ${expected_error_message}
     Capture Page Screenshot
@@ -74,6 +76,8 @@ Check Error Message
     ...    Log    Test Passed: Expected error message displayed
     ...    ELSE
     ...    Log    Test Failed: Expected error message not displayed
+
+
 
 
 Dashboard UI Check for Doctor
