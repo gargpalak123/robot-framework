@@ -61,46 +61,19 @@ Common Logout
     ${current_url}=    Get Location
     Log   ${current_url}
     Should Be Equal    ${current_url}    https://procliniq.in/login
+    sleep  5s
 
-
-Common Login Process With Invalid Password
-    [Arguments]    ${user_role}
-    ${valid_username} =    Set Variable If    '${user_role}' == 'Doctor'    ${doctor_username}
-    ...    ELSE IF    '${user_role}' == 'Reception'    ${reception_username}
-    ...    ELSE IF    '${user_role}' == 'Admin'    ${admin_username}
-
-    ${invalid_password} =    Set Variable If    '${user_role}' == 'Doctor'    ${doctor_invalid_password}
-    ...    ELSE IF    '${user_role}' == 'Reception'    ${reception_invalid_password}
-    ...    ELSE IF    '${user_role}' == 'Admin'    ${admin_invalid_password}
-
-    Common Login Process    ${valid_username}    ${invalid_password}
-
+Check Error Message
+    [Arguments]    ${expected_error_message}
     ${message} =    Get Text    # Assuming this gets the error message on the page
+    Log     ${message}
+    Should Be Equal As Strings    ${message}    ${expected_error_message}
+    Capture Page Screenshot
+    Run Keyword If    '${message}' == '${expected_error_message}'
+    ...    Log    Test Passed: Expected error message displayed
+    ...    ELSE
+    ...    Log    Test Failed: Expected error message not displayed
 
-    Expected Error Message    ${message}
-
-    # Log a success message when the expected error message is displayed
-    Log    Test passed: Expected error message displayed for user role '${user_role}'
-
-
-Common Login Process With Invalid Username
-    [Arguments]    ${user_role}
-    ${valid_password} =    Set Variable If    '${user_role}' == 'Doctor'    ${doctor_password}
-    ...    ELSE IF    '${user_role}' == 'Reception'    ${reception_password}
-    ...    ELSE IF    '${user_role}' == 'Admin'    ${admin_password}
-
-    ${invalid_username} =    Set Variable If    '${user_role}' == 'Doctor'    ${doctor_invalid_username}
-    ...    ELSE IF    '${user_role}' == 'Reception'    ${reception_invalid_username}
-    ...    ELSE IF    '${user_role}' == 'Admin'    ${admin_invalid_username}
-
-    Common Login Process    ${invalid_username}    ${valid_password}
-
-    ${message} =    Get Text    # Assuming this gets the error message on the page
-
-    Expected Error Message    ${message}
-
-    # Log a success message when the expected error message is displayed
-    Log    Test passed: Expected error message displayed for user role '${user_role}' with valid username '${invalid_username}'
 
 Dashboard UI Check for Doctor
     # Define element locators in a list
@@ -168,19 +141,6 @@ Verify Doctor Dashboard Counts
     ...    ELSE    Log    Cancelled Appointment Test Failed
     Capture Page Screenshot
 
-get_valid_username
-    [Arguments]    ${role}
-    Run Keyword If    '${role}' == 'Doctor'    Return    ${doctor_valid_username}
-    Run Keyword If    '${role}' == 'Reception'    Return    ${reception_valid_username}
-    Run Keyword If    '${role}' == 'Admin'    Return    ${admin_valid_username}
-
-Common Check Error Message
-    [Arguments]    ${expected_message}    ${message_type}
-    [Documentation]    Verifies that the expected error message is displayed.
-    Wait Until Page Contains Element    ${ErrorMessage}
-    ${actual_message} =    Get Text    ${ErrorMessage}
-    Should Be Equal As Strings    ${actual_message}    ${expected_message}
-
 
 
 
@@ -245,8 +205,6 @@ Common Check Error Message
 #    ...    ELSE    Fail    Expected URL: ${expected_dashboard_url}, Actual URL: ${current_url}
 #    Capture Page Screenshot
 #
-
-
 
 
 Common Handle Empty Login
