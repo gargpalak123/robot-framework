@@ -15,15 +15,7 @@ ${admin_password}     1234567890
 ${reception_username}  palakreception@gmail.com
 ${reception_password}   1234567890
 ${expected_dashboard_url}   ${BaseURL}/Dashboard
-${expected_url}      ${BaseURL}/Today-Summary
-${UsernameField}     //*[@id="email"]
-${PasswordField}     //*[@id="password"]
-${doctor_invalid_password}    123
-${reception_invalid_password}  124
-${admin_invalid_password}    126
-${doctor_invalid_username}  testing@gmail.com
-${reception_invalid_username}  test@gmail.com
-${admin_invalid_username}    testpalak@gmail.com
+${expected_url}      ${BaseURL}/Today-Summary}
 ${expected_error_message}     Email or password invalid.
 
 *** Test Cases ***
@@ -33,7 +25,7 @@ Scenario 1: Valid Login as Doctor
     Log    Password: ${doctor_password}
     Maximize Browser Window
     Login Page UI Validation
-    Common Login Process    ${doctor_username}    ${doctor_password}    Doctor
+    Common Login Process    ${doctor_username}    ${doctor_password}
     Dashboard Redirection    ${expected_dashboard_url}
     Verify Home Page Title
     Common Logout
@@ -43,15 +35,15 @@ Scenario 2: Invalid Password Test
     FOR    ${user_role}    IN    Doctor    Reception    Admin
         Run Keyword If    '${user_role}' == 'Doctor'
             Doctor Login Page UI Validation
-            Common Login Process With Invalid Password    ${doctor_username}    ${doctor_invalid_password}
+            Common Login Process     ${doctor_username}    ${doctor_invalid_password}
             Check Error Message    Expected Error Message for Doctor
         ... ELSE IF    '${user_role}' == 'Reception'
             Reception Login Page UI Validation
-            Common Login Process With Invalid Password    ${reception_username}    ${reception_invalid_password}
+            Common Login Process    ${reception_username}    ${reception_invalid_password}
             Check Error Message    Expected Error Message for Reception
         ... ELSE IF    '${user_role}' == 'Admin'
             Admin Login Page UI Validation
-            Common Login Process With Invalid Password    ${admin_username}    ${admin_invalid_password}
+            Common Login Process    ${admin_username}    ${admin_invalid_password}
             Check Error Message    Expected Error Message for Admin
     END
 
@@ -71,6 +63,7 @@ Scenario 3: Test Invalid Username
             Common Login Process   ${admin_invalid_username}    ${admin_password}
             Check Error Message    Expected Error Message for Admin
     END
+
 
 Scenario 4: Test Login with Empty Username
     [Tags]   login  negative
