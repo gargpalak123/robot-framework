@@ -29,12 +29,11 @@ ${expected_error_message}     Email or password invalid.
 *** Test Cases ***
 Scenario 1: Valid Login as Doctor
     [Tags]   common  doctor  login
-    ${role}=    Set Variable    Doctor  # Set the role to Doctor
     Log    Username: ${doctor_username}
     Log    Password: ${doctor_password}
     Maximize Browser Window
     Login Page UI Validation
-    Common Login Process    ${doctor_username}    ${doctor_password}
+    Common Login Process    ${doctor_username}    ${doctor_password}    Doctor
     Dashboard Redirection    ${expected_dashboard_url}
     Verify Home Page Title
     Common Logout
