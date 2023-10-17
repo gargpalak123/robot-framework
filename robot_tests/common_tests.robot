@@ -2,8 +2,8 @@
 Documentation     Testing Proclniq test suites
 Library         SeleniumLibrary
 Resource        ../resources/common_keywords.robot
-Suite Setup     Open Browser    ${BaseURL}    ${BROWSER}
-Suite Teardown  Close Browser
+Test Setup     Open Browser    ${BaseURL}    ${BROWSER}
+Test Teardown  Close All Browsers
 
 *** Variables ***
 ${BROWSER}    Chrome
@@ -24,7 +24,7 @@ ${admin_invalid_password}    126
 ${doctor_invalid_username}  testing@gmail.com
 ${reception_invalid_username}  test@gmail.com
 ${admin_invalid_username}    testpalak@gmail.com
-
+${expected_error_message}     Email or password invalid.
 
 *** Test Cases ***
 Scenario 1: Valid Login as Doctor
@@ -42,15 +42,36 @@ Scenario 1: Valid Login as Doctor
 Scenario 2: Invalid Password Test
     [Tags]    common  negative
     FOR    ${user_role}    IN    Doctor    Reception    Admin
-        Common Login Process With Invalid Password    ${user_role}
+        Run Keyword If    '${user_role}' == 'Doctor'
+            Doctor Login Page UI Validation
+            Common Login Process With Invalid Password    ${doctor_username}    ${doctor_invalid_password}
+            Check Error Message    Expected Error Message for Doctor
+        ... ELSE IF    '${user_role}' == 'Reception'
+            Reception Login Page UI Validation
+            Common Login Process With Invalid Password    ${reception_username}    ${reception_invalid_password}
+            Check Error Message    Expected Error Message for Reception
+        ... ELSE IF    '${user_role}' == 'Admin'
+            Admin Login Page UI Validation
+            Common Login Process With Invalid Password    ${admin_username}    ${admin_invalid_password}
+            Check Error Message    Expected Error Message for Admin
     END
 
 Scenario 3: Test Invalid Username
     [Tags]    common  negative
     FOR    ${user_role}    IN    Doctor    Reception    Admin
-        Common Login Process With Invalid username   ${user_role}
+        Run Keyword If    '${user_role}' == 'Doctor'
+            Doctor Login Page UI Validation
+            Common Login Process  ${doctor_invalid_username}    ${doctor_password}
+            Check Error Message    Expected Error Message for Doctor
+        ... ELSE IF    '${user_role}' == 'Reception'
+            Reception Login Page UI Validation
+            Common Login Process    ${reception_invalid_username}    ${reception_password}
+            Check Error Message    Expected Error Message for Reception
+        ... ELSE IF    '${user_role}' == 'Admin'
+            Admin Login Page UI Validation
+            Common Login Process   ${admin_invalid_username}    ${admin_password}
+            Check Error Message    Expected Error Message for Admin
     END
-
 
 Scenario 4: Test Login with Empty Username
     [Tags]   login  negative
