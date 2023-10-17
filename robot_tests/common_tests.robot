@@ -35,39 +35,35 @@ Scenario 1: Valid Login as Doctor
     Verify Home Page Title
     Common Logout
 
-
-Scenario 2:Invalid Password Test
+Scenario 2: Invalid Password Test
     [Tags]    common  negative
-    :FOR    ${user_role}    IN    Doctor    Reception    Admin
-    \    Common Login Process With Invalid Password    ${user_role}
+    FOR    ${user_role}    IN    Doctor    Reception    Admin
+        Common Login Process With Invalid Password    ${user_role}
+    END
 
-
-Scenario 3:Test Invalid Username
+Scenario 3: Test Invalid Username
     [Tags]    common  negative
-    :FOR    ${user_role}    IN    Doctor    Reception    Admin
-    \    Common Login Process With Invalid username   ${user_role}
+    FOR    ${user_role}    IN    Doctor    Reception    Admin
+        Common Login Process With Invalid username   ${user_role}
+    END
 
 
-Scenario 4:Test Login with Empty Username
+Scenario 4: Test Login with Empty Username
     [Tags]   login  negative
     :FOR    ${role}    IN    Doctor    Reception    Admin
-    \    ${username}    Set Variable    ${get_valid_username(${role})}
-    \    Common Login Process    ${EMPTY}    ${username}
+        ${username}    Set Variable    ${get_valid_username(${role})}
+        Common Login Process    ${EMPTY}    ${username}
 
-
-Scenario 5:Test Login with Empty Password
+Scenario 5: Test Login with Empty Password
     [Tags]   login  negative
     :FOR    ${role}    IN    Doctor    Reception    Admin
-    \    ${username}    Set Variable    ${get_valid_username(${role})}
-    \    Common Login Process    ${username}    ${EMPTY}
+        ${username}    Set Variable    ${get_valid_username(${role})}
+        Common Login Process    ${username}    ${EMPTY}
 
-
-
-Scenario 6:Test Login with Both Username and Password Empty
+Scenario 6: Test Login with Both Username and Password Empty
     [Tags]   login  negative
     :FOR    ${role}    IN    Doctor    Reception    Admin
-    \    Common Login Process    ${EMPTY}      ${EMPTY}
-
+        Common Login Process    ${EMPTY}      ${EMPTY}
 
 Scenario 7:Test Remember Me Doctor
     [Tags]     Doctor
