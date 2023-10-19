@@ -18,36 +18,43 @@ Set Reception Credentials
     [Return]    ${reception_username}    ${reception_password}
 
 Login Page UI Validation
-    Wait Until Page Contains Element    //b[normalize-space()='Login']
+    Wait Until Page Contains Element    //*[@id="navbarTogglerDemo02"]/ul/li/a/b
     # Use explicit waits to ensure the element is fully loaded
-    Wait Until Element Is Visible    //b[normalize-space()='Login']    timeout=10s  # Adjust the timeout as needed
+    Wait Until Element Is Visible    //div[@id='navbarTogglerDemo02']/ul/li/a/b   timeout=10s  # Adjust the timeout as needed
     # Get the WebElement representing the login button
-    ${login_button} =    Get WebElement    //b[normalize-space()='Login']
+    ${login_button} =    Get WebElement    //div[@id='navbarTogglerDemo02']/ul/li/a/b
     # Check if the login button is enabled
     Wait Until Element Is Enabled    ${login_button}    timeout=10s
-    Click Element    ${login_button}
+    sleep  5s
+    Click Element            ${login_button}
 
 Common Login Process
     [Arguments]    ${username}    ${password}
     Input Text    id:email    ${username}
     Input Text    id:password    ${password}
-    Click Element    css=.h2 > b
-    Wait Until Element Is Enabled    css=button[type='submit']    timeout=10s
-    Capture Page Screenshot
+   ${login_button} =    Get WebElement    //button[@type='submit']
+   Run Keyword If    Element Should Be Visible    ${login_button}
+    Click Element    ${login_button}
+    # Additional actions after successful login
+    # Capture Page Screenshot
+  Else
+        Scroll Element Into View    ${login_button}  # Scroll to the login button if it's not visible
+        Wait Until Element Is Visible    ${login_button}    timeout=10s
+        Wait Until Element Is Enabled    ${login_button}    timeout=10s
+        Click Element    ${login_button}
+
 
 Dashboard Redirection
     [Arguments]    ${expected_dashboard_url}
-    Click Element    css=button[type='submit']
     # Wait for the expected URL to appear on the page
     ${current_url}=    Get Location
     Log   ${current_url}
-
     # Check if the current URL matches the expected URL
     Run Keyword If    '${current_url}' == '${expected_dashboard_url}'
     ...    Log    Test Passed - Redirected to ${expected_dashboard_url}
     ...    ELSE
     ...    Log    Test Failed - Current URL: ${current_url}
-    ...    Capture Page Screenshot
+    Capture Page Screenshot
 
 Verify Home Page Title
     [Documentation]    Verifies the title of the home page.
@@ -58,17 +65,17 @@ Verify Home Page Title
 
 Common Logout
     [Documentation]    Tests the logout functionality.
-    Wait Until Element Is Visible    xpath://span[@class='d-sm-inline d-none']
+    Wait Until Element Is Visible    xpath://span[@class='d-sm-inline d-none']   timeout=10s
     Click Element    xpath://span[@class='d-sm-inline d-none']
+    Wait Until Page Contains Element    //b[normalize-space()='Login']
     ${current_url}=    Get Location
     Log   ${current_url}
     Should Be Equal    ${current_url}    https://procliniq.in/login
-    Sleep    5s
 
 Check Error Message
     [Arguments]    ${expected_error_message}
-    Wait Until Page Contains Element    //div[@class='notification is-danger']
-    ${message} =    Get Text    //div[@class='notification is-danger']
+    Wait Until Page Contains Element    //strong[normalize-space()='Email or password invalid.']  timeout=60s
+    ${message} =    Get Text    //strong[normalize-space()='Email or password invalid.']
     Log     ${message}
     Should Be Equal As Strings    ${message}    ${expected_error_message}
     Capture Page Screenshot
@@ -76,8 +83,6 @@ Check Error Message
     ...    Log    Test Passed: Expected error message displayed
     ...    ELSE
     ...    Log    Test Failed: Expected error message not displayed
-
-
 
 
 Dashboard UI Check for Doctor
