@@ -73,8 +73,8 @@ Dashboard Redirection
     # Check if the current URL matches the expected URL
     Run Keyword If    '${current_url}' == '${expected_dashboard_url}'
     ...    Log    Test Passed - Redirected to ${expected_dashboard_url}
-    ...    ELSE    Log    Test Failed - Current URL: ${current_url} does not match expected URL: ${expected_dashboard_url}
-
+    ...    ELSE
+    ...    Log    Test Failed - Current URL: ${current_url} does not match expected URL: ${expected_dashboard_url}
 
 
 
