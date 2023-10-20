@@ -54,34 +54,75 @@ Scenario 2: Invalid Password Login Test
         Check Error Message    ${expected_error_message}
     END
 
-#Scenario: Invalid username Login Test
-#    [Tags]    common    negative
-#    Maximize Browser Window
-#    Login Page UI Validation
-#
-#    @{roles} =    Create List    Doctor    Admin    Reception
-#
-#    FOR    ${role}    IN    @{roles}
-#        Run Keyword If    '${role}' == 'Doctor'
-#        ...    Common Login Process    ${doctor_invalid_username}    ${doctor_password}
-#        ...    ELSE IF    '${role}' == 'Admin'
-#        ...    Common Login Process    ${admin_invalid_username}    ${admin_password}
-#        ...    ELSE IF    '${role}' == 'Reception'
-#        ...    Common Login Process    ${reception_invalid_username}    ${reception_invalid_password}
-#    END
+Scenario 3: Invalid username Login Test
+    [Tags]    common    negative
+    Maximize Browser Window
+    @{roles} =    Create List    Doctor    Admin    Reception
 
-#Scenario 4: Test Login with Empty Username
-#    [Tags]   login  negative
-#    :FOR    ${role}    IN    Doctor    Reception    Admin
-#        ${username}    Set Variable    ${get_valid_username(${role})}
-#        Common Login Process    ${EMPTY}    ${username}
-#
-#Scenario 5: Test Login with Empty Password
-#    [Tags]   login  negative
-#    :FOR    ${role}    IN    Doctor    Reception    Admin
-#        ${username}    Set Variable    ${get_valid_username(${role})}
-#        Common Login Process    ${username}    ${EMPTY}
-#
+    FOR    ${role}    IN    @{roles}
+        ${username} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable    ${doctor_invalid_username}
+        ...    ELSE IF    '${role}' == 'Admin'    Set Variable    ${admin_invalid_username}
+        ...    ELSE IF    '${role}' == 'Reception'    Set Variable   ${reception_invalid_username}
+        ${invalid_password} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable   ${doctor_password}
+        ...    ELSE IF    '${role}' == 'Admin'    Set Variable      ${admin_password}
+        ...    ELSE IF    '${role}' == 'Reception'    Set Variable    ${reception_password}
+        Login Page UI Validation
+        Common Login Process    ${username}    ${invalid_password}
+        Check Error Message    ${expected_error_message}
+    END
+
+Scenario 3: Invalid username and empty Login Test
+    [Tags]    common    negative
+    Maximize Browser Window
+    @{roles} =    Create List    Doctor    Admin    Reception
+
+    FOR    ${role}    IN    @{roles}
+        ${username} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable    ${doctor_invalid_username}
+        ...    ELSE IF    '${role}' == 'Admin'    Set Variable    ${admin_invalid_username}
+        ...    ELSE IF    '${role}' == 'Reception'    Set Variable   ${reception_invalid_username}
+        ${invalid_password} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable   ${doctor_password}
+        ...    ELSE IF    '${role}' == 'Admin'    Set Variable      ${admin_password}
+        ...    ELSE IF    '${role}' == 'Reception'    Set Variable    ${reception_password}
+
+        Login Page UI Validation
+        Common Login Process    ${username}    ${invalid_password}
+        Check Error Message    ${expected_error_message}
+
+        ${username} =    Set Variable    ''
+        ${invalid_password} =    Set Variable    ''
+        Login Page UI Validation
+        Common Login Process    ${username}    ${invalid_password}
+        Check Error Message    ${expected_error_message}
+    END
+
+Scenario 3: Invalid username, empty username, and empty password Login Test
+    [Tags]    common    negative
+    Maximize Browser Window
+    @{roles} =    Create List    Doctor    Admin    Reception
+
+    FOR    ${role}    IN    @{roles}
+        ${username} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable    ${doctor_invalid_username}
+        ...    ELSE IF    '${role}' == 'Admin'    Set Variable    ${admin_invalid_username}
+        ...    ELSE IF    '${role}' == 'Reception'    Set Variable   ${reception_invalid_username}
+        ${invalid_password} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable   ${doctor_password}
+        ...    ELSE IF    '${role}' == 'Admin'    Set Variable      ${admin_password}
+        ...    ELSE IF    '${role}' == 'Reception'    Set Variable    ${reception_password}
+
+        # First test with invalid username and password
+        Login Page UI Validation
+        Common Login Process    ${username}    ${invalid_password}
+        Check Error Message    ${expected_error_message}
+
+        # Then test with empty username and password
+        FOR    ${empty_value}    IN    ${EMPTY}    ''    # You can add more empty value variations if needed
+            ${username} =    Set Variable    ${empty_value}
+            ${invalid_password} =    Set Variable    ${empty_value}
+            Login Page UI Validation
+            Common Login Process    ${username}    ${invalid_password}
+            Check Error Message    ${expected_error_message}
+        END
+    END
+
 #Scenario 6: Test Login with Both Username and Password Empty
 #    [Tags]   login  negative
 #    :FOR    ${role}    IN    Doctor    Reception    Admin
