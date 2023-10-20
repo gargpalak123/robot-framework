@@ -71,7 +71,7 @@ Scenario 3: Invalid username Login Test
         Check Error Message    ${expected_error_message}
     END
 
-Scenario 3: Invalid username and empty Login Test
+Scenario 4: Invalid username and empty Login Test
     [Tags]    common    negative
     Maximize Browser Window
     @{roles} =    Create List    Doctor    Admin    Reception
@@ -95,7 +95,7 @@ Scenario 3: Invalid username and empty Login Test
         Check Error Message    ${expected_error_message}
     END
 
-Scenario 3: Invalid username, empty username, and empty password Login Test
+Scenario 5: Invalid username, empty username, and empty password Login Test
     [Tags]    common    negative
     Maximize Browser Window
     @{roles} =    Create List    Doctor    Admin    Reception
