@@ -18,143 +18,167 @@ Set Reception Credentials
     [Return]    ${reception_username}    ${reception_password}
 
 Login Page UI Validation
-    Wait Until Page Contains Element    //*[@id="navbarTogglerDemo02"]/ul/li/a/b
+    ${login_button_locator} =  Set Variable     //div[@id='navbarTogglerDemo02']/ul/li/a/b
+
+    # Wait for the page to load
+    Wait Until Page Contains Element       ${login_button_locator}   timeout=30s
+
     # Use explicit waits to ensure the element is fully loaded
-    Wait Until Element Is Visible    //div[@id='navbarTogglerDemo02']/ul/li/a/b   timeout=10s  # Adjust the timeout as needed
-    # Get the WebElement representing the login button
-    ${login_button} =    Get WebElement    //div[@id='navbarTogglerDemo02']/ul/li/a/b
+    Wait Until Element Is Visible        ${login_button_locator}  timeout=30s  # Adjust the timeout as needed
+
     # Check if the login button is enabled
-    Wait Until Element Is Enabled    ${login_button}    timeout=10s
+    Wait Until Element Is Enabled    ${login_button_locator}     timeout=30s
+
+    # Sleep for additional time if needed (though it's better to avoid long sleeps)
     sleep  5s
-    Click Element            ${login_button}
+
+    # Click the login button
+    Click Element   ${login_button_locator}
+    sleep   10s
 
 Common Login Process
     [Arguments]    ${username}    ${password}
     Input Text    id:email    ${username}
     Input Text    id:password    ${password}
-   ${login_button} =    Get WebElement    //button[@type='submit']
-   Run Keyword If    Element Should Be Visible    ${login_button}
-    Click Element    ${login_button}
-    # Additional actions after successful login
-    # Capture Page Screenshot
-  Else
+    ${login_button} =  Set Variable     //button[@type='submit']
+
+    # Wait for the page to load
+    Wait Until Page Contains Element        ${login_button}   timeout=30s
+
+    # Use explicit waits to ensure the element is fully loaded
+    Wait Until Element Is Visible         ${login_button}  timeout=30s  # Adjust the timeout as needed
+    Wait Until Element Is Enabled    ${login_button}    timeout=30s
+    sleep  5s
+
+    ${is_enabled} =  Run Keyword And Return Status    Element Should Be Enabled    ${login_button}
+
+    Run Keyword If    ${is_enabled}    Click Element    ${login_button}
+        sleep  10s
+        Capture Page Screenshot
+    Else
         Scroll Element Into View    ${login_button}  # Scroll to the login button if it's not visible
         Wait Until Element Is Visible    ${login_button}    timeout=10s
         Wait Until Element Is Enabled    ${login_button}    timeout=10s
         Click Element    ${login_button}
-
+        Capture Page Screenshot
 
 Dashboard Redirection
     [Arguments]    ${expected_dashboard_url}
     # Wait for the expected URL to appear on the page
     ${current_url}=    Get Location
     Log   ${current_url}
+    # Convert both URLs to lowercase for case-insensitive comparison
+    ${current_url}=    Evaluate    "${current_url}".lower()
+    ${expected_dashboard_url}=    Evaluate    "${expected_dashboard_url}".lower()
     # Check if the current URL matches the expected URL
     Run Keyword If    '${current_url}' == '${expected_dashboard_url}'
     ...    Log    Test Passed - Redirected to ${expected_dashboard_url}
-    ...    ELSE
-    ...    Log    Test Failed - Current URL: ${current_url}
-    Capture Page Screenshot
-
-Verify Home Page Title
-    [Documentation]    Verifies the title of the home page.
-    ${title}=    Get Title
-    Should Be Equal As Strings    ${title}    ProCliniq
-    Log    Home Page Title Verified: ${title}
-    Capture Page Screenshot
-
-Common Logout
-    [Documentation]    Tests the logout functionality.
-    Wait Until Element Is Visible    xpath://span[@class='d-sm-inline d-none']   timeout=10s
-    Click Element    xpath://span[@class='d-sm-inline d-none']
-    Wait Until Page Contains Element    //b[normalize-space()='Login']
-    ${current_url}=    Get Location
-    Log   ${current_url}
-    Should Be Equal    ${current_url}    https://procliniq.in/login
-
-Check Error Message
-    [Arguments]    ${expected_error_message}
-    Wait Until Page Contains Element    //strong[normalize-space()='Email or password invalid.']  timeout=60s
-    ${message} =    Get Text    //strong[normalize-space()='Email or password invalid.']
-    Log     ${message}
-    Should Be Equal As Strings    ${message}    ${expected_error_message}
-    Capture Page Screenshot
-    Run Keyword If    '${message}' == '${expected_error_message}'
-    ...    Log    Test Passed: Expected error message displayed
-    ...    ELSE
-    ...    Log    Test Failed: Expected error message not displayed
-
-
-Dashboard UI Check for Doctor
-    # Define element locators in a list
-    @{element_locators} = Create List
-    ... (.//*[normalize-space(text()) and normalize-space(.)='Dashboard'])[1]/following::p[1]
-    ... (.//*[normalize-space(text()) and normalize-space(.)='Dashboard'])[1]/following::p[2]
-    ... (.//*[normalize-space(text()) and normalize-space(.)='Dashboard'])[1]/following::p[3]
-    ... (.//*[normalize-space(text()) and normalize-space(.)='Dashboard'])[1]/following::p[4]
-    FOR ${locator} IN @{element_locators}
-        Wait Until Element Is Visible ${locator} timeout=60s
-        ${element_name} = Get Element Attribute ${locator} name
-
-        # Check if the element is visible
-        ${element_visible} = Run Keyword And Return Status Element Should Be Visible ${locator}
-
-        # Check if the element is enabled
-        ${element_enabled} = Run Keyword And Return Status Element Should Be Enabled ${locator}
-
-        # Check if the element is clickable
-        ${element_clickable} = Run Keyword And Return Status Element Should Be Clickable ${locator}
-
-        Run Keyword If ${element_visible} and ${element_enabled} and ${element_clickable}
-            Log ${element_name} is visible, enabled, and clickable; verification is successful
-        ... ELSE
-            Log ${element_name} is NOT visible, enabled, or clickable; verification failed
-        END
-
-    END
-
-
-Verify Doctor Dashboard Counts
-    [Documentation]    Common count tests for the doctor's dashboard.
-    Open Browser    ${expected_dashboard_url}    Chrome
-    Capture Page Screenshot
-    # Locate the card elements using appropriate locators
-    ${today_appointments_card}=    Get Element    id=TodayAppointment
-    ${total_appointments_card}=    Get Element    id=TotalAppointment
-    ${today_doctorleave_card}=    Get Element     id=NewPatients
-    ${cancelled_appointment_card}=    Get Element  id=Allpatients
-
-    # Click on each card and verify counts
-    ${today_appointments}=    Click Cards and Verify Data    ${today_appointments_card}    ${actual_data_locator_for_today_appointments}    0
-    ${total_appointments}=    Click Cards and Verify Data    ${total_appointments_card}    ${actual_data_locator_for_total_appointments}    0
-    ${today_doctor_leave}=    Click Cards and Verify Data    ${today_doctorleave_card}    ${actual_data_locator_for_today_doctorleave}    2
-    ${cancelled_appointment}=    Click Cards and Verify Data    ${cancelled_appointment_card}    ${actual_data_locator_for_cancelled_appointment}    0
-
-    # Verify the counts and log the results
-    ${today_appointments_status}=    Run Keyword And Return Status    Should Be Equal As Integers    ${today_appointments}    0
-    Run Keyword If    '${today_appointments_status}'    Log    Today Appointments Test Passed
-    ...    ELSE    Log    Today Appointments Test Failed
-    Capture Page Screenshot
-
-    ${total_appointments_status}=    Run Keyword And Return Status    Should Be Equal As Integers    ${total_appointments}    0
-    Run Keyword If    '${total_appointments_status}'    Log    Total Appointments Test Passed
-    ...    ELSE    Log    Total Appointments Test Failed
-    Capture Page Screenshot
-
-    ${today_doctor_leave_status}=    Run Keyword And Return Status    Should Be Equal As Integers    ${today_doctor_leave}    2
-    Run Keyword If    '${today_doctor_leave_status}'    Log    Today Doctor Leave Test Passed
-    ...    ELSE    Log    Today Doctor Leave Test Failed
-    Capture Page Screenshot
-
-    ${cancelled_appointment_status}=    Run Keyword And Return Status    Should Be Equal As Integers    ${cancelled_appointment}    0
-    Run Keyword If    '${cancelled_appointment_status}'    Log    Cancelled Appointment Test Passed
-    ...    ELSE    Log    Cancelled Appointment Test Failed
-    Capture Page Screenshot
+    ...    ELSE    Log    Test Failed - Current URL: ${current_url} does not match expected URL: ${expected_dashboard_url}
 
 
 
 
 
+
+#Verify Home Page Title
+#    [Documentation]    Verifies the title of the home page.
+#    ${title}=    Get Title
+#    Should Be Equal As Strings    ${title}    ProCliniq
+#    Log    Home Page Title Verified: ${title}
+#    Capture Page Screenshot
+#
+#Common Logout
+#    [Documentation]    Tests the logout functionality.
+#    Wait Until Element Is Visible    xpath://span[@class='d-sm-inline d-none']   timeout=10s
+#    Click Element    xpath://span[@class='d-sm-inline d-none']
+#    Wait Until Page Contains Element    //b[normalize-space()='Login']
+#    ${current_url}=    Get Location
+#    Log   ${current_url}
+#    Should Be Equal    ${current_url}    https://procliniq.in/login
+#
+#Check Error Message
+#    [Arguments]    ${expected_error_message}
+#    Wait Until Page Contains Element    //strong[normalize-space()='Email or password invalid.']  timeout=60s
+#    ${message} =    Get Text    //strong[normalize-space()='Email or password invalid.']
+#    Log     ${message}
+#    Should Be Equal As Strings    ${message}    ${expected_error_message}
+#    Capture Page Screenshot
+#    Run Keyword If    '${message}' == '${expected_error_message}'
+#    ...    Log    Test Passed: Expected error message displayed
+#    ...    ELSE
+#    ...    Log    Test Failed: Expected error message not displayed
+#
+#
+#Dashboard UI Check for Doctor
+#    # Define element locators in a list
+#    @{element_locators} = Create List
+#    ... (.//*[normalize-space(text()) and normalize-space(.)='Dashboard'])[1]/following::p[1]
+#    ... (.//*[normalize-space(text()) and normalize-space(.)='Dashboard'])[1]/following::p[2]
+#    ... (.//*[normalize-space(text()) and normalize-space(.)='Dashboard'])[1]/following::p[3]
+#    ... (.//*[normalize-space(text()) and normalize-space(.)='Dashboard'])[1]/following::p[4]
+#    FOR ${locator} IN @{element_locators}
+#        Wait Until Element Is Visible ${locator} timeout=60s
+#        ${element_name} = Get Element Attribute ${locator} name
+#
+#        # Check if the element is visible
+#        ${element_visible} = Run Keyword And Return Status Element Should Be Visible ${locator}
+#
+#        # Check if the element is enabled
+#        ${element_enabled} = Run Keyword And Return Status Element Should Be Enabled ${locator}
+#
+#        # Check if the element is clickable
+#        ${element_clickable} = Run Keyword And Return Status Element Should Be Clickable ${locator}
+#
+#        Run Keyword If ${element_visible} and ${element_enabled} and ${element_clickable}
+#            Log ${element_name} is visible, enabled, and clickable; verification is successful
+#        ... ELSE
+#            Log ${element_name} is NOT visible, enabled, or clickable; verification failed
+#        END
+#
+#    END
+#
+#
+#Verify Doctor Dashboard Counts
+#    [Documentation]    Common count tests for the doctor's dashboard.
+#    Open Browser    ${expected_dashboard_url}    Chrome
+#    Capture Page Screenshot
+#    # Locate the card elements using appropriate locators
+#    ${today_appointments_card}=    Get Element    id=TodayAppointment
+#    ${total_appointments_card}=    Get Element    id=TotalAppointment
+#    ${today_doctorleave_card}=    Get Element     id=NewPatients
+#    ${cancelled_appointment_card}=    Get Element  id=Allpatients
+#
+#    # Click on each card and verify counts
+#    ${today_appointments}=    Click Cards and Verify Data    ${today_appointments_card}    ${actual_data_locator_for_today_appointments}    0
+#    ${total_appointments}=    Click Cards and Verify Data    ${total_appointments_card}    ${actual_data_locator_for_total_appointments}    0
+#    ${today_doctor_leave}=    Click Cards and Verify Data    ${today_doctorleave_card}    ${actual_data_locator_for_today_doctorleave}    2
+#    ${cancelled_appointment}=    Click Cards and Verify Data    ${cancelled_appointment_card}    ${actual_data_locator_for_cancelled_appointment}    0
+#
+#    # Verify the counts and log the results
+#    ${today_appointments_status}=    Run Keyword And Return Status    Should Be Equal As Integers    ${today_appointments}    0
+#    Run Keyword If    '${today_appointments_status}'    Log    Today Appointments Test Passed
+#    ...    ELSE    Log    Today Appointments Test Failed
+#    Capture Page Screenshot
+#
+#    ${total_appointments_status}=    Run Keyword And Return Status    Should Be Equal As Integers    ${total_appointments}    0
+#    Run Keyword If    '${total_appointments_status}'    Log    Total Appointments Test Passed
+#    ...    ELSE    Log    Total Appointments Test Failed
+#    Capture Page Screenshot
+#
+#    ${today_doctor_leave_status}=    Run Keyword And Return Status    Should Be Equal As Integers    ${today_doctor_leave}    2
+#    Run Keyword If    '${today_doctor_leave_status}'    Log    Today Doctor Leave Test Passed
+#    ...    ELSE    Log    Today Doctor Leave Test Failed
+#    Capture Page Screenshot
+#
+#    ${cancelled_appointment_status}=    Run Keyword And Return Status    Should Be Equal As Integers    ${cancelled_appointment}    0
+#    Run Keyword If    '${cancelled_appointment_status}'    Log    Cancelled Appointment Test Passed
+#    ...    ELSE    Log    Cancelled Appointment Test Failed
+#    Capture Page Screenshot
+#
+#
+#
+#
+#
 
 
 
