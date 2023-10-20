@@ -123,11 +123,12 @@ Scenario 5: Invalid username, empty username, and empty password Login Test
         END
     END
 
-#Scenario 6: Test Login with Both Username and Password Empty
-#    [Tags]   login  negative
-#    :FOR    ${role}    IN    Doctor    Reception    Admin
-#        Common Login Process    ${EMPTY}      ${EMPTY}
-#
+Scenario 6: Test Login with Both Username and Password Empty
+  [Tags]   login  negative
+@{roles}    Doctor    Reception    Admin
+:FOR    ${role}    IN    @{roles}
+    Common Login Process    ${EMPTY}    ${EMPTY}
+
 #Scenario 7:Test Remember Me Doctor
 #    [Tags]     Doctor
 #    Common Remember Me Login    Doctor    ${DoctorUsername}    ${DoctorPassword}
