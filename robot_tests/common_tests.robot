@@ -129,27 +129,27 @@ Scenario 6: Test Login with Both Username and Password Empty
 :FOR    ${role}    IN    @{roles}
     Common Login Process    ${EMPTY}    ${EMPTY}
 
-#Scenario 7:Test Remember Me Doctor
-#    [Tags]     Doctor
-#    Common Remember Me Login    Doctor    ${DoctorUsername}    ${DoctorPassword}
-#    Common Logout
-#    Common Check Remember Me Functionality    ${DoctorUsername}    ${DoctorPassword}
-#
-#
-#Scenario 8: Dashboard UI Check for Doctor
-#    [Tags]   common  doctor  dashboard  ui
-#    Login Page UI Validation
-#    Common Login Process    ${doctor_username}    ${doctor_password}
-#    Check Doctor Dashboard UI
-#
-#Scenario 9: Dashboard Counts Check for Doctor
-#    [Tags]   common  doctor  dashboard  counts
-#    Login Page UI Validation
-#    Common Login Process    ${doctor_username}    ${doctor_password}
-#    # Verify counts on the doctor's dashboard
-#    Verify Doctor Dashboard Counts
-#
-#
+Scenario 7:Test Remember Me Doctor
+    [Tags]     Doctor
+    Common Remember Me Login    Doctor    ${DoctorUsername}    ${DoctorPassword}
+    Common Logout
+    Common Check Remember Me Functionality    ${DoctorUsername}    ${DoctorPassword}
+
+
+Scenario 8: Dashboard UI Check for Doctor
+    [Tags]   common  doctor  dashboard  ui
+    Login Page UI Validation
+    Common Login Process    ${doctor_username}    ${doctor_password}
+    Check Doctor Dashboard UI
+
+Scenario 9: Dashboard Counts Check for Doctor
+    [Tags]   common  doctor  dashboard  counts
+    Login Page UI Validation
+    Common Login Process    ${doctor_username}    ${doctor_password}
+    # Verify counts on the doctor's dashboard
+    Verify Doctor Dashboard Counts
+
+
 #Scenario 10: Test Valid Login as Admin
 #    [Tags]     common  admin  login
 #    ${role}=    Set Variable    Admin  # Set the role to Doctor
@@ -189,43 +189,66 @@ Scenario 6: Test Login with Both Username and Password Empty
 #    Common Logout
 #    Common Check Remember Me Functionality     ${ReceptionUsername}    ${ReceptionPassword}
 #
-## Scenario 12: Add patient with valid data
-#Test Add Patient with Valid Data
-#    [Tags]    common  patient  positive
-#    ${patient_data}=    Create Dictionary    # Define your patient data here
-#    Common Add Patient    ${patient_data}
-#    Common Verify Confirmation Pop-up
-#    Common Click OK on Confirmation Pop-up
-#    Common Verify Redirection to Appointment Page
-#    Navigate To Today Summary Page
-#    Search For Added Patient
-#    Go To Patient All Information Page
-#    Update Personal Information
-#    Verify Upload Button Is Visible
-#
-#
-## Scenario 12: Add patient with full data
-#Test Add Patient with Full Data
-#    [Tags]    common  patient  positive
-#    ${patient_data}=    Create Dictionary    # Define your patient data here
-#    Common Add Patient    ${patient_data}
-#    # Check the UI state of the "Submit" button
-#    Check Submit Button UI State    id:submit_button    # Replace 'id:submit_button' with the actual identifier
-#    Common Verify Confirmation Pop-up
-#    Common Click OK on Confirmation Pop-up
-#    Common Verify Redirection to Appointment Page
-#
-## Scenario 13: Add patient with full data
-#Test Add Patient with Special Characters
-#    [Tags]    common  patient  positive
-#    ${patient_data}=    Create Dictionary    # Define your patient data here
-#    Common Add Patient    ${patient_data}
-#    # Check the UI state of the "Submit" button
-#    Check Submit Button UI State    id:submit_button    # Replace 'id:submit_button' with the actual identifier
-#    Common Verify Confirmation Pop-up
-#    Common Click OK on Confirmation Pop-up
-#    Common Verify Redirect to Appointment Page
-#
+Scenario 12:Test Add patient with valid data
+    [Tags]    common  patient  positive
+    ${patient_data}=    Create Dictionary    # Define your patient data here
+    Common Add Patient    ${patient_data}
+    Common Verify Confirmation Pop-up
+    Common Click OK on Confirmation Pop-up
+    Common Verify Redirection to Appointment Page
+    Navigate To Today Summary Page
+    Search For Added Patient
+    Go To Patient All Information Page
+    Update Personal Information
+    Verify Upload Button Is Visible
+
+
+
+Scenario 13:Test Add Patient with Full Data
+    [Tags]    common  patient  positive
+    ${patient_data}=    Create Dictionary    # Define your patient data here
+    Common Add Patient    ${patient_data}
+    # Check the UI state of the "Submit" button
+    Check Submit Button UI State    id:submit_button    # Replace 'id:submit_button' with the actual identifier
+    Common Verify Confirmation Pop-up
+    Common Click OK on Confirmation Pop-up
+    Common Verify Redirection to Appointment Page
+
+
+Scenario 14:Test Add Patient with Special Characters
+    [Tags]    common  patient  positive
+    ${patient_data}=    Create Dictionary    # Define your patient data here
+    Common Add Patient    ${patient_data}
+    # Check the UI state of the "Submit" button
+    Check Submit Button UI State    id:submit_button    # Replace 'id:submit_button' with the actual identifier
+    Common Verify Confirmation Pop-up
+    Common Click OK on Confirmation Pop-up
+    Common Verify Redirect to Appointment Page
+
+
+Scenario 15:Test Add Patient with No Data
+    [Tags]    common Negative
+    ${patient_data}=    Create Dictionary    # Define your patient data here
+    Common Add Patient    ${patient_data}
+    # Check the UI state of the "Submit" button
+    Check Submit Button UI State    id:submit_button    # Replace 'id:submit_button' with the actual identifier
+    Common Verify Confirmation Pop-up
+    Common Click OK on Confirmation Pop-up
+    Common Verify Redirect to Appointment Page
+
+Scenario 16: Add Patient with Duplicate Phone Number and Email
+Test Add Patient with Duplicate Phone Number and Email
+    [Tags]    common  patient  negative
+    ${patient_data}=    Create Dictionary    # Define your patient data here
+    # Ensure that you set the phone number and email to values that already exist in the system
+    Set To Dictionary    ${patient_data}    phone_number    existing_phone_number    # Replace with an existing phone number
+    Set To Dictionary    ${patient_data}    email    existing_email@example.com    # Replace with an existing email
+    Common Add Patient    ${patient_data}
+    # Check for an error message indicating the duplicate data
+    Common Check Error Message    Patient with the same phone number or email already exists.    duplicate
+
+
+
 ## Scenario 14: Add patient with Different Gender
 #Test Add Patient with Different Gender
 #    [Tags]    common  patient  positive
@@ -347,13 +370,16 @@ Scenario 6: Test Login with Both Username and Password Empty
 #    Run Keyword If  ${is_today}  Verify Redirect to View Appointment Page  ${appointment_date}
 #    ...              ELSE  Verify Redirect to All Appointments Page
 #
-#Test Book Appointment for Today
-#    [Tags]          appointment
-#    [Documentation]  Book an appointment for today's date and verify redirection
-#    ${appointment_date}  Set Variable  ${today_date}
-#    Book Appointment  ${appointment_date}
-#    Verify Redirect to View Appointment Page  today
-#
+Test Book Appointment for Today
+    [Tags]          appointment
+    [Documentation]  Book an appointment for today's date and verify redirection
+    ${appointment_date}  Set Variable  ${today_date}
+    Book Appointment  ${appointment_date}
+    Verify Redirect to View Appointment Page  today
+     Navigate To Today Summary Page
+     check calender
+
+
 ## Booking an appointment for a future date
 #Test Book Appointment for Future
 #    [Tags]          appointment
