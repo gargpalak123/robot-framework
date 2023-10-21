@@ -236,8 +236,7 @@ Scenario 15:Test Add Patient with No Data
     Common Click OK on Confirmation Pop-up
     Common Verify Redirect to Appointment Page
 
-Scenario 16: Add Patient with Duplicate Phone Number and Email
-Test Add Patient with Duplicate Phone Number and Email
+Scenario 16: Test Add Patient with Duplicate Phone Number and Email
     [Tags]    common  patient  negative
     ${patient_data}=    Create Dictionary    # Define your patient data here
     # Ensure that you set the phone number and email to values that already exist in the system
