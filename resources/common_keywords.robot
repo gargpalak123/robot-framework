@@ -64,28 +64,19 @@ Common Login Process
 
 Dashboard Redirection
     [Arguments]    ${expected_dashboard_url}
-    # Wait for the expected URL to appear on the page
-    ${current_url}=    Get Location
-    Log   ${current_url}
-    # Convert both URLs to lowercase for case-insensitive comparison
-    ${current_url}=    Evaluate    "${current_url}".lower()
-    ${expected_dashboard_url}=    Evaluate    "${expected_dashboard_url}".lower()
-    # Check if the current URL matches the expected URL
-    Run Keyword If    '${current_url}' == '${expected_dashboard_url}'
-    ...    Log    Test Passed - Redirected to ${expected_dashboard_url}
+    ${CurrentURL}=    Get Location
+    Run Keyword  IF   '${CurrentURL}' == '${expected_dashboard_url}'
+    ...    Log    Test Passed - Current URL: ${CurrentURL}
     ...    ELSE
-    ...    Log    Test Failed - Current URL: ${current_url} does not match expected URL: ${expected_dashboard_url}
+    ...    Log    Test Failed - Current URL: ${CurrentURL}
 
 
-
-
-
-#Verify Home Page Title
-#    [Documentation]    Verifies the title of the home page.
-#    ${title}=    Get Title
-#    Should Be Equal As Strings    ${title}    ProCliniq
-#    Log    Home Page Title Verified: ${title}
-#    Capture Page Screenshot
+Verify Home Page Title
+    [Documentation]    Verifies the title of the home page.
+    ${title}=    Get Title
+    Should Be Equal As Strings    ${title}    ProCliniq
+    Log    Home Page Title Verified: ${title}
+    Capture Page Screenshot
 #
 #Common Logout
 #    [Documentation]    Tests the logout functionality.
