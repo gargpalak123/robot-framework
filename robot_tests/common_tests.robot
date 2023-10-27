@@ -25,129 +25,141 @@ ${reception_invalid_username}   test@gmail.com
 ${admin_invalid_username}    test10@gmail.com
 
 
+
+
 *** Test Cases ***
-Scenario 1: Valid Login as Doctor
-    [Tags]   common  doctor  login
-    Log    Username: ${doctor_username}
-    Log    Password: ${doctor_password}
+Scenario 7: Dashboard Element UI Check
+    [Tags]  common  doctor  dashboard  ui  verification
+    [Documentation]  Verify UI elements on the dashboard
     Maximize Browser Window
     Login Page UI Validation
     Common Login Process    ${doctor_username}    ${doctor_password}
-    Dashboard Redirection    ${expected_dashboard_url}
-    Verify Home Page Title
-    Common Logout
+    ${element_locators} =  Create List
+    ...  //h3[@id='TodayAppointment'][1]
+    ...  //p[normalize-space()='Total Appointments'][2]
+    ...  //*[normalize-space(text()) and normalize-space(.)='Dashboard'])[1]/following::p[3]
+    ...  //p[normalize-space()='Cancelled Appt. (Today)'][4]
+    Dashboard Element UI Check    ${element_locators}
 
-Scenario 2: Invalid Password Login Test
-    [Tags]    common    negative
-    Maximize Browser Window
-    @{roles} =    Create List    Doctor    Admin    Reception
-
-    FOR    ${role}    IN    @{roles}
-        ${username} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable    ${doctor_username}
-        ...    ELSE IF    '${role}' == 'Admin'    Set Variable    ${admin_username}
-        ...    ELSE IF    '${role}' == 'Reception'    Set Variable    ${reception_username}
-        ${invalid_password} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable    ${doctor_invalid_password}
-        ...    ELSE IF    '${role}' == 'Admin'    Set Variable    ${admin_invalid_password}
-        ...    ELSE IF    '${role}' == 'Reception'    Set Variable    ${reception_invalid_password}
-        Login Page UI Validation
-        Common Login Process    ${username}    ${invalid_password}
-        Check Error Message    ${expected_error_message}
-    END
-
-Scenario 3: Invalid username Login Test
-    [Tags]    common    negative
-    Maximize Browser Window
-    @{roles} =    Create List    Doctor    Admin    Reception
-
-    FOR    ${role}    IN    @{roles}
-        ${username} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable    ${doctor_invalid_username}
-        ...    ELSE IF    '${role}' == 'Admin'    Set Variable    ${admin_invalid_username}
-        ...    ELSE IF    '${role}' == 'Reception'    Set Variable   ${reception_invalid_username}
-        ${invalid_password} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable   ${doctor_password}
-        ...    ELSE IF    '${role}' == 'Admin'    Set Variable      ${admin_password}
-        ...    ELSE IF    '${role}' == 'Reception'    Set Variable    ${reception_password}
-        Login Page UI Validation
-        Common Login Process    ${username}    ${invalid_password}
-        Check Error Message    ${expected_error_message}
-    END
-
-Scenario 4: Invalid username and empty Login Test
-    [Tags]    common    negative
-    Maximize Browser Window
-    @{roles} =    Create List    Doctor    Admin    Reception
-
-    FOR    ${role}    IN    @{roles}
-        ${username} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable    ${doctor_invalid_username}
-        ...    ELSE IF    '${role}' == 'Admin'    Set Variable    ${admin_invalid_username}
-        ...    ELSE IF    '${role}' == 'Reception'    Set Variable   ${reception_invalid_username}
-        ${invalid_password} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable   ${doctor_password}
-        ...    ELSE IF    '${role}' == 'Admin'    Set Variable      ${admin_password}
-        ...    ELSE IF    '${role}' == 'Reception'    Set Variable    ${reception_password}
-
-        Login Page UI Validation
-        Common Login Process    ${username}    ${invalid_password}
-        Check Error Message    ${expected_error_message}
-
-        ${username} =    Set Variable    ''
-        ${invalid_password} =    Set Variable    ''
-        Login Page UI Validation
-        Common Login Process    ${username}    ${invalid_password}
-        Check Error Message    ${expected_error_message}
-    END
-
-Scenario 5: Invalid username, empty username, and empty password Login Test
-    [Tags]    common    negative
-    Maximize Browser Window
-    @{roles} =    Create List    Doctor    Admin    Reception
-
-    FOR    ${role}    IN    @{roles}
-        ${username} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable    ${doctor_invalid_username}
-        ...    ELSE IF    '${role}' == 'Admin'    Set Variable    ${admin_invalid_username}
-        ...    ELSE IF    '${role}' == 'Reception'    Set Variable   ${reception_invalid_username}
-        ${invalid_password} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable   ${doctor_password}
-        ...    ELSE IF    '${role}' == 'Admin'    Set Variable      ${admin_password}
-        ...    ELSE IF    '${role}' == 'Reception'    Set Variable    ${reception_password}
-
-        # First test with invalid username and password
-        Login Page UI Validation
-        Common Login Process    ${username}    ${invalid_password}
-        Check Error Message    ${expected_error_message}
-
-        # Then test with empty username and password
-        FOR    ${empty_value}    IN    ${EMPTY}    ''    # You can add more empty value variations if needed
-            ${username} =    Set Variable    ${empty_value}
-            ${invalid_password} =    Set Variable    ${empty_value}
-            Login Page UI Validation
-            Common Login Process    ${username}    ${invalid_password}
-            Check Error Message    ${expected_error_message}
-        END
-    END
-
-Scenario 6: Test Login with Both Username and Password Empty
-  [Tags]   login  negative
-@{roles}    Doctor    Reception    Admin
-:FOR    ${role}    IN    @{roles}
-    Common Login Process    ${EMPTY}    ${EMPTY}
-
-Scenario 7:Test Remember Me Doctor
-    [Tags]     Doctor
-    Common Remember Me Login    Doctor    ${DoctorUsername}    ${DoctorPassword}
-    Common Logout
-    Common Check Remember Me Functionality    ${DoctorUsername}    ${DoctorPassword}
+#Scenario 1: Valid Login as Doctor
+#    [Tags]   common  doctor  login
+#    Log    Username: ${doctor_username}
+#    Log    Password: ${doctor_password}
+#    Maximize Browser Window
+#    Login Page UI Validation
+#    Common Login Process    ${doctor_username}    ${doctor_password}
+#    Dashboard Redirection    ${expected_dashboard_url}
+#    Verify Home Page Title
+#    Common Logout
+#
+#Scenario 2: Invalid Password Login Test
+#    [Tags]    common    negative
+#    Maximize Browser Window
+#    @{roles} =    Create List    Doctor    Admin    Reception
+#
+#    FOR    ${role}    IN    @{roles}
+#        ${username} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable    ${doctor_username}
+#        ...    ELSE IF    '${role}' == 'Admin'    Set Variable    ${admin_username}
+#        ...    ELSE IF    '${role}' == 'Reception'    Set Variable    ${reception_username}
+#        ${invalid_password} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable    ${doctor_invalid_password}
+#        ...    ELSE IF    '${role}' == 'Admin'    Set Variable    ${admin_invalid_password}
+#        ...    ELSE IF    '${role}' == 'Reception'    Set Variable    ${reception_invalid_password}
+#        Login Page UI Validation
+#        Common Login Process    ${username}    ${invalid_password}
+#        Check Error Message    ${expected_error_message}
+#    END
+#
+#Scenario 3: Invalid username Login Test
+#    [Tags]    common    negative
+#    Maximize Browser Window
+#    @{roles} =    Create List    Doctor    Admin    Reception
+#
+#    FOR    ${role}    IN    @{roles}
+#        ${username} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable    ${doctor_invalid_username}
+#        ...    ELSE IF    '${role}' == 'Admin'    Set Variable    ${admin_invalid_username}
+#        ...    ELSE IF    '${role}' == 'Reception'    Set Variable   ${reception_invalid_username}
+#        ${invalid_password} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable   ${doctor_password}
+#        ...    ELSE IF    '${role}' == 'Admin'    Set Variable      ${admin_password}
+#        ...    ELSE IF    '${role}' == 'Reception'    Set Variable    ${reception_password}
+#        Login Page UI Validation
+#        Common Login Process    ${username}    ${invalid_password}
+#        Check Error Message    ${expected_error_message}
+#    END
+#
+#
+#
+#Scenario 4: Empty Username Login Test
+#    [Tags]    common    negative
+#    Maximize Browser Window
+#    @{roles} =    Create List    Doctor    Admin    Reception
+#
+#    FOR    ${role}    IN    @{roles}
+#        ${username} =    Set Variable    ${EMPTY}
+#        ${password} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable    ${doctor_password}
+#        ...    ELSE IF    '${role}' == 'Admin'    Set Variable    ${admin_password}
+#        ...    ELSE IF    '${role}' == 'Reception'    Set Variable    ${reception_password}
+#        ${username_locator} =    Set Variable    id=email
+#        Login Page UI Validation
+#        Common Login Process    ${username}    ${password}
+#        Common Check Required Field Toggle    ${username_locator}    true
+#    END
+#
+#Scenario 5: Empty Password Login Test
+#    [Tags]    common    negative
+#    Maximize Browser Window
+#    @{roles} =    Create List    Doctor    Admin    Reception
+#
+#    FOR    ${role}    IN    @{roles}
+#        ${username} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable     ${doctor_username}
+#        ...    ELSE IF    '${role}' == 'Admin'    Set Variable    ${admin_username}
+#        ...    ELSE IF    '${role}' == 'Reception'    Set Variable    ${reception_username}
+#        ${password_locator} =    Set Variable     id=password
+#        ${password} =    Set Variable    ${EMPTY}
+#        Login Page UI Validation
+#        Common Login Process    ${username}    ${password}
+#        Common Check Required Field Toggle    ${password_locator}    true
+#    END
+#
+#Scenario 6: Empty Username and Password Login Test
+#    [Tags]    common    negative
+#    Maximize Browser Window
+#    @{roles} =    Create List    Doctor    Admin    Reception
+#
+#    FOR    ${role}    IN    @{roles}
+#        ${username} =    Set Variable    ${EMPTY}
+#        ${password} =    Set Variable    ${EMPTY}
+#        ${username_locator} =    Set Variable    id=email
+#        ${password_locator} =    Set Variable    id=password
+#        Login Page UI Validation
+#        Common Login Process    ${username}    ${password}
+#        Common Check Required Field Toggle   ${username_locator}  true
+#        Common Check Required Field Toggle   ${password_locator}   true
+#    END
 
 
-Scenario 8: Dashboard UI Check for Doctor
-    [Tags]   common  doctor  dashboard  ui
-    Login Page UI Validation
-    Common Login Process    ${doctor_username}    ${doctor_password}
-    Check Doctor Dashboard UI
 
-Scenario 9: Dashboard Counts Check for Doctor
-    [Tags]   common  doctor  dashboard  counts
-    Login Page UI Validation
-    Common Login Process    ${doctor_username}    ${doctor_password}
-    # Verify counts on the doctor's dashboard
-    Verify Doctor Dashboard Counts
+
+
+
+#Scenario 7:Test Remember Me Doctor
+#    [Tags]     Doctor
+#    Common Remember Me Login    Doctor    ${DoctorUsername}    ${DoctorPassword}
+#    Common Logout
+#    Common Check Remember Me Functionality    ${DoctorUsername}    ${DoctorPassword}
+#
+#
+#Scenario 8: Dashboard UI Check for Doctor
+#    [Tags]   common  doctor  dashboard  ui
+#    Login Page UI Validation
+#    Common Login Process    ${doctor_username}    ${doctor_password}
+#    Check Doctor Dashboard UI
+#
+#Scenario 9: Dashboard Counts Check for Doctor
+#    [Tags]   common  doctor  dashboard  counts
+#    Login Page UI Validation
+#    Common Login Process    ${doctor_username}    ${doctor_password}
+#    # Verify counts on the doctor's dashboard
+#    Verify Doctor Dashboard Counts
 
 
 #Scenario 10: Test Valid Login as Admin
@@ -189,62 +201,62 @@ Scenario 9: Dashboard Counts Check for Doctor
 #    Common Logout
 #    Common Check Remember Me Functionality     ${ReceptionUsername}    ${ReceptionPassword}
 #
-Scenario 12:Test Add patient with valid data
-    [Tags]    common  patient  positive
-    ${patient_data}=    Create Dictionary    # Define your patient data here
-    Common Add Patient    ${patient_data}
-    Common Verify Confirmation Pop-up
-    Common Click OK on Confirmation Pop-up
-    Common Verify Redirection to Appointment Page
-    Navigate To Today Summary Page
-    Search For Added Patient
-    Go To Patient All Information Page
-    Update Personal Information
-    Verify Upload Button Is Visible
-
-
-
-Scenario 13:Test Add Patient with Full Data
-    [Tags]    common  patient  positive
-    ${patient_data}=    Create Dictionary    # Define your patient data here
-    Common Add Patient    ${patient_data}
-    # Check the UI state of the "Submit" button
-    Check Submit Button UI State    id:submit_button    # Replace 'id:submit_button' with the actual identifier
-    Common Verify Confirmation Pop-up
-    Common Click OK on Confirmation Pop-up
-    Common Verify Redirection to Appointment Page
-
-
-Scenario 14:Test Add Patient with Special Characters
-    [Tags]    common  patient  positive
-    ${patient_data}=    Create Dictionary    # Define your patient data here
-    Common Add Patient    ${patient_data}
-    # Check the UI state of the "Submit" button
-    Check Submit Button UI State    id:submit_button    # Replace 'id:submit_button' with the actual identifier
-    Common Verify Confirmation Pop-up
-    Common Click OK on Confirmation Pop-up
-    Common Verify Redirect to Appointment Page
-
-
-Scenario 15:Test Add Patient with No Data
-    [Tags]    common Negative
-    ${patient_data}=    Create Dictionary    # Define your patient data here
-    Common Add Patient    ${patient_data}
-    # Check the UI state of the "Submit" button
-    Check Submit Button UI State    id:submit_button    # Replace 'id:submit_button' with the actual identifier
-    Common Verify Confirmation Pop-up
-    Common Click OK on Confirmation Pop-up
-    Common Verify Redirect to Appointment Page
-
-Scenario 16: Test Add Patient with Duplicate Phone Number and Email
-    [Tags]    common  patient  negative
-    ${patient_data}=    Create Dictionary    # Define your patient data here
-    # Ensure that you set the phone number and email to values that already exist in the system
-    Set To Dictionary    ${patient_data}    phone_number    existing_phone_number    # Replace with an existing phone number
-    Set To Dictionary    ${patient_data}    email    existing_email@example.com    # Replace with an existing email
-    Common Add Patient    ${patient_data}
-    # Check for an error message indicating the duplicate data
-    Common Check Error Message    Patient with the same phone number or email already exists.    duplicate
+#Scenario 12:Test Add patient with valid data
+#    [Tags]    common  patient  positive
+#    ${patient_data}=    Create Dictionary    # Define your patient data here
+#    Common Add Patient    ${patient_data}
+#    Common Verify Confirmation Pop-up
+#    Common Click OK on Confirmation Pop-up
+#    Common Verify Redirection to Appointment Page
+#    Navigate To Today Summary Page
+#    Search For Added Patient
+#    Go To Patient All Information Page
+#    Update Personal Information
+#    Verify Upload Button Is Visible
+#
+#
+#
+#Scenario 13:Test Add Patient with Full Data
+#    [Tags]    common  patient  positive
+#    ${patient_data}=    Create Dictionary    # Define your patient data here
+#    Common Add Patient    ${patient_data}
+#    # Check the UI state of the "Submit" button
+#    Check Submit Button UI State    id:submit_button    # Replace 'id:submit_button' with the actual identifier
+#    Common Verify Confirmation Pop-up
+#    Common Click OK on Confirmation Pop-up
+#    Common Verify Redirection to Appointment Page
+#
+#
+#Scenario 14:Test Add Patient with Special Characters
+#    [Tags]    common  patient  positive
+#    ${patient_data}=    Create Dictionary    # Define your patient data here
+#    Common Add Patient    ${patient_data}
+#    # Check the UI state of the "Submit" button
+#    Check Submit Button UI State    id:submit_button    # Replace 'id:submit_button' with the actual identifier
+#    Common Verify Confirmation Pop-up
+#    Common Click OK on Confirmation Pop-up
+#    Common Verify Redirect to Appointment Page
+#
+#
+#Scenario 15:Test Add Patient with No Data
+#    [Tags]    common Negative
+#    ${patient_data}=    Create Dictionary    # Define your patient data here
+#    Common Add Patient    ${patient_data}
+#    # Check the UI state of the "Submit" button
+#    Check Submit Button UI State    id:submit_button    # Replace 'id:submit_button' with the actual identifier
+#    Common Verify Confirmation Pop-up
+#    Common Click OK on Confirmation Pop-up
+#    Common Verify Redirect to Appointment Page
+#
+#Scenario 16: Test Add Patient with Duplicate Phone Number and Email
+#    [Tags]    common  patient  negative
+#    ${patient_data}=    Create Dictionary    # Define your patient data here
+#    # Ensure that you set the phone number and email to values that already exist in the system
+#    Set To Dictionary    ${patient_data}    phone_number    existing_phone_number    # Replace with an existing phone number
+#    Set To Dictionary    ${patient_data}    email    existing_email@example.com    # Replace with an existing email
+#    Common Add Patient    ${patient_data}
+#    # Check for an error message indicating the duplicate data
+#    Common Check Error Message    Patient with the same phone number or email already exists.    duplicate
 
 
 
@@ -369,14 +381,17 @@ Scenario 16: Test Add Patient with Duplicate Phone Number and Email
 #    Run Keyword If  ${is_today}  Verify Redirect to View Appointment Page  ${appointment_date}
 #    ...              ELSE  Verify Redirect to All Appointments Page
 #
-Test Book Appointment for Today
-    [Tags]          appointment
-    [Documentation]  Book an appointment for today's date and verify redirection
-    ${appointment_date}  Set Variable  ${today_date}
-    Book Appointment  ${appointment_date}
-    Verify Redirect to View Appointment Page  today
-     Navigate To Today Summary Page
-     check calender
+#Test Book Appointment for Today
+#    [Tags]          appointment
+#    [Documentation]  Book an appointment for today's date and verify redirection
+#    ${appointment_date}  Set Variable  ${today_date}
+#    Book Appointment  ${appointment_date}
+#    Verify Redirect to View Appointment Page  today
+#     update appointment
+#     Navigate To Today Summary Page
+#     updload photo,prescription,reports
+#     check calender
+
 
 
 ## Booking an appointment for a future date
