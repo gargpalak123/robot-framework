@@ -104,7 +104,7 @@ Common Check Required Field Toggle
     ...    Element Should Not Be Visible    ${field_locator}
 
 Dashboard Element UI Check
-    [Arguments]    ${element_locators}
+    [Arguments]    @{element_locators}
     FOR    ${locator}    IN    @{element_locators}
         # Wait for the element to appear
         Wait Until Page Contains Element    ${locator}    timeout=120s
@@ -116,45 +116,34 @@ Dashboard Element UI Check
 
         # Check if the element is visible (use Run Keyword If)
         ${is_visible} =    Run Keyword And Return Status    Element Should Be Visible    ${locator}
-         Run Keyword If    ${is_visible}
-         ...  Log    ${element_name} is visible; verification is successful
-         ...  ELSE
-         ...  Log    ${element_name} is NOT visible; verification failed
-         ...  Continue For Loop
+        Run Keyword If    ${is_visible}
+            Log    ${element_name} is visible; verification is successful
+        ...    ELSE
+            Log    ${element_name} is NOT visible; verification failed
 
-        # Check if the e lement is enabled (use Run Keyword If)
+        # Check if the element is enabled (use Run Keyword If)
         ${is_enabled} =    Run Keyword And Return Status    Element Should Be Enabled    ${locator}
         Run Keyword If    ${is_enabled}
-        ...   Click Element    ${locator}
-        ...   Sleep    2s
-        ...   Go Back
-        ...   ELSE
-        ...   Log    ${element_name} is NOT clickable; verification failed
-        ...   Continue For Loop
+        ...  Click Element    ${locator}
+        Sleep    1
+        Go Back
+        ...    ELSE
+        ...     Log    ${element_name} is NOT clickable; verification failed
+        ...    Continue For Loop
 
         # Perform actions based on element name
         Run Keyword If    '${element_name}' == "Today's Appointments"
-        ...   Go To Page   https://procliniq.in/view-appointment
-        ...   Sleep   2s
-        ...   Go Back
-        ...   ELSE IF    '${element_name}' == "Total Appointments"
-        ...   Go To Page    https://procliniq.in/All-Appointment
-        ...   Sleep   2s
-        ...   Go Back
-        ...   ELSE IF    '${element_name}' == "Today Doctor leave"
-        ...   Go To Page    https://procliniq.in/doctors
-        ...   Sleep   2s
-        ...   Go Back
-        ...   ELSE IF    '${element_name}' == "Cancelled Appt. (Today)"
-        ...   Go To Page    https://procliniq.in/view-appointment
-        ...   Sleep   2s
-        ...   Go Back
-        ...   ELSE
-        ...   Log    Unknown element name: ${element_name}
-        ...   Go Back
-
+            Go To Page    https://procliniq.in/view-appointment
+        ...    ELSE IF    '${element_name}' == "Total Appointments"
+            Go To Page    https://procliniq.in/All-Appointment
+            Go Back
+        ...    ELSE IF    '${element_name}' == "Today Doctor leave"
+            Go To Page    https://procliniq.in/doctors
+        ...    ELSE IF    '${element_name}' == "Cancelled Appt. (Today)"
+            Go To Page    https://procliniq.in/view-appointment
+        ...    ELSE
+            Log    Unknown element name: ${element_name}
     END
-
 #Common Login
 #    [Arguments]    ${username}    ${password}    ${role}
 #    Go To    ${BaseURL}/login
@@ -286,73 +275,73 @@ Dashboard Element UI Check
 ##    ...    Log    Test Failed - Expected invalid password or username error message not displayed: ${expected_message}
 ##    ...    Capture Page Screenshot
 #
-#Common Add Patient
-#    [Arguments]    ${patient_data}    ${use_close_button}
-#    ${current_url}=    Get Location
-#    ${expected_url}=    Set Variable    https://procliniq.in/Today-Summary
-#    Run Keyword If    '${current_url}' != '${expected_url}'    Test Login    ${patient_data["username"]}    ${patient_data["password"]}
-#    Go To    ${expected_url}
-#    Wait Until Page Contains Element    //a[normalize-space()='Add Patient']
-#    Click Element    //a[normalize-space()='Add Patient']
-#    Input Patient Details    ${patient_data}
-#    Run Keyword If    ${use_close_button}    Close Button Validation
-#    ...    ${patient_data}
-#    Input Patient Details
-#        [Arguments]    ${patient_data}
-#        Wait Until Element Is Visible    id:user_name
-#        Input Text    id:user_name    ${patient_data["name"]}
-#        Wait Until Element Is Visible    id:number
-#        Input Text    id:number    ${patient_data["number"]}
-#        Wait Until Element Is Visible    name:pincode
-#        Input Text    name:pincode    ${patient_data["pincode"]}
-#        Wait Until Element Is Visible    id:address
-#        Input Text    id:address    ${patient_data["address"]}
-#        Wait Until Element Is Visible    name:locality
-#        Input Text    name:locality    ${patient_data["locality"]}
-#        Wait Until Element Is Clickable    id:blood_group
-#        Click Element    id:blood_group
-#        Wait Until Element Is Clickable    xpath://option[. = 'A']
-#        Click Element    xpath://option[. = 'A']
-#        Wait Until Element Is Clickable    css:.selectBox > .overSelect
-#        Click Element    css:.selectBox > .overSelect
-#        Wait Until Element Is Clickable    css:label:nth-child(1) > input
-#        Click Element    css:label:nth-child(1) > input
-#        Wait Until Element Is Visible    id:user_email
-#        Input Text    id:user_email    ${patient_data["email"]}
-#        Wait Until Element Is Visible    name:sec_mob_no
-#        Input Text    name:sec_mob_no    ${patient_data["alt_number"]}
-#        Wait Until Element Is Visible    id:birthday
-#        Input Text    id:birthday    ${patient_data["birthday"]}
-#        Wait Until Element Is Visible    name:city
-#        Input Text    name:city    ${patient_data["city"]}
-#        Wait Until Element Is Clickable    id:gender
-#        Click Element    id:gender
-#        Wait Until Element Is Clickable    xpath://option[. = 'female']
-#        Click Element    xpath://option[. = 'female']
-#        Wait Until Element Is Visible    name:referred_by
-#        Input Text    name:referred_by    ${patient_data["refer_by"]}
-#        Wait Until Element Is Clickable    css:.selectBox > .overSelect
-#        Click Element    css:.selectBox > .overSelect
-#        Wait Until Element Is Clickable    css:label:nth-child(1) > input
-#        Click Element    css:label:nth-child(1) > input
-#
-#Common Verify Redirect to Appointment Page
-#    [Documentation]    Verifies that the system redirects to the Appointment Booking page.
-#    ${current_url}=    Get Location
-#    ${expected_url}=    Set Variable    https://procliniq.in/Appointment-Booking  # Define the expected URL
-#    Should Be Equal    ${current_url}    ${expected_url}
-#    Log    Test Passed - Redirected to Appointment Booking Page
-#
-#Close Button Validation
-#    [Arguments]    ${patient_data}
-#    ${full_name_value}=    Get Element Attribute    id:user_name    value
-#    ${email_value}=    Get Element Attribute    id:user_email    value
-#    ${current_url}=    Get Location
-#    ${expected_url}=    Set Variable    https://procliniq.in/Add-Patient
-#    Should Be Equal    ${full_name_value}    ""
-#    Should Be Equal    ${email_value}    ""
-#    Should Be Equal    ${current_url}    ${expected_url}
-#    Log    Test Passed - Close Button Validation
+Common Add Patient
+    [Arguments]    ${patient_data}    ${use_close_button}
+    ${current_url}=    Get Location
+    ${expected_url}=    Set Variable    https://procliniq.in/Today-Summary
+    Run Keyword If    '${current_url}' != '${expected_url}'    Test Login    ${patient_data["username"]}    ${patient_data["password"]}
+    Go To    ${expected_url}
+    Wait Until Page Contains Element    //a[normalize-space()='Add Patient']
+    Click Element    //a[normalize-space()='Add Patient']
+    Input Patient Details    ${patient_data}
+    Run Keyword If    ${use_close_button}    Close Button Validation
+    ...    ${patient_data}
+    Input Patient Details
+        [Arguments]    ${patient_data}
+        Wait Until Element Is Visible    id:user_name
+        Input Text    id:user_name    ${patient_data["name"]}
+        Wait Until Element Is Visible    id:number
+        Input Text    id:number    ${patient_data["number"]}
+        Wait Until Element Is Visible    name:pincode
+        Input Text    name:pincode    ${patient_data["pincode"]}
+        Wait Until Element Is Visible    id:address
+        Input Text    id:address    ${patient_data["address"]}
+        Wait Until Element Is Visible    name:locality
+        Input Text    name:locality    ${patient_data["locality"]}
+        Wait Until Element Is Clickable    id:blood_group
+        Click Element    id:blood_group
+        Wait Until Element Is Clickable    xpath://option[. = 'A']
+        Click Element    xpath://option[. = 'A']
+        Wait Until Element Is Clickable    css:.selectBox > .overSelect
+        Click Element    css:.selectBox > .overSelect
+        Wait Until Element Is Clickable    css:label:nth-child(1) > input
+        Click Element    css:label:nth-child(1) > input
+        Wait Until Element Is Visible    id:user_email
+        Input Text    id:user_email    ${patient_data["email"]}
+        Wait Until Element Is Visible    name:sec_mob_no
+        Input Text    name:sec_mob_no    ${patient_data["alt_number"]}
+        Wait Until Element Is Visible    id:birthday
+        Input Text    id:birthday    ${patient_data["birthday"]}
+        Wait Until Element Is Visible    name:city
+        Input Text    name:city    ${patient_data["city"]}
+        Wait Until Element Is Clickable    id:gender
+        Click Element    id:gender
+        Wait Until Element Is Clickable    xpath://option[. = 'female']
+        Click Element    xpath://option[. = 'female']
+        Wait Until Element Is Visible    name:referred_by
+        Input Text    name:referred_by    ${patient_data["refer_by"]}
+        Wait Until Element Is Clickable    css:.selectBox > .overSelect
+        Click Element    css:.selectBox > .overSelect
+        Wait Until Element Is Clickable    css:label:nth-child(1) > input
+        Click Element    css:label:nth-child(1) > input
+
+Common Verify Redirect to Appointment Page
+    [Documentation]    Verifies that the system redirects to the Appointment Booking page.
+    ${current_url}=    Get Location
+    ${expected_url}=    Set Variable    https://procliniq.in/Appointment-Booking  # Define the expected URL
+    Should Be Equal    ${current_url}    ${expected_url}
+    Log    Test Passed - Redirected to Appointment Booking Page
+
+Close Button Validation
+    [Arguments]    ${patient_data}
+    ${full_name_value}=    Get Element Attribute    id:user_name    value
+    ${email_value}=    Get Element Attribute    id:user_email    value
+    ${current_url}=    Get Location
+    ${expected_url}=    Set Variable    https://procliniq.in/Add-Patient
+    Should Be Equal    ${full_name_value}    ""
+    Should Be Equal    ${email_value}    ""
+    Should Be Equal    ${current_url}    ${expected_url}
+    Log    Test Passed - Close Button Validation
 #
 #Book Appointment
 #    [Arguments]    ${date}
