@@ -5,26 +5,6 @@ Resource        ../resources/common_keywords.robot
 Test Setup     Open Browser    ${BaseURL}    ${BROWSER}
 Test Teardown  Close All Browsers
 
-*** Variables ***
-${BROWSER}    Chrome
-${BaseURL}    https://procliniq.in
-${doctor_username}    palakdoctor@gmail.com
-${doctor_password}    1234567890
-${admin_username}     poojasuper@gmail.com
-${admin_password}     1234567890
-${reception_username}  palakreception@gmail.com
-${reception_password}   1234567890
-${expected_dashboard_url}   ${BaseURL}/Dashboard
-${expected_url}      ${BaseURL}/Today-Summary}
-${expected_error_message}     Email or password invalid.
-${doctor_invalid_password}   123
-${reception_invalid_password}   124
-${admin_invalid_password}   156
-${doctor_invalid_username}  testing@gmail.com
-${reception_invalid_username}   test@gmail.com
-${admin_invalid_username}    test10@gmail.com
-
-
 
 
 *** Test Cases ***
@@ -34,14 +14,16 @@ Scenario 7: Dashboard Element UI Check
     Maximize Browser Window
     Login Page UI Validation
     Common Login Process    ${doctor_username}    ${doctor_password}
-    ${element_locators} =  Create List
-    ...  //h3[@id='TodayAppointment'][1]
-    ...  //p[normalize-space()='Total Appointments'][2]
-    ...  //*[normalize-space(text()) and normalize-space(.)='Dashboard'])[1]/following::p[3]
-    ...  //p[normalize-space()='Cancelled Appt. (Today)'][4]
+    @{element_locators} =  Create List
+    ...  (.//*[normalize-space(text()) and normalize-space(.)='Dashboard'])[1]/following::p[1]
+    ...  (.//*[normalize-space(text()) and normalize-space(.)='Dashboard'])[1]/following::p[2]
+    ...  (.//*[normalize-space(text()) and normalize-space(.)='Dashboard'])[1]/following::p[3]
+    ...  (.//*[normalize-space(text()) and normalize-space(.)='Dashboard'])[1]/following::p[4]
     Dashboard Element UI Check    ${element_locators}
 
+
 Scenario 1: Valid Login as Doctor
+    [Documentation]    Test a successful login with valid credentials.
     [Tags]   common  doctor  login
     Log    Username: ${doctor_username}
     Log    Password: ${doctor_password}
@@ -66,7 +48,8 @@ Scenario 2: Invalid Password Login Test
         ...    ELSE IF    '${role}' == 'Reception'    Set Variable    ${reception_invalid_password}
         Login Page UI Validation
         Common Login Process    ${username}    ${invalid_password}
-        Check Error Message    ${expected_error_message}
+        Wait Until Page Contains      ${expected_error_message}
+#        Check Error Message    ${expected_error_message}
     END
 
 Scenario 3: Invalid username Login Test
@@ -83,10 +66,27 @@ Scenario 3: Invalid username Login Test
         ...    ELSE IF    '${role}' == 'Reception'    Set Variable    ${reception_password}
         Login Page UI Validation
         Common Login Process    ${username}    ${invalid_password}
-        Check Error Message    ${expected_error_message}
+        Wait Until Page Contains        ${expected_error_message}
+#        Verify Error Message  ${expected_error_message}
     END
 
+Scenario 4: Invalid username & Pasword Login Test
+    [Tags]    common    negative
+    Maximize Browser Window
+    @{roles} =    Create List    Doctor    Admin    Reception
 
+    FOR    ${role}    IN    @{roles}
+        ${username} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable    ${doctor_invalid_username}
+        ...    ELSE IF    '${role}' == 'Admin'    Set Variable    ${admin_invalid_username}
+        ...    ELSE IF    '${role}' == 'Reception'    Set Variable   ${reception_invalid_username}
+        ${invalid_password} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable   ${doctor_invalid_password}
+        ...    ELSE IF    '${role}' == 'Admin'    Set Variable      ${admin_invalid_password}
+        ...    ELSE IF    '${role}' == 'Reception'    Set Variable    ${reception_ivalid_password}
+        Login Page UI Validation
+        Common Login Process    ${invalid_username}    ${invalid_password}
+        Wait Until Page Contains        ${expected_error_message}
+#        Verify Error Message  ${expected_error_message}
+    END
 
 Scenario 4: Empty Username Login Test
     [Tags]    common    negative
@@ -141,9 +141,19 @@ Scenario 6: Empty Username and Password Login Test
 
 
 
-#Scenario 7:Test Remember Me Doctor
-#    [Tags]     Doctor
-#    Common Remember Me Login    Doctor    ${DoctorUsername}    ${DoctorPassword}
+Scenario 7:Test Remember Me Doctor
+      [Tags]     Common   possitive
+      ${username} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable    ${doctor_username}
+        ...    ELSE IF    '${role}' == 'Admin'    Set Variable    ${admin_username}
+        ...    ELSE IF    '${role}' == 'Reception'    Set Variable    ${reception_username}
+        ${invalid_password} =    Run Keyword If    '${role}' == 'Doctor'    Set Variable    ${doctor_invalid_password}
+        ...    ELSE IF    '${role}' == 'Admin'    Set Variable    ${admin_invalid_password}
+        ...    ELSE IF    '${role}' == 'Reception'    Set Variable    ${reception_invalid_password}
+       Input Username and Password
+      Click Remember Me Checkbox
+      Submit Login Form
+      Validate Remember Me Functionality
+#    Common Remember Me Login    Doctor    ${Username}    ${Password}
 #    Common Logout
 #    Common Check Remember Me Functionality    ${DoctorUsername}    ${DoctorPassword}
 #
