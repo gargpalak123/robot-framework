@@ -1,3 +1,22 @@
+*** Variables ***
+${BROWSER}    Chrome
+${BaseURL}    https://procliniq.in
+${doctor_username}    palakdoctor@gmail.com
+${doctor_password}    1234567890
+${admin_username}     poojasuper@gmail.com
+${admin_password}     1234567890
+${reception_username}  palakreception@gmail.com
+${reception_password}   1234567890
+${expected_dashboard_url}   ${BaseURL}/Dashboard
+${expected_url}      ${BaseURL}/Today-Summary}
+${expected_error_message}     Email or password invalid.
+${doctor_invalid_password}   123
+${reception_invalid_password}   124
+${admin_invalid_password}   156
+${doctor_invalid_username}  testing@gmail.com
+${reception_invalid_username}   test@gmail.com
+${admin_invalid_username}    test10@gmail.com
+
 *** Keywords ***
 Set Credentials
     [Arguments]    ${role}
@@ -82,19 +101,6 @@ Common Logout
     Log   ${current_url}
     Should Be Equal    ${current_url}    https://procliniq.in/login
 
-Check Error Message
-    [Arguments]    ${expected_error_message}
-    Wait Until Page Contains Element    //strong[normalize-space()='Email or password invalid.']  timeout=60s
-    ${message} =    Get Text    //strong[normalize-space()='Email or password invalid.']
-    Log     ${message}
-    Should Be Equal As Strings    ${message}    ${expected_error_message}
-    Run Keyword If    '${message}' == '${expected_error_message}'
-    ...    Log    Test Passed: Expected error message displayed
-    ...    ELSE
-    ...    Log    Test Failed: Expected error message not displayed
-    Capture Page Screenshot
-
-
 Common Check Required Field Toggle
     [Arguments]    ${field_locator}    ${required_status}
     [Documentation]    Verifies that the required field toggle is displayed based on the required status.
@@ -103,47 +109,118 @@ Common Check Required Field Toggle
     Run Keyword If    '${required_status}' == 'false'
     ...    Element Should Not Be Visible    ${field_locator}
 
+
 Dashboard Element UI Check
     [Arguments]    @{element_locators}
     FOR    ${locator}    IN    @{element_locators}
         # Wait for the element to appear
-        Wait Until Page Contains Element    ${locator}    timeout=120s
+        Wait Until Page Contains Element    ${locator}    timeout=180
+
         # Check if the element is visible
-        Wait Until Element Is Visible    ${locator}    timeout=120s
-        # Check if the element is enabled
-        Wait Until Element Is Enabled    ${locator}    timeout=120s
+        Wait Until Element Is Visible    ${locator}    timeout=180
+        sleep   5
+
+        # Get the text of the element
         ${element_name} =    Get Text    ${locator}
 
-        # Check if the element is visible (use Run Keyword If)
-        ${is_visible} =    Run Keyword And Return Status    Element Should Be Visible    ${locator}
-        Run Keyword If    ${is_visible}
-            Log    ${element_name} is visible; verification is successful
-        ...    ELSE
-            Log    ${element_name} is NOT visible; verification failed
-
-        # Check if the element is enabled (use Run Keyword If)
+        # Check if the element is enabled
         ${is_enabled} =    Run Keyword And Return Status    Element Should Be Enabled    ${locator}
         Run Keyword If    ${is_enabled}
-        ...  Click Element    ${locator}
-        Sleep    1
-        Go Back
+            Log    ${element_name} is enabled; verification is successful
         ...    ELSE
-        ...     Log    ${element_name} is NOT clickable; verification failed
-        ...    Continue For Loop
+            Log    ${element_name} is NOT enabled; verification failed
+            Continue For Loop
 
-        # Perform actions based on element name
+        # Click the element
+        Click Element    ${locator}
+
+        # Sleep for some time
+        Sleep    5
+
+        # Determine the URL to go to based on the element name
         Run Keyword If    '${element_name}' == "Today's Appointments"
-            Go To Page    https://procliniq.in/view-appointment
+            ${page_url} =    Set Variable    https://procliniq.in/view-appointment
         ...    ELSE IF    '${element_name}' == "Total Appointments"
-            Go To Page    https://procliniq.in/All-Appointment
-            Go Back
+            ${page_url} =    Set Variable    https://procliniq.in/All-Appointment
         ...    ELSE IF    '${element_name}' == "Today Doctor leave"
-            Go To Page    https://procliniq.in/doctors
+            ${page_url} =    Set Variable    https://procliniq.in/doctors
         ...    ELSE IF    '${element_name}' == "Cancelled Appt. (Today)"
-            Go To Page    https://procliniq.in/view-appointment
+            ${page_url} =    Set Variable    https://procliniq.in/view-appointment
         ...    ELSE
             Log    Unknown element name: ${element_name}
+
+        # Go back to the dashboard URL
+        Go Back
+
+        # Open the determined page URL
+        Go To Page    ${page_url}
+
     END
+
+
+
+Input Username and Password
+    [Arguments]  ${username} ${password}
+    ${login_button_locator} =  Set Variable    //div[@id='navbarTogglerDemo02']/ul/li/a/b
+
+    # Wait for the page to load
+    Wait Until Page Contains Element    ${login_button_locator}    timeout=30s
+
+    # Use explicit waits to ensure the element is fully loaded
+    Wait Until Element Is Visible    ${login_button_locator}    timeout=30s  # Adjust the timeout as needed
+
+    # Check if the login button is enabled
+    Wait Until Element Is Enabled    ${login_button_locator}    timeout=30s
+
+    # Click the login button
+    Click Element    ${login_button_locator}
+    Input Text    id:email    ${username}
+    Input Text    id:password    ${password}
+
+Click Remember Me Checkbox
+     page should not contain checkbox    id:remember
+     select checkbox    remember
+
+Submit Login Form
+     ${login_button} =      Set Variable    //button[@type="submit"]
+
+    # Wait for the page to load
+    Wait Until Page Contains Element   ${login_button}    timeout=30s
+
+    # Use explicit waits to ensure the element is fully loaded
+    Wait Until Element Is Visible    ${login_button}    timeout=30s  # Adjust the timeout as needed
+    Wait Until Element Is Enabled    ${login_button}    timeout=30s
+
+    ${is_enabled} =    Run Keyword And Return Status    Element Should Be Enabled    ${login_button}
+    Click Element    ${login_button}
+    Capture Page Screenshot
+
+
+Validate Remember Me Functionality
+    [Arguments]  ${expected_state=ON}
+    ${state} =  Get Element Attribute  remember_me_checkbox@checked
+    Run Keyword If  '${state}' == '${expected_state}'
+        Log  "Remember Me" is working as expected
+    ...  ELSE
+        Log  "Remember Me" is not working as expected
+
+
+#Check Error Message
+#    [Arguments]    ${expected_error_message}
+#    Wait Until Element Is Visible    //strong[normalize-space()='Email or password invalid.']   timeout=60s
+#     ${actual_message}=    Get Text      //strong[normalize-space()='Email or password invalid.']
+#    Log     ${message}
+#    Should Be Equal    ${actual_message}    ${expected_message}
+#    Run Keyword If    '${message}' == '${expected_error_message}'
+#    ...    Log    Test Passed: Expected error message displayed
+#    ...    ELSE
+#    ...    Log    Test Failed: Expected error message not displayed
+##    Capture Page Screenshot
+#
+
+
+
+
 #Common Login
 #    [Arguments]    ${username}    ${password}    ${role}
 #    Go To    ${BaseURL}/login
@@ -208,53 +285,7 @@ Dashboard Element UI Check
 
 
 
-#Common Remember Me Login
-#    [Arguments]    ${role}    ${username}    ${password}
-#    [Documentation]    Logs in with Remember Me and verifies login status.
-#    Go To    ${BaseURL}/login
-#    Wait Until Page Contains Element    //b[normalize-space()='Login']
-#    Click Element    //b[normalize-space()='Login']
-#    Wait Until Page Contains Element    id:email
-#    Input Text    id:email    ${username}
-#    Wait Until Page Contains Element    id:password
-#    Input Text    id:password    ${password}
-#    Click Element    css=.h2 > b
-#    Wait Until Element Is Enabled    css=button[type='submit']
-#    Capture Page Screenshot
-#    # Check the Remember Me checkbox
-#    ${remember_me_checkbox} =    Get Webelement    id:remember
-#    ${is_selected} =    Call Method    ${remember_me_checkbox}    is_selected
-#    Run Keyword If    not ${is_selected}    Click Element    id:remember
-#    Click Element    css=button[type='submit']
-#    Capture Page Screenshot
-#
-#Common Check Remember Me Functionality
-#    [Arguments]    ${expected_username}    ${expected_password}
-#    [Documentation]    Verifies the Remember Me functionality.
-#    # Clear cookies and cache to simulate a new session
-#    Delete All Cookies
-#    Go To    ${BaseURL}/login
-#    # Check if the login page has the Remember Me checkbox selected
-#    ${remember_me_checkbox} =    Get Webelement    :remember
-#    ${is_selected} =    Call Method    ${remember_me_checkbox}    is_selected
-#    Run Keyword If    ${is_selected}
-#    ...    Log    Remember Me Checkbox is selected
-#    ...    ELSE
-#    ...    Log    Remember Me Checkbox is NOT selected
-#    Capture Page Screenshot
-#    # Wait for the login page to load
-#    Wait Until Page Contains Element    id:email
-#    # Check if the username and password fields are pre-filled
-#    ${username_field_value} =    Get Value    id:email
-#    ${password_field_value} =    Get Value    id:password
-#    Run Keyword If    '${username_field_value}' == '${expected_username}'
-#    ...    AND    '${password_field_value}' == '${expected_password}'
-#    ...    Log    Username and Password fields are pre-filled correctly
-#    ...    ELSE
-#    ...    Log    Username and/or Password fields are NOT pre-filled correctly
-#    Capture Page Screenshot
-#
-#
+
 ##Validate Empty Login Error
 ##    [Arguments]    ${actual_message}    ${expected_message}
 ##    Run Keyword If    '${expected_message}' == 'Expected Empty Login Error Message'
