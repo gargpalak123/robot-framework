@@ -18,6 +18,30 @@ ${reception_invalid_username}   test@gmail.com
 ${admin_invalid_username}    test10@gmail.com
 
 *** Keywords ***
+Add Patient Template
+    [Arguments]    ${name}    ${email}    ${phone}    ${password}    ${expected_url}
+    Go To    ${BaseURL}/Add-Mavi-User
+    Set Mavi User Fields
+    Set Gender And Department
+    Click Button   xpath=//button[normalize-space()='Submit']
+    Sleep    5
+    ${current_url} =  Get Location
+    Should Be Equal  ${current_url}  ${BaseURL}${expected_url}
+
+
+Set Patient Fields
+    [Arguments]    ${data}
+    ${name}    ${email}    ${phone}    ${password} =    @{data}
+    Input Text    id:name0    ${name}
+    Input Text    id:email1    ${email}
+    Input Text    id:mobile_no2    ${phone}
+    Input Text    id:password3    ${password}
+
+Set Gender And Department
+    [Arguments]    ${gender}    ${department}
+    Select From List by Label    id:gender    ${gender}
+    Select From List by Label    id:department    ${department}
+
 Set Credentials
     [Arguments]    ${role}
     ${credentials}=    Run Keyword If    '${role}' == 'Doctor'    Set Doctor Credentials
