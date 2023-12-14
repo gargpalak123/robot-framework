@@ -464,177 +464,177 @@ Test Add Patient with Verify Mandatory Field Validation
     Common Click OK on Confirmation Pop-up
     Common Verify Redirect to Appointment Page
 
-## Scenario 23: Different Patient, Same Doctor, Same Time
-#Test Appointment Booking - Different Patient, Same Doctor, Same Time
-#    [Tags]    common    positive
-#    ${patient_data}=    Create Dictionary    # Define your patient data here
-#    Common Navigate to Appointment Booking Page
-#    Common Select Different Patient and Same Doctor
-#    Common Choose Same Time Slot as Existing Appointment
-#    Common Attempt to Confirm Appointment
-#    Common Verify Confirmation Pop-up
-#    Common Click OK on Confirmation Pop-up
-#    Common Verify Redirect to Appointment Page
-#
-##Scenario 24: Test Book Appointment and Verify Redirection
-#Test Book Appointment and Verify Redirection
-#    [Tags]          appointment
-#    [Documentation]  Book an appointment and verify redirection based on the appointment date
-#    ${appointment_date}  Set Variable  2023-09-30  # Replace with your desired date
-#    Book Appointment  ${appointment_date}
-#    ${is_today}     Run Keyword And Return Status  Should Be Equal As Strings  ${appointment_date}  ${today_date}
-#    Run Keyword If  ${is_today}  Verify Redirect to View Appointment Page  ${appointment_date}
-#    ...              ELSE  Verify Redirect to All Appointments Page
-#
-#Test Book Appointment for Today
-#    [Tags]          appointment
-#    [Documentation]  Book an appointment for today's date and verify redirection
-#    ${appointment_date}  Set Variable  ${today_date}
-#    Book Appointment  ${appointment_date}
-#    Verify Redirect to View Appointment Page  today
-#     update appointment
-#     Navigate To Today Summary Page
-#     updload photo,prescription,reports
-#     check calender
+# Scenario 23: Different Patient, Same Doctor, Same Time
+Test Appointment Booking - Different Patient, Same Doctor, Same Time
+    [Tags]    common    positive
+    ${patient_data}=    Create Dictionary    # Define your patient data here
+    Common Navigate to Appointment Booking Page
+    Common Select Different Patient and Same Doctor
+    Common Choose Same Time Slot as Existing Appointment
+    Common Attempt to Confirm Appointment
+    Common Verify Confirmation Pop-up
+    Common Click OK on Confirmation Pop-up
+    Common Verify Redirect to Appointment Page
+
+#Scenario 24: Test Book Appointment and Verify Redirection
+Test Book Appointment and Verify Redirection
+    [Tags]          appointment
+    [Documentation]  Book an appointment and verify redirection based on the appointment date
+    ${appointment_date}  Set Variable  2023-09-30  # Replace with your desired date
+    Book Appointment  ${appointment_date}
+    ${is_today}     Run Keyword And Return Status  Should Be Equal As Strings  ${appointment_date}  ${today_date}
+    Run Keyword If  ${is_today}  Verify Redirect to View Appointment Page  ${appointment_date}
+    ...              ELSE  Verify Redirect to All Appointments Page
+
+Test Book Appointment for Today
+    [Tags]          appointment
+    [Documentation]  Book an appointment for today's date and verify redirection
+    ${appointment_date}  Set Variable  ${today_date}
+    Book Appointment  ${appointment_date}
+    Verify Redirect to View Appointment Page  today
+     update appointment
+     Navigate To Today Summary Page
+     updload photo,prescription,reports
+     check calender
 
 
 
-## Booking an appointment for a future date
-#Test Book Appointment for Future
-#    [Tags]          appointment
-#    [Documentation]  Book an appointment for a future date and verify redirection
-#    ${appointment_date}  Set Variable  2023-09-30  # Replace with your desired future date
-#    Book Appointment  ${appointment_date}
-#    Verify Redirect to View Appointment Page  future
-#
-## Viewing an appointment booked for today's date
-#Test View Today's Appointment
-#    [Tags]          appointment
-#    [Documentation]  View an appointment booked for today's date
-#    ${appointment_date}  Set Variable  ${today_date}
-#    Book Appointment  ${appointment_date}
-#    View Appointment
-#    Verify Redirect to All Appointments Page
-#
-## Viewing an appointment booked for a future date
-#Test View Future Appointment
-#    [Tags]          appointment
-#    [Documentation]  View an appointment booked for a future date
-#    ${appointment_date}  Set Variable  2023-09-30  # Replace with the date you used for booking
-#    Book Appointment  ${appointment_date}
-#    View Appointment
-#    Verify Redirect to All Appointments Page
-#
-## Scenario 18: Same Patient, Different Doctor, Same Time
-#Test Appointment Booking - Same Patient, Different Doctor, Same Time
-#    [Tags]    common    positive
-#    ${patient_data}=    Create Dictionary    # Define your patient data here
-#    Common Log In as User
-#    Common Navigate to Appointment Booking Page
-#    Common Select Same Patient and Different Doctor
-#    Common Choose Same Time Slot as Existing Appointment
-#    Common Attempt to Confirm Appointment
-#    Common Verify Warning or Confirmation Prompt for Overlapping Appointment
-#
-## Scenario 19: Valid Data - Booking with Mandatory Fields Only
-#Test Appointment Booking with Valid Data - Mandatory Field Only
-#    [Tags]    common    positive
-#    ${patient_data}=    Create Dictionary    # Define your patient data here
-#    Common Navigate to Appointment Booking Page
-#    Common Fill Mandatory Fields Only
-#    Common Attempt to Confirm Appointment
-#    Common Verify Confirmation Pop-up
-#    Common Click OK on Confirmation Pop-up
-#    Common Verify Redirect to Appointment Page
-#
-## Negative Scenarios
-## Scenario 20: Same Patient, Same Doctor, Same Time
-#Test Appointment Booking - Same Patient, Same Doctor, Same Time
-#    [Tags]    common    negative
-#    ${patient_data}=    Create Dictionary    # Define your patient data here
-#    Common Navigate to Appointment Booking Page
-#    Common Select Same Patient and Same Doctor
-#    Common Choose Same Time Slot as Existing Appointment
-#    Common Attempt to Confirm Appointment
-#    Common Verify Error Message for Existing Appointment
-#
-## Scenario 21: Invalid Data
-#Test Appointment Booking with Invalid Data
-#    [Tags]    common    negative
-#    ${patient_data}=    Create Dictionary    # Define your patient data her
-#    Common Navigate to Appointment Booking Page
-#    Common Fill Form with Invalid Data
-#    Common Attempt to Confirm Appointment
-#    Common Verify Error Message for Invalid Data
-#
-## Scenario 22: Field Validation Failure
-#Test Appointment Booking with Field Validation Failure
-#    [Tags]    common    negative
-#    ${patient_data}=    Create Dictionary    # Define your patient data here
-#    Common Navigate to Appointment Booking Page
-#    Common Fill Form with Validation Failure Data
-#    Common Attempt to Confirm Appointment
-#    Common Verify Error Message for Field Validation Failure
-#
-## Scenario 23: No Data
-#Test Appointment Booking with No Data
-#    [Tags]    common    negative
-#    ${patient_data}=    Create Dictionary    # Define your patient data here
-#    Common Navigate to Appointment Booking Page
-#    Common Leave Form Empty
-#    Common Attempt to Confirm Appointment
-#    Common Verify Error Message for Missing Data
-#
-## Scenario 24: Missing Fields
-#Test Appointment Booking with Missing Fields
-#    [Tags]    common    negative
-#    ${patient_data}=    Create Dictionary    # Define your patient data here
-#    Common Navigate to Appointment Booking Page
-#    Common Fill Form with Missing Mandatory Fields
-#    Common Attempt to Confirm Appointment
-#    Common Verify Error Message for Missing Fields
-#
-## Scenario 25: Mandatory Field Validation Failure
-#Test Appointment Booking with Mandatory Field Validation Failure
-#    [Tags]    common    negative
-#    ${patient_data}=    Create Dictionary    # Define your patient data here
-#    Common Navigate to Appointment Booking Page
-#    Common Fill Form with Mandatory Field Validation Failure
-#    Common Attempt to Confirm Appointment
-#    Common Verify Error Message for Mandatory Field Validation Failure
-#
-## Scenario 26: Test Book Appointment for Today  date
-#Test Book Appointment for Today
-#    [Tags]          appointment
-#    [Documentation]  Book an appointment for today's date and verify redirection
-#    ${appointment_date}  Set Variable  ${today_date}
-#    Book Appointment  ${appointment_date}
-#    Verify Redirect to View Appointment Page  today
-#
-## Scenario 26:  Test Book Appointment for Future date
-#Test Book Appointment for Future
-#    [Tags]          appointment
-#    [Documentation]  Book an appointment for a future date and verify redirection
-#    ${appointment_date}  Set Variable  2023-09-30  # Replace with your desired future date
-#    Book Appointment  ${appointment_date}
-#    Verify Redirect to View Appointment Page  future
-#
-##Scanario 27:Viewing an appointment booked for today's date
-#Test View Today's Appointment
-#    [Tags]          appointment
-#    [Documentation]  View an appointment booked for today's date
-#    ${appointment_date}  Set Variable  ${today_date}
-#    Book Appointment  ${appointment_date}
-#    View Appointment
-#    Verify Redirect to All Appointments Page
-#
-##Scanario 28: Viewing an appointment booked for a future date
-#Test View Future Appointment
-#    [Tags]          appointment
-#    [Documentation]  View an appointment booked for a future date
-#    ${appointment_date}  Set Variable  2023-09-30  # Replace with the date you used for booking
-#    Book Appointment  ${appointment_date}
-#    Verify Redirect to All Appointments Page
+# Booking an appointment for a future date
+Test Book Appointment for Future
+    [Tags]          appointment
+    [Documentation]  Book an appointment for a future date and verify redirection
+    ${appointment_date}  Set Variable  2023-09-30  # Replace with your desired future date
+    Book Appointment  ${appointment_date}
+    Verify Redirect to View Appointment Page  future
+
+# Viewing an appointment booked for today's date
+Test View Today's Appointment
+    [Tags]          appointment
+    [Documentation]  View an appointment booked for today's date
+    ${appointment_date}  Set Variable  ${today_date}
+    Book Appointment  ${appointment_date}
+    View Appointment
+    Verify Redirect to All Appointments Page
+
+# Viewing an appointment booked for a future date
+Test View Future Appointment
+    [Tags]          appointment
+    [Documentation]  View an appointment booked for a future date
+    ${appointment_date}  Set Variable  2023-09-30  # Replace with the date you used for booking
+    Book Appointment  ${appointment_date}
+    View Appointment
+    Verify Redirect to All Appointments Page
+
+# Scenario 18: Same Patient, Different Doctor, Same Time
+Test Appointment Booking - Same Patient, Different Doctor, Same Time
+    [Tags]    common    positive
+    ${patient_data}=    Create Dictionary    # Define your patient data here
+    Common Log In as User
+    Common Navigate to Appointment Booking Page
+    Common Select Same Patient and Different Doctor
+    Common Choose Same Time Slot as Existing Appointment
+    Common Attempt to Confirm Appointment
+    Common Verify Warning or Confirmation Prompt for Overlapping Appointment
+
+# Scenario 19: Valid Data - Booking with Mandatory Fields Only
+Test Appointment Booking with Valid Data - Mandatory Field Only
+    [Tags]    common    positive
+    ${patient_data}=    Create Dictionary    # Define your patient data here
+    Common Navigate to Appointment Booking Page
+    Common Fill Mandatory Fields Only
+    Common Attempt to Confirm Appointment
+    Common Verify Confirmation Pop-up
+    Common Click OK on Confirmation Pop-up
+    Common Verify Redirect to Appointment Page
+
+# Negative Scenarios
+# Scenario 20: Same Patient, Same Doctor, Same Time
+Test Appointment Booking - Same Patient, Same Doctor, Same Time
+    [Tags]    common    negative
+    ${patient_data}=    Create Dictionary    # Define your patient data here
+    Common Navigate to Appointment Booking Page
+    Common Select Same Patient and Same Doctor
+    Common Choose Same Time Slot as Existing Appointment
+    Common Attempt to Confirm Appointment
+    Common Verify Error Message for Existing Appointment
+
+# Scenario 21: Invalid Data
+Test Appointment Booking with Invalid Data
+    [Tags]    common    negative
+    ${patient_data}=    Create Dictionary    # Define your patient data her
+    Common Navigate to Appointment Booking Page
+    Common Fill Form with Invalid Data
+    Common Attempt to Confirm Appointment
+    Common Verify Error Message for Invalid Data
+
+# Scenario 22: Field Validation Failure
+Test Appointment Booking with Field Validation Failure
+    [Tags]    common    negative
+    ${patient_data}=    Create Dictionary    # Define your patient data here
+    Common Navigate to Appointment Booking Page
+    Common Fill Form with Validation Failure Data
+    Common Attempt to Confirm Appointment
+    Common Verify Error Message for Field Validation Failure
+
+# Scenario 23: No Data
+Test Appointment Booking with No Data
+    [Tags]    common    negative
+    ${patient_data}=    Create Dictionary    # Define your patient data here
+    Common Navigate to Appointment Booking Page
+    Common Leave Form Empty
+    Common Attempt to Confirm Appointment
+    Common Verify Error Message for Missing Data
+
+# Scenario 24: Missing Fields
+Test Appointment Booking with Missing Fields
+    [Tags]    common    negative
+    ${patient_data}=    Create Dictionary    # Define your patient data here
+    Common Navigate to Appointment Booking Page
+    Common Fill Form with Missing Mandatory Fields
+    Common Attempt to Confirm Appointment
+    Common Verify Error Message for Missing Fields
+
+# Scenario 25: Mandatory Field Validation Failure
+Test Appointment Booking with Mandatory Field Validation Failure
+    [Tags]    common    negative
+    ${patient_data}=    Create Dictionary    # Define your patient data here
+    Common Navigate to Appointment Booking Page
+    Common Fill Form with Mandatory Field Validation Failure
+    Common Attempt to Confirm Appointment
+    Common Verify Error Message for Mandatory Field Validation Failure
+
+# Scenario 26: Test Book Appointment for Today  date
+Test Book Appointment for Today
+    [Tags]          appointment
+    [Documentation]  Book an appointment for today's date and verify redirection
+    ${appointment_date}  Set Variable  ${today_date}
+    Book Appointment  ${appointment_date}
+    Verify Redirect to View Appointment Page  today
+
+# Scenario 26:  Test Book Appointment for Future date
+Test Book Appointment for Future
+    [Tags]          appointment
+    [Documentation]  Book an appointment for a future date and verify redirection
+    ${appointment_date}  Set Variable  2023-09-30  # Replace with your desired future date
+    Book Appointment  ${appointment_date}
+    Verify Redirect to View Appointment Page  future
+
+#Scanario 27:Viewing an appointment booked for today's date
+Test View Today's Appointment
+    [Tags]          appointment
+    [Documentation]  View an appointment booked for today's date
+    ${appointment_date}  Set Variable  ${today_date}
+    Book Appointment  ${appointment_date}
+    View Appointment
+    Verify Redirect to All Appointments Page
+
+#Scanario 28: Viewing an appointment booked for a future date
+Test View Future Appointment
+    [Tags]          appointment
+    [Documentation]  View an appointment booked for a future date
+    ${appointment_date}  Set Variable  2023-09-30  # Replace with the date you used for booking
+    Book Appointment  ${appointment_date}
+    Verify Redirect to All Appointments Page
 
 #empty login
 #*** Settings ***
