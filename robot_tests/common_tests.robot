@@ -5,9 +5,104 @@ Resource        ../resources/common_keywords.robot
 Test Setup     Open Browser    ${BaseURL}    ${BROWSER}
 Test Teardown  Close All Browsers
 
+*** Test Cases ***
+*** Settings ***
+Library    SeleniumLibrary
+Library    Collections
+Library    String
+Library    Faker
+Library    OperatingSystem
 
+Suite Setup    Open Browser    ${BaseURL}    ${BROWSER}
+Suite Teardown    Close Browser
+
+*** Variables ***
+${BaseURL}               https://mavi.proeffico.com
+${BROWSER}               Chrome
+${expected_url}          https://mavi.proeffico.com/dashboard
+${ExpectedValidURL}      /merchantView
+${ExpectedInvalidURL}    /errorPage
+${valid_username}        proeffico@gmail.com
+${valid_password}        secret
+${faker}                Faker
 
 *** Test Cases ***
+Setup Test Data
+    ${random_name} =    Generate Random String    8    [LETTERS]
+    ${random_email} =   Generate Random Email
+    ${random_phone} =   Generate Random Phone Number
+    ${random_password} = Generate Random String    12    [LETTERS][DIGITS]
+    Set Suite Variable    ${random_name}
+    Set Suite Variable    ${random_email}
+    Set Suite Variable    ${random_phone}
+    Set Suite Variable    ${random_password}
+
+
+
+Add Patient With Valid Data
+    [Documentation]    Add Mavi User With Valid Data Test Case
+    [Tags]    add-mavi-user
+    ${valid_dropdown_data} =   Create List  Male    Sales
+    Run Keyword    Add Mavi User Template    ${random_name}    ${random_email}    ${random_phone}    ${random_password}    ${valid_dropdown_data}    ${expected_add_url}
+
+Add Patient With Invalid Data
+    [Documentation]    Add Mavi User With Invalid Data Test Case
+    [Tags]    add-mavi-user
+    ${valid_dropdown_data} =   Create List   Male    Sales
+    Run Keyword    Add Mavi User Template    ${random_email}    ${random_name}    ${random_phone}    ${random_password}    ${invalid_dropdown_data}    ${expected_add_url}
+
+
+Add Patient With Duplicate Data
+    [Documentation]    Add Mavi User With Duplicate Data Test Case
+    [Tags]    add-mavi-user
+    ${duplicate_name} =    Generate Random String    8    [LETTERS]
+    ${duplicate_email} =    Generate Random Email
+    ${duplicate_phone} =    Generate Random Phone Number
+    ${duplicate_password} =    Generate Random String    12    [LETTERS][DIGITS]
+    ${valid_text_field_data} =    Create List    ${duplicate_name}   ${duplicate_email}  ${duplicate_phone}   ${duplicate_password}
+    ${valid_dropdown_data} =   Create List  Male    Sales
+    Run Keyword    Add Mavi User Template    ${valid_text_field_data}    ${valid_dropdown_data}    ${expected_add_url}
+    ${duplicate_text_field_data} =    Create List    ${duplicate_name}   ${duplicate_email}  ${duplicate_phone}   ${duplicate_password}
+    ${duplicate_dropdown_data} =   Create List  Male    Sales
+    Run Keyword    Add Mavi User Template    ${duplicate_text_field_data}    ${duplicate_dropdown_data}    ${expected_add_url}
+
+
+
+Add Patient With Field Validation Data
+    [Documentation]    Add Mavi User With Field Validation Data Test Case
+    [Tags]    add-mavi-user
+    ${fieldvalidation_text_field_data} =    Create List    ${random_name}    invalid_email@example    invalid_phone    ${random_password}
+    ${fieldvalidation_dropdown_data} =   Create List   Male    Sales
+    Run Keyword    Add Mavi User Template    ${fieldvalidation_text_field_data}    ${fieldvalidation_dropdown_data}    ${expected_add_url}
+
+
+Add Patient With Mandatory Data
+    [Documentation]    Add Mavi User With Mandatory Data Test Case
+    [Tags]    add-mavi-user
+    ${mandatoryfield_text_field_data} =    Create List    ${random_name}       ''     ${random_phone}    ${random_password}
+    ${mandatoryfield_dropdown_data} =   Create List   Male    ''
+    Run Keyword    Add Mavi User Template    ${mandatoryfield_text_field_data}    ${mandatoryfield_dropdown_data}    ${expected_add_url}
+
+Add Patient With Empty Data
+    [Documentation]    Add Mavi User With Empty Data Test Case
+    [Tags]    add-mavi-user
+    ${empty_text_field_data} =    Create List    ''       ''    ''     ''
+    ${empty_dropdown_data} =   Create List   ''    ''
+    Run Keyword    Add Mavi User Template    ${empty_text_field_data}    ${empty_dropdown_data}    ${expected_add_url}
+
+*** Keywords ***
+Login Template
+    [Arguments]    ${username}    ${password}    ${expected_url}
+    Input Text    id=email    ${username}
+    Input Text    id=password    ${password}
+    Click Button    xpath=//button[contains(text(),'Sign in')]
+    Sleep    5
+    ${dashboard_url} =  Get Location
+    Should Be Equal  ${dashboard_url}  ${expected_url}
+
+
+
+
 Scenario 7: Dashboard Element UI Check
     [Tags]  common  doctor  dashboard  ui  verification
     [Documentation]  Verify UI elements on the dashboard
